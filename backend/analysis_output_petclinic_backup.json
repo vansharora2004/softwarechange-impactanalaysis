@@ -1,0 +1,2202 @@
+{
+  "components": [
+    {
+      "id": "SwaggerConfig",
+      "name": "SwaggerConfig",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/config/SwaggerConfig.java"
+    },
+    {
+      "id": "OwnerMapper",
+      "name": "OwnerMapper",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/mapper/OwnerMapper.java"
+    },
+    {
+      "id": "PetMapper",
+      "name": "PetMapper",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/mapper/PetMapper.java"
+    },
+    {
+      "id": "PetTypeMapper",
+      "name": "PetTypeMapper",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/mapper/PetTypeMapper.java"
+    },
+    {
+      "id": "SpecialtyMapper",
+      "name": "SpecialtyMapper",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/mapper/SpecialtyMapper.java"
+    },
+    {
+      "id": "UserMapper",
+      "name": "UserMapper",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/mapper/UserMapper.java"
+    },
+    {
+      "id": "VetMapper",
+      "name": "VetMapper",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/mapper/VetMapper.java"
+    },
+    {
+      "id": "VisitMapper",
+      "name": "VisitMapper",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/mapper/VisitMapper.java"
+    },
+    {
+      "id": "BaseEntity",
+      "name": "BaseEntity",
+      "type": "Entity/Model",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/model/BaseEntity.java"
+    },
+    {
+      "id": "NamedEntity",
+      "name": "NamedEntity",
+      "type": "Entity/Model",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/model/NamedEntity.java"
+    },
+    {
+      "id": "Owner",
+      "name": "Owner",
+      "type": "Entity/Model",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/model/Owner.java"
+    },
+    {
+      "id": "Person",
+      "name": "Person",
+      "type": "Entity/Model",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/model/Person.java"
+    },
+    {
+      "id": "Pet",
+      "name": "Pet",
+      "type": "Entity/Model",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/model/Pet.java"
+    },
+    {
+      "id": "PetType",
+      "name": "PetType",
+      "type": "Entity/Model",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/model/PetType.java"
+    },
+    {
+      "id": "Role",
+      "name": "Role",
+      "type": "Entity/Model",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/model/Role.java"
+    },
+    {
+      "id": "Specialty",
+      "name": "Specialty",
+      "type": "Entity/Model",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/model/Specialty.java"
+    },
+    {
+      "id": "User",
+      "name": "User",
+      "type": "Entity/Model",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/model/User.java"
+    },
+    {
+      "id": "Vet",
+      "name": "Vet",
+      "type": "Entity/Model",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/model/Vet.java"
+    },
+    {
+      "id": "Visit",
+      "name": "Visit",
+      "type": "Entity/Model",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/model/Visit.java"
+    },
+    {
+      "id": "PetClinicApplication",
+      "name": "PetClinicApplication",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/PetClinicApplication.java"
+    },
+    {
+      "id": "JdbcOwnerRepositoryImpl",
+      "name": "JdbcOwnerRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jdbc/JdbcOwnerRepositoryImpl.java"
+    },
+    {
+      "id": "JdbcPet",
+      "name": "JdbcPet",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jdbc/JdbcPet.java"
+    },
+    {
+      "id": "JdbcPetRepositoryImpl",
+      "name": "JdbcPetRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jdbc/JdbcPetRepositoryImpl.java"
+    },
+    {
+      "id": "JdbcPetRowMapper",
+      "name": "JdbcPetRowMapper",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jdbc/JdbcPetRowMapper.java"
+    },
+    {
+      "id": "JdbcPetTypeRepositoryImpl",
+      "name": "JdbcPetTypeRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jdbc/JdbcPetTypeRepositoryImpl.java"
+    },
+    {
+      "id": "JdbcPetVisitExtractor",
+      "name": "JdbcPetVisitExtractor",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jdbc/JdbcPetVisitExtractor.java"
+    },
+    {
+      "id": "JdbcSpecialtyRepositoryImpl",
+      "name": "JdbcSpecialtyRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jdbc/JdbcSpecialtyRepositoryImpl.java"
+    },
+    {
+      "id": "JdbcUserRepositoryImpl",
+      "name": "JdbcUserRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jdbc/JdbcUserRepositoryImpl.java"
+    },
+    {
+      "id": "JdbcVetRepositoryImpl",
+      "name": "JdbcVetRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jdbc/JdbcVetRepositoryImpl.java"
+    },
+    {
+      "id": "JdbcVisitRepositoryImpl",
+      "name": "JdbcVisitRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jdbc/JdbcVisitRepositoryImpl.java"
+    },
+    {
+      "id": "JdbcVisitRowMapper",
+      "name": "JdbcVisitRowMapper",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jdbc/JdbcVisitRowMapper.java"
+    },
+    {
+      "id": "JpaOwnerRepositoryImpl",
+      "name": "JpaOwnerRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jpa/JpaOwnerRepositoryImpl.java"
+    },
+    {
+      "id": "JpaPetRepositoryImpl",
+      "name": "JpaPetRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jpa/JpaPetRepositoryImpl.java"
+    },
+    {
+      "id": "JpaPetTypeRepositoryImpl",
+      "name": "JpaPetTypeRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jpa/JpaPetTypeRepositoryImpl.java"
+    },
+    {
+      "id": "JpaSpecialtyRepositoryImpl",
+      "name": "JpaSpecialtyRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jpa/JpaSpecialtyRepositoryImpl.java"
+    },
+    {
+      "id": "JpaUserRepositoryImpl",
+      "name": "JpaUserRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jpa/JpaUserRepositoryImpl.java"
+    },
+    {
+      "id": "JpaVetRepositoryImpl",
+      "name": "JpaVetRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jpa/JpaVetRepositoryImpl.java"
+    },
+    {
+      "id": "JpaVisitRepositoryImpl",
+      "name": "JpaVisitRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/jpa/JpaVisitRepositoryImpl.java"
+    },
+    {
+      "id": "OwnerRepository",
+      "name": "OwnerRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/OwnerRepository.java"
+    },
+    {
+      "id": "PetRepository",
+      "name": "PetRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/PetRepository.java"
+    },
+    {
+      "id": "PetTypeRepository",
+      "name": "PetTypeRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/PetTypeRepository.java"
+    },
+    {
+      "id": "SpecialtyRepository",
+      "name": "SpecialtyRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/SpecialtyRepository.java"
+    },
+    {
+      "id": "PetRepositoryOverride",
+      "name": "PetRepositoryOverride",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/PetRepositoryOverride.java"
+    },
+    {
+      "id": "PetTypeRepositoryOverride",
+      "name": "PetTypeRepositoryOverride",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/PetTypeRepositoryOverride.java"
+    },
+    {
+      "id": "SpecialtyRepositoryOverride",
+      "name": "SpecialtyRepositoryOverride",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/SpecialtyRepositoryOverride.java"
+    },
+    {
+      "id": "SpringDataOwnerRepository",
+      "name": "SpringDataOwnerRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/SpringDataOwnerRepository.java"
+    },
+    {
+      "id": "SpringDataPetRepository",
+      "name": "SpringDataPetRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/SpringDataPetRepository.java"
+    },
+    {
+      "id": "SpringDataPetRepositoryImpl",
+      "name": "SpringDataPetRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/SpringDataPetRepositoryImpl.java"
+    },
+    {
+      "id": "SpringDataPetTypeRepository",
+      "name": "SpringDataPetTypeRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/SpringDataPetTypeRepository.java"
+    },
+    {
+      "id": "SpringDataPetTypeRepositoryImpl",
+      "name": "SpringDataPetTypeRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/SpringDataPetTypeRepositoryImpl.java"
+    },
+    {
+      "id": "SpringDataSpecialtyRepository",
+      "name": "SpringDataSpecialtyRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/SpringDataSpecialtyRepository.java"
+    },
+    {
+      "id": "SpringDataSpecialtyRepositoryImpl",
+      "name": "SpringDataSpecialtyRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/SpringDataSpecialtyRepositoryImpl.java"
+    },
+    {
+      "id": "SpringDataUserRepository",
+      "name": "SpringDataUserRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/SpringDataUserRepository.java"
+    },
+    {
+      "id": "SpringDataVetRepository",
+      "name": "SpringDataVetRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/SpringDataVetRepository.java"
+    },
+    {
+      "id": "SpringDataVisitRepository",
+      "name": "SpringDataVisitRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/SpringDataVisitRepository.java"
+    },
+    {
+      "id": "SpringDataVisitRepositoryImpl",
+      "name": "SpringDataVisitRepositoryImpl",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/SpringDataVisitRepositoryImpl.java"
+    },
+    {
+      "id": "VisitRepositoryOverride",
+      "name": "VisitRepositoryOverride",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/springdatajpa/VisitRepositoryOverride.java"
+    },
+    {
+      "id": "UserRepository",
+      "name": "UserRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/UserRepository.java"
+    },
+    {
+      "id": "VetRepository",
+      "name": "VetRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/VetRepository.java"
+    },
+    {
+      "id": "VisitRepository",
+      "name": "VisitRepository",
+      "type": "Repository",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/repository/VisitRepository.java"
+    },
+    {
+      "id": "ExceptionControllerAdvice",
+      "name": "ExceptionControllerAdvice",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/advice/ExceptionControllerAdvice.java"
+    },
+    {
+      "id": "BindingErrorsResponse",
+      "name": "BindingErrorsResponse",
+      "type": "Controller",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/controller/BindingErrorsResponse.java"
+    },
+    {
+      "id": "OwnerRestControllerV1",
+      "name": "OwnerRestControllerV1",
+      "type": "Controller",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/controller/v1/OwnerRestControllerV1.java"
+    },
+    {
+      "id": "PetRestControllerV1",
+      "name": "PetRestControllerV1",
+      "type": "Controller",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/controller/v1/PetRestControllerV1.java"
+    },
+    {
+      "id": "PetTypeRestControllerV1",
+      "name": "PetTypeRestControllerV1",
+      "type": "Controller",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/controller/v1/PetTypeRestControllerV1.java"
+    },
+    {
+      "id": "RootRestControllerV1",
+      "name": "RootRestControllerV1",
+      "type": "Controller",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/controller/v1/RootRestControllerV1.java"
+    },
+    {
+      "id": "SpecialtyRestControllerV1",
+      "name": "SpecialtyRestControllerV1",
+      "type": "Controller",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/controller/v1/SpecialtyRestControllerV1.java"
+    },
+    {
+      "id": "UserRestControllerV1",
+      "name": "UserRestControllerV1",
+      "type": "Controller",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/controller/v1/UserRestControllerV1.java"
+    },
+    {
+      "id": "VetRestControllerV1",
+      "name": "VetRestControllerV1",
+      "type": "Controller",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/controller/v1/VetRestControllerV1.java"
+    },
+    {
+      "id": "VisitRestControllerV1",
+      "name": "VisitRestControllerV1",
+      "type": "Controller",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/controller/v1/VisitRestControllerV1.java"
+    },
+    {
+      "id": "OwnerRestControllerV2",
+      "name": "OwnerRestControllerV2",
+      "type": "Controller",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/controller/v2/OwnerRestControllerV2.java"
+    },
+    {
+      "id": "PetRestControllerV2",
+      "name": "PetRestControllerV2",
+      "type": "Controller",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/controller/v2/PetRestControllerV2.java"
+    },
+    {
+      "id": "PetAgeValidation",
+      "name": "PetAgeValidation",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/validation/PetAgeValidation.java"
+    },
+    {
+      "id": "PetAgeValidator",
+      "name": "PetAgeValidator",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/rest/validation/PetAgeValidator.java"
+    },
+    {
+      "id": "BasicAuthenticationConfig",
+      "name": "BasicAuthenticationConfig",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java"
+    },
+    {
+      "id": "DisableSecurityConfig",
+      "name": "DisableSecurityConfig",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/security/DisableSecurityConfig.java"
+    },
+    {
+      "id": "Roles",
+      "name": "Roles",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/security/Roles.java"
+    },
+    {
+      "id": "ClinicService",
+      "name": "ClinicService",
+      "type": "Service",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/service/ClinicService.java"
+    },
+    {
+      "id": "ClinicServiceImpl",
+      "name": "ClinicServiceImpl",
+      "type": "Service",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/service/ClinicServiceImpl.java"
+    },
+    {
+      "id": "UserService",
+      "name": "UserService",
+      "type": "Service",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/service/UserService.java"
+    },
+    {
+      "id": "UserServiceImpl",
+      "name": "UserServiceImpl",
+      "type": "Service",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/service/UserServiceImpl.java"
+    },
+    {
+      "id": "CallMonitoringAspect",
+      "name": "CallMonitoringAspect",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/util/CallMonitoringAspect.java"
+    },
+    {
+      "id": "EntityUtils",
+      "name": "EntityUtils",
+      "type": "Other",
+      "filePath": "src/main/java/org/springframework/samples/petclinic/util/EntityUtils.java"
+    },
+    {
+      "id": "ValidatorTests",
+      "name": "ValidatorTests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/model/ValidatorTests.java"
+    },
+    {
+      "id": "OwnerRestControllerV1Tests",
+      "name": "OwnerRestControllerV1Tests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/rest/controller/OwnerRestControllerV1Tests.java"
+    },
+    {
+      "id": "PetRestControllerV1Tests",
+      "name": "PetRestControllerV1Tests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/rest/controller/PetRestControllerV1Tests.java"
+    },
+    {
+      "id": "PetTypeRestControllerV1Tests",
+      "name": "PetTypeRestControllerV1Tests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/rest/controller/PetTypeRestControllerV1Tests.java"
+    },
+    {
+      "id": "SpecialtyRestControllerV1Tests",
+      "name": "SpecialtyRestControllerV1Tests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/rest/controller/SpecialtyRestControllerV1Tests.java"
+    },
+    {
+      "id": "UserRestControllerV1Tests",
+      "name": "UserRestControllerV1Tests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/rest/controller/UserRestControllerV1Tests.java"
+    },
+    {
+      "id": "V2RestControllersTests",
+      "name": "V2RestControllersTests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/rest/controller/V2RestControllersTests.java"
+    },
+    {
+      "id": "VetRestControllerV1Tests",
+      "name": "VetRestControllerV1Tests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/rest/controller/VetRestControllerV1Tests.java"
+    },
+    {
+      "id": "VisitRestControllerV1Tests",
+      "name": "VisitRestControllerV1Tests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/rest/controller/VisitRestControllerV1Tests.java"
+    },
+    {
+      "id": "AbstractClinicServiceTests",
+      "name": "AbstractClinicServiceTests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/service/clinicService/AbstractClinicServiceTests.java"
+    },
+    {
+      "id": "ApplicationTestConfig",
+      "name": "ApplicationTestConfig",
+      "type": "Other",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/service/clinicService/ApplicationTestConfig.java"
+    },
+    {
+      "id": "ClinicServiceH2JdbcTests",
+      "name": "ClinicServiceH2JdbcTests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/service/clinicService/ClinicServiceH2JdbcTests.java"
+    },
+    {
+      "id": "ClinicServiceHsqlJdbcTests",
+      "name": "ClinicServiceHsqlJdbcTests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/service/clinicService/ClinicServiceHsqlJdbcTests.java"
+    },
+    {
+      "id": "ClinicServiceJpaTests",
+      "name": "ClinicServiceJpaTests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/service/clinicService/ClinicServiceJpaTests.java"
+    },
+    {
+      "id": "ClinicServiceSpringDataJpaTests",
+      "name": "ClinicServiceSpringDataJpaTests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/service/clinicService/ClinicServiceSpringDataJpaTests.java"
+    },
+    {
+      "id": "AbstractUserServiceTests",
+      "name": "AbstractUserServiceTests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/service/userService/AbstractUserServiceTests.java"
+    },
+    {
+      "id": "UserServiceH2JdbcTests",
+      "name": "UserServiceH2JdbcTests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/service/userService/UserServiceH2JdbcTests.java"
+    },
+    {
+      "id": "UserServiceHsqlJdbcTests",
+      "name": "UserServiceHsqlJdbcTests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/service/userService/UserServiceHsqlJdbcTests.java"
+    },
+    {
+      "id": "UserServiceJpaTests",
+      "name": "UserServiceJpaTests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/service/userService/UserServiceJpaTests.java"
+    },
+    {
+      "id": "UserServiceSpringDataJpaTests",
+      "name": "UserServiceSpringDataJpaTests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/service/userService/UserServiceSpringDataJpaTests.java"
+    },
+    {
+      "id": "SpringConfigTests",
+      "name": "SpringConfigTests",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/samples/petclinic/SpringConfigTests.java"
+    },
+    {
+      "id": "PetAgeValidatorTest",
+      "name": "PetAgeValidatorTest",
+      "type": "Test",
+      "filePath": "src/test/java/org/springframework/validation/PetAgeValidatorTest.java"
+    }
+  ],
+  "relationships": [
+    {
+      "source": "OwnerMapper",
+      "target": "PetMapper",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "OwnerMapper",
+      "target": "Owner",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Generic Collection Reference"
+    },
+    {
+      "source": "PetMapper",
+      "target": "VisitMapper",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "PetMapper",
+      "target": "Pet",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Generic Collection Reference"
+    },
+    {
+      "source": "PetMapper",
+      "target": "PetType",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Generic Collection Reference"
+    },
+    {
+      "source": "PetTypeMapper",
+      "target": "PetType",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Generic Collection Reference"
+    },
+    {
+      "source": "SpecialtyMapper",
+      "target": "Specialty",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Generic Collection Reference"
+    },
+    {
+      "source": "UserMapper",
+      "target": "Role",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Generic Collection Reference"
+    },
+    {
+      "source": "UserMapper",
+      "target": "User",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "VetMapper",
+      "target": "SpecialtyMapper",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "VetMapper",
+      "target": "Vet",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Generic Collection Reference"
+    },
+    {
+      "source": "VisitMapper",
+      "target": "PetMapper",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "VisitMapper",
+      "target": "Visit",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Generic Collection Reference"
+    },
+    {
+      "source": "NamedEntity",
+      "target": "BaseEntity",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "Owner",
+      "target": "Person",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "Owner",
+      "target": "Pet",
+      "type": "ASSOCIATED_WITH",
+      "detail": "Domain Reference: Generic Collection Reference"
+    },
+    {
+      "source": "Person",
+      "target": "BaseEntity",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "Pet",
+      "target": "NamedEntity",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "Pet",
+      "target": "Owner",
+      "type": "ASSOCIATED_WITH",
+      "detail": "Domain Model Field Reference"
+    },
+    {
+      "source": "Pet",
+      "target": "PetType",
+      "type": "ASSOCIATED_WITH",
+      "detail": "Domain Model Field Reference"
+    },
+    {
+      "source": "Pet",
+      "target": "Visit",
+      "type": "ASSOCIATED_WITH",
+      "detail": "Domain Reference: Generic Collection Reference"
+    },
+    {
+      "source": "PetType",
+      "target": "NamedEntity",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "Role",
+      "target": "BaseEntity",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "Role",
+      "target": "User",
+      "type": "ASSOCIATED_WITH",
+      "detail": "Domain Model Field Reference"
+    },
+    {
+      "source": "Specialty",
+      "target": "NamedEntity",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "User",
+      "target": "Role",
+      "type": "ASSOCIATED_WITH",
+      "detail": "Domain Reference: Local Variable Reference"
+    },
+    {
+      "source": "Vet",
+      "target": "Person",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "Vet",
+      "target": "Specialty",
+      "type": "ASSOCIATED_WITH",
+      "detail": "Domain Reference: Generic Collection Reference"
+    },
+    {
+      "source": "Visit",
+      "target": "BaseEntity",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "Visit",
+      "target": "Pet",
+      "type": "ASSOCIATED_WITH",
+      "detail": "Domain Model Field Reference"
+    },
+    {
+      "source": "JdbcOwnerRepositoryImpl",
+      "target": "Owner",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcOwnerRepositoryImpl",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcOwnerRepositoryImpl",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcOwnerRepositoryImpl",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcOwnerRepositoryImpl",
+      "target": "JdbcPet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcOwnerRepositoryImpl",
+      "target": "JdbcPetVisitExtractor",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "JdbcOwnerRepositoryImpl",
+      "target": "OwnerRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JdbcOwnerRepositoryImpl",
+      "target": "EntityUtils",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "JdbcPet",
+      "target": "Pet",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JdbcPetRepositoryImpl",
+      "target": "Owner",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "JdbcPetRepositoryImpl",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcPetRepositoryImpl",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcPetRepositoryImpl",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcPetRepositoryImpl",
+      "target": "JdbcPet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcPetRepositoryImpl",
+      "target": "JdbcPetRowMapper",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "JdbcPetRepositoryImpl",
+      "target": "OwnerRepository",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "JdbcPetRepositoryImpl",
+      "target": "PetRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JdbcPetRepositoryImpl",
+      "target": "EntityUtils",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "JdbcPetRowMapper",
+      "target": "JdbcPet",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Local Variable Reference"
+    },
+    {
+      "source": "JdbcPetTypeRepositoryImpl",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcPetTypeRepositoryImpl",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcPetTypeRepositoryImpl",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcPetTypeRepositoryImpl",
+      "target": "PetTypeRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JdbcPetVisitExtractor",
+      "target": "Visit",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JdbcPetVisitExtractor",
+      "target": "JdbcPet",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "JdbcPetVisitExtractor",
+      "target": "JdbcPetRowMapper",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "JdbcSpecialtyRepositoryImpl",
+      "target": "Specialty",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcSpecialtyRepositoryImpl",
+      "target": "SpecialtyRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JdbcUserRepositoryImpl",
+      "target": "Role",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "JdbcUserRepositoryImpl",
+      "target": "User",
+      "type": "USES",
+      "detail": "Method Return Type Reference"
+    },
+    {
+      "source": "JdbcUserRepositoryImpl",
+      "target": "UserRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JdbcVetRepositoryImpl",
+      "target": "Specialty",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "JdbcVetRepositoryImpl",
+      "target": "Vet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JdbcVetRepositoryImpl",
+      "target": "VetRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JdbcVisitRepositoryImpl",
+      "target": "Owner",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "JdbcVisitRepositoryImpl",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "JdbcVisitRepositoryImpl",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "JdbcVisitRepositoryImpl",
+      "target": "JdbcPet",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "JdbcVisitRepositoryImpl",
+      "target": "JdbcPetRowMapper",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "JdbcVisitRepositoryImpl",
+      "target": "JdbcVisitRowMapper",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "JdbcVisitRepositoryImpl",
+      "target": "VisitRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JdbcVisitRowMapper",
+      "target": "Visit",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Local Variable Reference"
+    },
+    {
+      "source": "JpaOwnerRepositoryImpl",
+      "target": "Owner",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JpaOwnerRepositoryImpl",
+      "target": "OwnerRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JpaPetRepositoryImpl",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JpaPetRepositoryImpl",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JpaPetRepositoryImpl",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "JpaPetRepositoryImpl",
+      "target": "PetRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JpaPetTypeRepositoryImpl",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JpaPetTypeRepositoryImpl",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JpaPetTypeRepositoryImpl",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JpaPetTypeRepositoryImpl",
+      "target": "PetTypeRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JpaSpecialtyRepositoryImpl",
+      "target": "Specialty",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JpaSpecialtyRepositoryImpl",
+      "target": "SpecialtyRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JpaUserRepositoryImpl",
+      "target": "User",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "JpaUserRepositoryImpl",
+      "target": "UserRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JpaVetRepositoryImpl",
+      "target": "Vet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JpaVetRepositoryImpl",
+      "target": "VetRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "JpaVisitRepositoryImpl",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "JpaVisitRepositoryImpl",
+      "target": "VisitRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "OwnerRepository",
+      "target": "Owner",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "PetRepository",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "PetRepository",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "PetTypeRepository",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "SpecialtyRepository",
+      "target": "Specialty",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "PetRepositoryOverride",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "PetTypeRepositoryOverride",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "SpecialtyRepositoryOverride",
+      "target": "Specialty",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "SpringDataOwnerRepository",
+      "target": "Owner",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "SpringDataOwnerRepository",
+      "target": "OwnerRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataPetRepository",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "SpringDataPetRepository",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "SpringDataPetRepository",
+      "target": "PetRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataPetRepository",
+      "target": "PetRepositoryOverride",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataPetRepositoryImpl",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "SpringDataPetRepositoryImpl",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "SpringDataPetRepositoryImpl",
+      "target": "PetRepositoryOverride",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataPetTypeRepository",
+      "target": "PetTypeRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataPetTypeRepository",
+      "target": "PetTypeRepositoryOverride",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataPetTypeRepositoryImpl",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "SpringDataPetTypeRepositoryImpl",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "SpringDataPetTypeRepositoryImpl",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "SpringDataPetTypeRepositoryImpl",
+      "target": "PetTypeRepositoryOverride",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataSpecialtyRepository",
+      "target": "SpecialtyRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataSpecialtyRepository",
+      "target": "SpecialtyRepositoryOverride",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataSpecialtyRepositoryImpl",
+      "target": "Specialty",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "SpringDataSpecialtyRepositoryImpl",
+      "target": "SpecialtyRepositoryOverride",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataUserRepository",
+      "target": "UserRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataVetRepository",
+      "target": "VetRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataVisitRepository",
+      "target": "VisitRepositoryOverride",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataVisitRepository",
+      "target": "VisitRepository",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringDataVisitRepositoryImpl",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "SpringDataVisitRepositoryImpl",
+      "target": "VisitRepositoryOverride",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "VisitRepositoryOverride",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "UserRepository",
+      "target": "User",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "VetRepository",
+      "target": "Vet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "VisitRepository",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "ExceptionControllerAdvice",
+      "target": "BindingErrorsResponse",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Local Variable Reference"
+    },
+    {
+      "source": "OwnerRestControllerV1",
+      "target": "OwnerMapper",
+      "type": "USES",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "OwnerRestControllerV1",
+      "target": "PetMapper",
+      "type": "USES",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "OwnerRestControllerV1",
+      "target": "VisitMapper",
+      "type": "USES",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "OwnerRestControllerV1",
+      "target": "Owner",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "OwnerRestControllerV1",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "OwnerRestControllerV1",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "OwnerRestControllerV1",
+      "target": "ClinicService",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "PetRestControllerV1",
+      "target": "PetMapper",
+      "type": "USES",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "PetRestControllerV1",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "PetRestControllerV1",
+      "target": "ClinicService",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "PetTypeRestControllerV1",
+      "target": "PetTypeMapper",
+      "type": "USES",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "PetTypeRestControllerV1",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "PetTypeRestControllerV1",
+      "target": "ClinicService",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "SpecialtyRestControllerV1",
+      "target": "SpecialtyMapper",
+      "type": "USES",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "SpecialtyRestControllerV1",
+      "target": "Specialty",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "SpecialtyRestControllerV1",
+      "target": "ClinicService",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "UserRestControllerV1",
+      "target": "UserMapper",
+      "type": "USES",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "UserRestControllerV1",
+      "target": "User",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "UserRestControllerV1",
+      "target": "UserService",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "VetRestControllerV1",
+      "target": "SpecialtyMapper",
+      "type": "USES",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "VetRestControllerV1",
+      "target": "VetMapper",
+      "type": "USES",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "VetRestControllerV1",
+      "target": "Specialty",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "VetRestControllerV1",
+      "target": "Vet",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "VetRestControllerV1",
+      "target": "ClinicService",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "VisitRestControllerV1",
+      "target": "VisitMapper",
+      "type": "USES",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "VisitRestControllerV1",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "VisitRestControllerV1",
+      "target": "ClinicService",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "OwnerRestControllerV2",
+      "target": "OwnerMapper",
+      "type": "USES",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "OwnerRestControllerV2",
+      "target": "Owner",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "OwnerRestControllerV2",
+      "target": "ClinicService",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "PetRestControllerV2",
+      "target": "PetMapper",
+      "type": "USES",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "PetRestControllerV2",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "PetRestControllerV2",
+      "target": "ClinicService",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "PetAgeValidation",
+      "target": "PetAgeValidator",
+      "type": "REFERENCES",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "ClinicService",
+      "target": "Owner",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "ClinicService",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "ClinicService",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "ClinicService",
+      "target": "Specialty",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "ClinicService",
+      "target": "Vet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "ClinicService",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "ClinicServiceImpl",
+      "target": "Owner",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "ClinicServiceImpl",
+      "target": "Pet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "ClinicServiceImpl",
+      "target": "PetType",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "ClinicServiceImpl",
+      "target": "Specialty",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "ClinicServiceImpl",
+      "target": "Vet",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "ClinicServiceImpl",
+      "target": "Visit",
+      "type": "USES",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "ClinicServiceImpl",
+      "target": "OwnerRepository",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "ClinicServiceImpl",
+      "target": "PetRepository",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "ClinicServiceImpl",
+      "target": "PetTypeRepository",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "ClinicServiceImpl",
+      "target": "SpecialtyRepository",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "ClinicServiceImpl",
+      "target": "VetRepository",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "ClinicServiceImpl",
+      "target": "VisitRepository",
+      "type": "DEPENDS_ON",
+      "detail": "Constructor Injection"
+    },
+    {
+      "source": "ClinicServiceImpl",
+      "target": "ClinicService",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "UserService",
+      "target": "User",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "UserServiceImpl",
+      "target": "Role",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "UserServiceImpl",
+      "target": "User",
+      "type": "USES",
+      "detail": "Method Parameter Reference"
+    },
+    {
+      "source": "UserServiceImpl",
+      "target": "UserRepository",
+      "type": "USES",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "UserServiceImpl",
+      "target": "UserService",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "ValidatorTests",
+      "target": "Person",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "OwnerRestControllerV1Tests",
+      "target": "OwnerMapper",
+      "type": "TESTS",
+      "detail": "Supporting Field Reference"
+    },
+    {
+      "source": "OwnerRestControllerV1Tests",
+      "target": "PetMapper",
+      "type": "TESTS",
+      "detail": "Supporting Field Reference"
+    },
+    {
+      "source": "OwnerRestControllerV1Tests",
+      "target": "VisitMapper",
+      "type": "TESTS",
+      "detail": "Supporting Field Reference"
+    },
+    {
+      "source": "OwnerRestControllerV1Tests",
+      "target": "Owner",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "OwnerRestControllerV1Tests",
+      "target": "ExceptionControllerAdvice",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "OwnerRestControllerV1Tests",
+      "target": "OwnerRestControllerV1",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "OwnerRestControllerV1Tests",
+      "target": "ClinicService",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "OwnerRestControllerV1Tests",
+      "target": "ApplicationTestConfig",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "PetRestControllerV1Tests",
+      "target": "PetMapper",
+      "type": "TESTS",
+      "detail": "Supporting Field Reference"
+    },
+    {
+      "source": "PetRestControllerV1Tests",
+      "target": "Pet",
+      "type": "TESTS",
+      "detail": "Generic Collection Reference"
+    },
+    {
+      "source": "PetRestControllerV1Tests",
+      "target": "ExceptionControllerAdvice",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "PetRestControllerV1Tests",
+      "target": "PetRestControllerV1",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "PetRestControllerV1Tests",
+      "target": "ClinicService",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "PetRestControllerV1Tests",
+      "target": "ApplicationTestConfig",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "PetTypeRestControllerV1Tests",
+      "target": "PetTypeMapper",
+      "type": "TESTS",
+      "detail": "Supporting Field Reference"
+    },
+    {
+      "source": "PetTypeRestControllerV1Tests",
+      "target": "PetType",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "PetTypeRestControllerV1Tests",
+      "target": "ExceptionControllerAdvice",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "PetTypeRestControllerV1Tests",
+      "target": "PetTypeRestControllerV1",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "PetTypeRestControllerV1Tests",
+      "target": "ClinicService",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "PetTypeRestControllerV1Tests",
+      "target": "ApplicationTestConfig",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "SpecialtyRestControllerV1Tests",
+      "target": "SpecialtyMapper",
+      "type": "TESTS",
+      "detail": "Supporting Field Reference"
+    },
+    {
+      "source": "SpecialtyRestControllerV1Tests",
+      "target": "Specialty",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "SpecialtyRestControllerV1Tests",
+      "target": "ExceptionControllerAdvice",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "SpecialtyRestControllerV1Tests",
+      "target": "SpecialtyRestControllerV1",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "SpecialtyRestControllerV1Tests",
+      "target": "ClinicService",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "SpecialtyRestControllerV1Tests",
+      "target": "ApplicationTestConfig",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "UserRestControllerV1Tests",
+      "target": "UserMapper",
+      "type": "TESTS",
+      "detail": "Supporting Field Reference"
+    },
+    {
+      "source": "UserRestControllerV1Tests",
+      "target": "User",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "UserRestControllerV1Tests",
+      "target": "ExceptionControllerAdvice",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "UserRestControllerV1Tests",
+      "target": "UserRestControllerV1",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "UserRestControllerV1Tests",
+      "target": "UserService",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "UserRestControllerV1Tests",
+      "target": "ApplicationTestConfig",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "V2RestControllersTests",
+      "target": "OwnerMapper",
+      "type": "TESTS",
+      "detail": "Supporting Field Reference"
+    },
+    {
+      "source": "V2RestControllersTests",
+      "target": "PetMapper",
+      "type": "TESTS",
+      "detail": "Supporting Field Reference"
+    },
+    {
+      "source": "V2RestControllersTests",
+      "target": "ExceptionControllerAdvice",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "V2RestControllersTests",
+      "target": "OwnerRestControllerV2",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "V2RestControllersTests",
+      "target": "PetRestControllerV2",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "V2RestControllersTests",
+      "target": "ClinicService",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "V2RestControllersTests",
+      "target": "ApplicationTestConfig",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "VetRestControllerV1Tests",
+      "target": "VetMapper",
+      "type": "TESTS",
+      "detail": "Supporting Field Reference"
+    },
+    {
+      "source": "VetRestControllerV1Tests",
+      "target": "Vet",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "VetRestControllerV1Tests",
+      "target": "ExceptionControllerAdvice",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "VetRestControllerV1Tests",
+      "target": "VetRestControllerV1",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "VetRestControllerV1Tests",
+      "target": "ClinicService",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "VetRestControllerV1Tests",
+      "target": "ApplicationTestConfig",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "VisitRestControllerV1Tests",
+      "target": "VisitMapper",
+      "type": "TESTS",
+      "detail": "Supporting Field Reference"
+    },
+    {
+      "source": "VisitRestControllerV1Tests",
+      "target": "Owner",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "VisitRestControllerV1Tests",
+      "target": "Pet",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "VisitRestControllerV1Tests",
+      "target": "PetType",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "VisitRestControllerV1Tests",
+      "target": "Visit",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "VisitRestControllerV1Tests",
+      "target": "ExceptionControllerAdvice",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "VisitRestControllerV1Tests",
+      "target": "VisitRestControllerV1",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "VisitRestControllerV1Tests",
+      "target": "ClinicService",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "VisitRestControllerV1Tests",
+      "target": "ApplicationTestConfig",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "AbstractClinicServiceTests",
+      "target": "Owner",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "AbstractClinicServiceTests",
+      "target": "Pet",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "AbstractClinicServiceTests",
+      "target": "PetType",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "AbstractClinicServiceTests",
+      "target": "Specialty",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "AbstractClinicServiceTests",
+      "target": "Vet",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "AbstractClinicServiceTests",
+      "target": "Visit",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "AbstractClinicServiceTests",
+      "target": "ClinicService",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "AbstractClinicServiceTests",
+      "target": "EntityUtils",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "ClinicServiceH2JdbcTests",
+      "target": "AbstractClinicServiceTests",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "ClinicServiceHsqlJdbcTests",
+      "target": "AbstractClinicServiceTests",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "ClinicServiceJpaTests",
+      "target": "AbstractClinicServiceTests",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "ClinicServiceSpringDataJpaTests",
+      "target": "AbstractClinicServiceTests",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "AbstractUserServiceTests",
+      "target": "User",
+      "type": "TESTS",
+      "detail": "Local Variable Reference"
+    },
+    {
+      "source": "AbstractUserServiceTests",
+      "target": "UserService",
+      "type": "TESTS",
+      "detail": "Field Reference"
+    },
+    {
+      "source": "UserServiceH2JdbcTests",
+      "target": "AbstractUserServiceTests",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "UserServiceHsqlJdbcTests",
+      "target": "AbstractUserServiceTests",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "UserServiceJpaTests",
+      "target": "AbstractUserServiceTests",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "UserServiceSpringDataJpaTests",
+      "target": "AbstractUserServiceTests",
+      "type": "EXTENDS",
+      "detail": "Class Inheritance or Interface Implementation"
+    },
+    {
+      "source": "SpringConfigTests",
+      "target": "PetClinicApplication",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Method Parameter Reference"
+    },
+    {
+      "source": "PetAgeValidatorTest",
+      "target": "PetAgeValidator",
+      "type": "TESTS",
+      "detail": "Supporting Reference: Local Variable Reference"
+    }
+  ]
+}

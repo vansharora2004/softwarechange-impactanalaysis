@@ -1,0 +1,30 @@
+{
+  "name": "change-impact-analyzer-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "analyze": "node src/cli.js",
+    "test:analyzer": "node src/test/analyzerTests.js",
+    "test:git": "node src/test/gitChangeDetectorTests.js",
+    "test:engine": "node src/test/engineTests.js",
+    "test:e2e": "node src/test/endToEndReliabilityTests.js",
+    "test": "node src/test/analyzerTests.js && node src/test/gitChangeDetectorTests.js && node src/test/engineTests.js && node src/test/endToEndReliabilityTests.js",
+    "eval": "node src/evaluation/evalHarness.js",
+    "eval:test": "node src/evaluation/evalHarness.js --test",
+    "eval:v2": "node src/evaluation/v2/evalHarnessV2.js",
+    "eval:v2:test": "node src/evaluation/v2/evalHarnessV2.js --test",
+    "eval:v3": "node src/evaluation/v3/evalHarnessV3.js",
+    "eval:v3:test": "node src/evaluation/v3/evalHarnessV3.js --test",
+    "eval:v3:shopizer": "node src/evaluation/v3/evalHarnessV3_shopizer.js",
+    "eval:temporal": "node src/evaluation/v3/temporalEvalHarnessV3.js",
+    "eval:sensitivity": "node src/evaluation/v3/thresholdSensitivityHarness.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "neo4j-driver": "^5.19.0"
+  }
+}

@@ -1,0 +1,314 @@
+import fs from 'fs';
+import path from 'path';
+
+/**
+ * Strips comments (both single-line and block comments) from Java code.
+ */
+function stripComments(code) {
+  let cleanCode = code.replace(/\/\*[\s\S]*?\*\//g, '');
+  cleanCode = cleanCode.replace(/\/\/.*$/gm, '');
+  return cleanCode;
+}
+
+/**
+ * Recursively scans a directory for .java files.
+ */
+function getJavaFiles(dir, fileList = []) {
+  const files = fs.readdirSync(dir);
+  for (const file of files) {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+    if (stat.isDirectory()) {
+      if (file !== 'target' && file !== '.git' && file !== 'node_modules' && file !== '.mvn') {
+        getJavaFiles(filePath, fileList);
+      }
+    } else if (file.endsWith('.java') && !file.startsWith('package-info') && !file.startsWith('module-info')) {
+      fileList.push(filePath);
+    }
+  }
+  return fileList;
+}
+
+/**
+ * Helper to identify helper/mapper/utility classes.
+ */
+function isHelperClass(className) {
+  return className.endsWith('RowMapper') ||
+         className.endsWith('Extractor') ||
+         className.endsWith('Helper') ||
+         className.endsWith('Config') ||
+         className.endsWith('Configuration') ||
+         className.endsWith('Aspect') ||
+         className.endsWith('Validator') ||
+         className.endsWith('Validation') ||
+         className.endsWith('Advice') ||
+         className.endsWith('Mapper') ||
+         className.endsWith('MapperImpl');
+}
+
+/**
+ * Extracts class/interface/enum details and classifies the component.
+ */
+export function analyzeFile(filePath, repoRoot) {
+  const codeRaw = fs.readFileSync(filePath, 'utf-8');
+  const code = stripComments(codeRaw);
+  const relativePath = path.relative(repoRoot, filePath).replace(/\\/g, '/');
+  const filename = path.basename(filePath, '.java');
+
+  // Extract package
+  const packageMatch = code.match(/package\s+([\w.]+)\s*;/);
+  const packageName = packageMatch ? packageMatch[1] : '';
+
+  // Extract imports
+  const importRegex = /import\s+([\w.*]+)\s*;/g;
+  const imports = [];
+  let importMatch;
+  while ((importMatch = importRegex.exec(code)) !== null) {
+    imports.push(importMatch[1]);
+  }
+
+  // Extract primary class/interface/enum/record name
+  const classDeclRegex = /(?:public\s+)?(?:class|interface|enum|record)\s+(\w+)/g;
+  let className = filename; // default to filename
+  let match;
+  while ((match = classDeclRegex.exec(code)) !== null) {
+    if (match[1] === filename) {
+      className = match[1];
+      break;
+    }
+  }
+
+  // Check annotations
+  const annotations = [];
+  const annoRegex = /@(\w+)/g;
+  let annoMatch;
+  const classDeclIndex = code.indexOf(className);
+  const classHeader = classDeclIndex > 0 ? code.substring(0, classDeclIndex) : '';
+  while ((annoMatch = annoRegex.exec(classHeader)) !== null) {
+    annotations.push(annoMatch[1]);
+  }
+
+  const hasTestAnnotation = /@Test\b/.test(code);
+
+  // Extract inheritance details
+  const extendsMatch = code.match(new RegExp(`(?:class|interface)\\s+${className}\\s+extends\\s+([\\w<>.,\\s]+?)(?:\\s+implements|\\{)`));
+  const implementsMatch = code.match(new RegExp(`(?:class|interface)\\s+${className}\\s+.*?implements\\s+([\\w<>.,\\s]+?)\\{`));
+  
+  const parentClasses = extendsMatch ? extendsMatch[1].split(',').map(s => s.trim().replace(/<.*>/, '')) : [];
+  const interfaces = implementsMatch ? implementsMatch[1].split(',').map(s => s.trim().replace(/<.*>/, '')) : [];
+  const inheritanceInfo = [...parentClasses, ...interfaces];
+
+  // CLASSIFICATION HIERARCHY
+  let type = 'Other';
+
+  // Strict check: if it is a helper/mapper/config class, classify as 'Other' initially
+  if (!isHelperClass(className)) {
+    // 1. Spring Annotations
+    if (annotations.includes('RestController') || annotations.includes('Controller')) {
+      type = 'Controller';
+    } else if (annotations.includes('Service')) {
+      type = 'Service';
+    } else if (annotations.includes('Repository')) {
+      type = 'Repository';
+    } else if (annotations.includes('Entity') || annotations.includes('Table') || annotations.includes('Document')) {
+      type = 'Entity/Model';
+    } else if (hasTestAnnotation || annotations.includes('SpringBootTest') || annotations.includes('ContextConfiguration')) {
+      type = 'Test';
+    }
+
+    // 2. Class inheritance/interface information
+    if (type === 'Other') {
+      const isRepo = inheritanceInfo.some(i => i.endsWith('Repository') || i.includes('Repository<'));
+      const isService = inheritanceInfo.some(i => i.endsWith('Service') || i.includes('Service<'));
+      if (isRepo) type = 'Repository';
+      else if (isService) type = 'Service';
+    }
+
+    // 3. Package/directory convention
+    if (type === 'Other') {
+      const lowerPath = relativePath.toLowerCase();
+      if (lowerPath.includes('/controller/') || lowerPath.includes('/rest/')) {
+        type = 'Controller';
+      } else if (lowerPath.includes('/service/')) {
+        type = 'Service';
+      } else if (lowerPath.includes('/repository/')) {
+        type = 'Repository';
+      } else if (lowerPath.includes('/model/') || lowerPath.includes('/entity/') || lowerPath.includes('/domain/')) {
+        type = 'Entity/Model';
+      } else if (lowerPath.includes('/src/test/')) {
+        type = 'Test';
+      }
+    }
+
+    // 4. Filename/ClassName convention
+    if (type === 'Other') {
+      if (className.endsWith('Controller') || className.endsWith('RestController')) {
+        type = 'Controller';
+      } else if (className.endsWith('Service') || className.endsWith('ServiceImpl')) {
+        type = 'Service';
+      } else if (className.endsWith('Repository') || className.endsWith('RepositoryImpl')) {
+        type = 'Repository';
+      } else if (className.endsWith('Test') || className.endsWith('Tests')) {
+        type = 'Test';
+      }
+    }
+  }
+
+  return {
+    id: className,
+    name: className,
+    type,
+    filePath: relativePath,
+    packageName,
+    imports,
+    inheritanceInfo,
+    rawCode: codeRaw,
+    cleanCode: code
+  };
+}
+
+/**
+ * Scans repository and extracts all components and relationships.
+ */
+export function analyzeRepository(repoRoot) {
+  const javaFiles = getJavaFiles(repoRoot);
+  const componentsMap = new Map();
+
+  // Step 1: Scan and extract all components
+  for (const filePath of javaFiles) {
+    const comp = analyzeFile(filePath, repoRoot);
+    componentsMap.set(comp.name, comp);
+  }
+
+  const componentsList = Array.from(componentsMap.values());
+  const relationships = [];
+
+  // Step 2: Extract relationships based on class bodies
+  for (const compA of componentsList) {
+    const body = compA.cleanCode;
+    const classNameA = compA.name;
+    const typeA = compA.type;
+
+    for (const compB of componentsList) {
+      const classNameB = compB.name;
+      const typeB = compB.type;
+      if (classNameA === classNameB) continue;
+
+      let isDependency = false;
+      let relType = '';
+      let detail = '';
+
+      // --- 1. Inheritance Layer (EXTENDS) ---
+      if (compA.inheritanceInfo.includes(classNameB)) {
+        isDependency = true;
+        relType = 'EXTENDS';
+        detail = 'Class Inheritance or Interface Implementation';
+      }
+
+      // --- 2. Constructor Injection (DEPENDS_ON) ---
+      if (!isDependency) {
+        const constructorRegex = new RegExp(`\\b${classNameA}\\s*\\([^)]*\\b${classNameB}\\b[^)]*\\)`);
+        if (constructorRegex.test(body)) {
+          isDependency = true;
+          const isArchitectural = ['Controller', 'Service', 'Repository'].includes(typeA) && ['Controller', 'Service', 'Repository'].includes(typeB);
+          relType = isArchitectural ? 'DEPENDS_ON' : 'USES';
+          detail = 'Constructor Injection';
+        }
+      }
+
+      // --- 3. Field Injection / Spring Autowiring (DEPENDS_ON) ---
+      if (!isDependency) {
+        const autowiredRegex = new RegExp(`@(?:Autowired|Inject)\\s+(?:private|protected|public\\s+)?(?:final\\s+)?\\b${classNameB}\\b`);
+        const autowiredBlockRegex = new RegExp(`@(?:Autowired|Inject)\\s*\\r?\\n\\s*(?:private|protected|public\\s+)?(?:final\\s+)?\\b${classNameB}\\b`);
+        
+        if (autowiredRegex.test(body) || autowiredBlockRegex.test(body)) {
+          isDependency = true;
+          const isArchitectural = ['Controller', 'Service', 'Repository'].includes(typeA) && ['Controller', 'Service', 'Repository'].includes(typeB);
+          relType = isArchitectural ? 'DEPENDS_ON' : 'USES';
+          detail = 'Autowired Field Injection';
+        }
+      }
+
+      // --- 4. Ordinary Field / Domain / Helper references ---
+      if (!isDependency) {
+        const fieldRegex = new RegExp(`(?:private|protected|public)\\s+(?:final\\s+)?\\b${classNameB}\\b\\s+\\w+\\s*;`);
+        if (fieldRegex.test(body)) {
+          isDependency = true;
+          
+          if (typeA === 'Entity/Model' && typeB === 'Entity/Model') {
+            relType = 'ASSOCIATED_WITH';
+            detail = 'Domain Model Field Reference';
+          } else if (classNameA.endsWith('Mapper') || typeA === 'Other' || typeB === 'Other') {
+            relType = 'REFERENCES';
+            detail = 'Supporting Field Reference';
+          } else {
+            relType = 'USES';
+            detail = 'Field Reference';
+          }
+        }
+      }
+
+      // --- 5. Explicit Typed Dependencies (Method parameters, return types, generic collections, etc.) ---
+      if (!isDependency) {
+        const varDeclRegex = new RegExp(`\\b${classNameB}\\b\\s+\\w+\\s*=`);
+        const genericRegex = new RegExp(`\\b[A-Za-z0-9_]+\\s*<\\s*\\b${classNameB}\\b\\s*>`);
+        const methodSigRegex = new RegExp(`(?:public|protected|private|static)\\s+(?:[A-Za-z0-9_<>]+\\s+)?\\b${classNameB}\\b\\s+\\w+\\s*\\(`);
+        const methodParamRegex = new RegExp(`\\w+\\s*\\([^)]*\\b${classNameB}\\b[^)]*\\)`);
+
+        if (varDeclRegex.test(body) || genericRegex.test(body) || methodSigRegex.test(body) || methodParamRegex.test(body)) {
+          isDependency = true;
+          
+          // Determine specific detail of USES context
+          let specificDetail = 'Explicit Typed Reference';
+          if (varDeclRegex.test(body)) {
+            specificDetail = 'Local Variable Reference';
+          } else if (genericRegex.test(body)) {
+            specificDetail = 'Generic Collection Reference';
+          } else if (methodSigRegex.test(body)) {
+            specificDetail = 'Method Return Type Reference';
+          } else if (methodParamRegex.test(body)) {
+            specificDetail = 'Method Parameter Reference';
+          }
+
+          if (typeA === 'Entity/Model' && typeB === 'Entity/Model') {
+            relType = 'ASSOCIATED_WITH';
+            detail = 'Domain Reference: ' + specificDetail;
+          } else if (classNameA.endsWith('Mapper') || typeA === 'Other' || typeB === 'Other') {
+            relType = 'REFERENCES';
+            detail = 'Supporting Reference: ' + specificDetail;
+          } else {
+            relType = 'USES';
+            detail = specificDetail;
+          }
+        }
+      }
+
+      // --- Final Mapping check for TESTS relationships ---
+      if (isDependency && typeA === 'Test' && typeB !== 'Test') {
+        relType = 'TESTS';
+      }
+
+      // Store relationship
+      if (isDependency) {
+        relationships.push({
+          source: classNameA,
+          target: classNameB,
+          type: relType,
+          detail
+        });
+      }
+    }
+  }
+
+  const cleanedComponents = componentsList.map(c => ({
+    id: c.id,
+    name: c.name,
+    type: c.type,
+    filePath: c.filePath
+  }));
+
+  return {
+    components: cleanedComponents,
+    relationships
+  };
+}
