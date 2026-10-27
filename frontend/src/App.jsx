@@ -1394,7 +1394,7 @@ export default function App() {
           >
             <span>Research & Model Comparison</span>
             <span className="badge-clean badge-clean-success" style={{ fontSize: '0.62rem', padding: '0.05rem 0.35rem' }}>
-              v4 Winner
+              {repoAnalyzed ? 'Your Repo' : 'Published'}
             </span>
           </button>
         </div>
@@ -1476,7 +1476,7 @@ export default function App() {
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#0f172a', padding: '0.25rem 1rem', borderRadius: '6px', border: '1px solid #334155', color: '#94a3b8', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>
               <span>localhost:5000/api</span>
-              <span style={{ color: '#38bdf8' }}>({activeTab === 'analysis' ? 'analysis-engine' : 'frozen-benchmark'})</span>
+              <span style={{ color: '#38bdf8' }}>({activeTab === 'analysis' ? 'analysis-engine' : (repoAnalyzed ? (activeTab === 'comparison' ? 'live-comparison' : 'repo-evaluation') : 'frozen-benchmark')})</span>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -2285,12 +2285,12 @@ export default function App() {
 
             {/* TAB 2: THREE-MODEL COMPARISON DASHBOARD */}
             {activeTab === 'comparison' && (
-              <ThreeWayComparisonDashboard activeRepoPath={repoPath} />
+              <ThreeWayComparisonDashboard activeRepoPath={repoAnalyzed ? repoPath : ''} />
             )}
 
             {/* TAB 3: RESEARCH & MODEL COMPARISON */}
             {activeTab === 'research' && (
-              <BenchmarkDashboard />
+              <BenchmarkDashboard activeRepoPath={repoAnalyzed ? repoPath : ''} />
             )}
 
           </div>

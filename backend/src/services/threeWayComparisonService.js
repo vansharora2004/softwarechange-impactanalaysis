@@ -185,7 +185,7 @@ export async function runThreeWayImpactAnalysis(rawSeedIds, options = {}) {
   const candidatePathsMap = extractCandidatePathsFromSeed(primarySeed, graph, 2);
   const conditionedPathStats = options.conditionedPathStats || new Map();
   const genericPathStats = options.genericPathStats || new Map();
-  const opClass = { primaryCategory: editOp, detectedCategories: [editOp] };
+  const opClass = options.opClass || { primaryCategory: editOp, detectedCategories: [editOp] };
 
   const csfWeights = (options.useSimplifiedFormulas || options.csfVariant === 'equal_average')
     ? EQUAL_AVERAGE_FUSION_WEIGHTS
@@ -502,6 +502,28 @@ export async function runHistoricalEvaluationCase(caseId) {
     repoPath
   });
 
+  return buildEvaluationCaseView(targetCase, compareResult, metrics);
+}
+
+/**
+ * Shapes a 3-way comparison of one leave-one-out case for the dashboard:
+ * ground-truth hit flags, the EGCP v4 worked AP example, and case metadata.
+ */
+export function buildEvaluationCaseView(targetCase, compareResult, metrics) {
+  const {
+    caseId,
+    projectName,
+    commitHash,
+    commitShortSha,
+    commitSubject,
+    commitDate,
+    commitAuthor,
+    inputComponent,
+    inputComponentName,
+    primaryOp,
+    targetOracles
+  } = targetCase;
+
   // Annotate predictions with ground-truth hits
   const targetSet = new Set(targetOracles);
 
@@ -594,8 +616,11 @@ export async function runHistoricalEvaluationCase(caseId) {
  * Returns historical co-change evidence for a given component.
  */
 export function getCoChangeEvidenceForComponent(componentId, repoPath = null) {
-  const activeRepo = repoPath || 'c:/yashika/STUDY/clg_project/spring-petclinic-rest';
-  const graph = loadActiveGraph();
+  const graph = loadActiveGraph(null, repoPath || null);
+  const activeRepo = repoPath || graph.repoPath;
+  if (!activeRepo) {
+    throw new Error('No analysed repository is active. Analyse a repository first.');
+  }
 
   const shortName = componentId.split('.').pop();
   const direct = graph.components.find(c => c.id === componentId || c.name === componentId);
@@ -603,7 +628,16 @@ export function getCoChangeEvidenceForComponent(componentId, repoPath = null) {
 
   // Extract git history
   const evo = extractLiveEvolutionaryHistory(activeRepo, graph.components, 150);
-  const counts = evo.historyCounts;
+  return buildCoChangeEvidence(targetId, evo.historyCounts, graph.components, evo.status);
+}
+
+/**
+ * Lists the components that co-changed with targetId according to the given pair counts.
+ */
+export function buildCoChangeEvidence(targetId, counts, components, evolutionaryStatus) {
+  const shortName = targetId.split('.').pop();
+  const graph = { components };
+  const evo = { status: evolutionaryStatus };
 
   const coChangePairs = [];
   let maxCount = 0;

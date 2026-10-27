@@ -1,7 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BENCHMARK_MODELS, PROJECT_BREAKDOWN, V4_ABLATIONS } from './benchmarkData';
+import RepoResearchView from './RepoResearchView';
 
-export default function BenchmarkDashboard() {
+// Research page: the analysed repository's own evaluation, with the published 3-project benchmark behind a toggle
+export default function BenchmarkDashboard({ activeRepoPath = '' }) {
+  const [showPublished, setShowPublished] = useState(false);
+  const repoName = activeRepoPath ? activeRepoPath.split(/[\\/]/).filter(Boolean).pop() : '';
+
+  useEffect(() => {
+    setShowPublished(false);
+  }, [activeRepoPath]);
+
+  if (!activeRepoPath) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '0.9rem 1rem', fontSize: '0.84rem', color: '#475569' }}>
+          No repository analysed yet. Showing the original published benchmark. Analyse a repository on the Run Analysis tab to see how the models perform on your own project.
+        </div>
+        <PublishedBenchmark />
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <RepoResearchView repoPath={activeRepoPath} repoName={repoName} />
+
+      <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '0.84rem', color: '#64748b' }}>
+            The original published benchmark (PetClinic / Shopizer / Commons Lang) is separate from your repository's results.
+          </span>
+          <button className="btn-secondary-clean" style={{ fontSize: '0.8rem' }} onClick={() => setShowPublished(!showPublished)}>
+            {showPublished ? 'Hide original published benchmark' : 'View original published benchmark'}
+          </button>
+        </div>
+        {showPublished && <PublishedBenchmark />}
+      </div>
+    </div>
+  );
+}
+
+// Original published 3-project benchmark (static figures from research_artifacts/egcp_v4_evaluation_20261021)
+function PublishedBenchmark() {
   const [selectedMetric, setSelectedMetric] = useState('map'); // 'map' | 'mrr' | 'p5' | 'r5'
   const [showAblations, setShowAblations] = useState(false);
 

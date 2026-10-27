@@ -232,6 +232,13 @@ import {
   getCoChangeEvidenceForComponent,
   getBenchmarkSummary
 } from '../services/threeWayComparisonService.js';
+import {
+  getRepoEvaluationStatus,
+  startRepoEvaluation,
+  getRepoEvaluationSummary,
+  getRepoEvaluationCases,
+  runRepoEvaluationCase
+} from '../services/repoEvaluation/repoEvaluationService.js';
 
 /**
  * Change Impact Analysis API with Model Selection.
@@ -667,6 +674,59 @@ router.get('/benchmark/summary', async (req, res) => {
     res.json(summary);
   } catch (error) {
     console.error('API /benchmark/summary Error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
+ * Historical leave-one-out evaluation of the analysed repository.
+ * Results are stored per repository and HEAD commit; start is a no-op when a stored result exists
+ * unless { force: true } is sent.
+ */
+router.get('/repo-evaluation/status', (req, res) => {
+  try {
+    res.json(getRepoEvaluationStatus());
+  } catch (error) {
+    console.error('API /repo-evaluation/status Error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+router.post('/repo-evaluation/start', (req, res) => {
+  try {
+    const result = startRepoEvaluation({ force: req.body?.force === true });
+    res.status(result.success ? 200 : 400).json(result);
+  } catch (error) {
+    console.error('API /repo-evaluation/start Error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+router.get('/repo-evaluation/summary', (req, res) => {
+  try {
+    res.json(getRepoEvaluationSummary());
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+router.get('/repo-evaluation/cases', (req, res) => {
+  try {
+    res.json(getRepoEvaluationCases({ split: req.query.split || null }));
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+router.post('/repo-evaluation/run-case', async (req, res) => {
+  const { caseId } = req.body || {};
+  if (!caseId) {
+    return res.status(400).json({ success: false, error: 'Please specify a caseId.' });
+  }
+  try {
+    res.json(await runRepoEvaluationCase(caseId));
+  } catch (error) {
+    console.error(`API /repo-evaluation/run-case [${caseId}] Error:`, error);
     res.status(500).json({ success: false, error: error.message });
   }
 });

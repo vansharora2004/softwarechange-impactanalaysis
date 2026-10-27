@@ -1,10 +1,16 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import RepoEvaluationNotice from './RepoEvaluationNotice';
 
 const API_BASE = 'http://localhost:5000/api';
 
 export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
   // Mode selection: 'historical' | 'live'
-  const [analysisMode, setAnalysisMode] = useState('historical');
+  // An analysed repository opens in live mode; the fixed research benchmark is only the default without one.
+  const [analysisMode, setAnalysisMode] = useState(activeRepoPath ? 'live' : 'historical');
+  const activeRepoName = activeRepoPath ? activeRepoPath.split(/[\\/]/).filter(Boolean).pop() : '';
+
+  // Guards against a slow response for a previous repository overwriting the current one
+  const liveRequestRef = useRef(0);
 
   // Historical Case Selection State
   const [casesLoading, setCasesLoading] = useState(false);
@@ -16,6 +22,8 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
   const [selectedCommitHash, setSelectedCommitHash] = useState('');
   const [selectedCaseId, setSelectedCaseId] = useState('');
   const [historicalCaseResult, setHistoricalCaseResult] = useState(null);
+  // Evaluation of the analysed repository (historical mode with a repository): /repo-evaluation/status response
+  const [repoEval, setRepoEval] = useState(null);
 
   // Live Analysis State
   const [liveRepoPath, setLiveRepoPath] = useState(activeRepoPath);
@@ -25,14 +33,7 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
   const [liveRunning, setLiveRunning] = useState(false);
   const [liveResult, setLiveResult] = useState(null);
   const [gitDetecting, setGitDetecting] = useState(false);
-
-  // Synchronize liveRepoPath when activeRepoPath changes
-  useEffect(() => {
-    if (activeRepoPath) {
-      setLiveRepoPath(activeRepoPath);
-      loadLiveComponents(activeRepoPath);
-    }
-  }, [activeRepoPath]);
+  const [liveStatus, setLiveStatus] = useState('');
 
   // Co-Change Evidence Panel State
   const [coChangeEvidence, setCoChangeEvidence] = useState(null);
@@ -45,13 +46,117 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
   const [selectedCandidateForExplanation, setSelectedCandidateForExplanation] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // 1. Fetch Historical Cases on Mount
+  // 1. Analysed repository changed: drop the previous repository's results and run the 3 models on the new one
   useEffect(() => {
-    loadHistoricalCases();
-    loadLiveComponents(activeRepoPath);
-  }, []);
+    liveRequestRef.current += 1;
+    setLiveResult(null);
+    setCoChangeEvidence(null);
+    setSelectedCandidateForExplanation(null);
+    setSearchQuery('');
+    setLiveComponents([]);
+    setLiveSeed('');
+    setLiveOpType('UNKNOWN_OR_MIXED');
+    setLiveStatus('');
+    setLiveRunning(false);
+
+    setAllCases([]);
+    setCommitsList([]);
+    setHistoricalCaseResult(null);
+    setSelectedCommitHash('');
+    setSelectedCaseId('');
+    setSelectedSplit('all');
+    setSelectedProject(activeRepoPath ? '' : 'Spring PetClinic REST');
+    setRepoEval(null);
+    setCaseRunning(false);
+
+    if (activeRepoPath) {
+      setLiveRepoPath(activeRepoPath);
+      setAnalysisMode('live');
+      autoRunLiveComparison(activeRepoPath);
+    }
+  }, [activeRepoPath]);
+
+  // 2. Load historical cases when that mode is opened: the analysed repository's own, or the fixed benchmark without one
+  useEffect(() => {
+    if (analysisMode === 'historical' && allCases.length === 0 && !casesLoading) {
+      loadHistoricalCases();
+    }
+  }, [analysisMode, allCases.length]);
+
+  // 3. Poll the repository evaluation while it runs or waits behind another repository
+  useEffect(() => {
+    if (!activeRepoPath || !['running', 'queued'].includes(repoEval?.status)) return;
+    const requestId = liveRequestRef.current;
+    let finished = false;
+    const timer = setInterval(async () => {
+      try {
+        const status = await fetch(`${API_BASE}/repo-evaluation/status`).then(r => r.json());
+        if (finished || requestId !== liveRequestRef.current) return;
+        setRepoEval(status);
+        if (status.status === 'done') {
+          finished = true;
+          loadRepoCases(requestId);
+        }
+      } catch (err) {
+        console.warn('Could not read evaluation status:', err.message);
+      }
+    }, 1500);
+    return () => {
+      finished = true;
+      clearInterval(timer);
+    };
+  }, [activeRepoPath, repoEval?.status]);
+
+  // Starts (or reuses the stored) evaluation of the analysed repository
+  const loadRepoEvaluation = async (force = false) => {
+    const requestId = liveRequestRef.current;
+    setCasesLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/repo-evaluation/start`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ force })
+      });
+      const status = await res.json();
+      if (requestId !== liveRequestRef.current) return;
+      setRepoEval(status);
+      if (status.status === 'done') await loadRepoCases(requestId);
+    } catch (err) {
+      if (requestId === liveRequestRef.current) {
+        setRepoEval({ status: 'error', error: `Unable to reach the backend: ${err.message}` });
+      }
+    } finally {
+      if (requestId === liveRequestRef.current) setCasesLoading(false);
+    }
+  };
+
+  const loadRepoCases = async (requestId) => {
+    try {
+      const data = await fetch(`${API_BASE}/repo-evaluation/cases`).then(r => r.json());
+      if (requestId !== liveRequestRef.current) return;
+      if (!data.success) {
+        setRepoEval({ status: 'error', error: data.error });
+        return;
+      }
+      setRepoEval(prev => ({ ...prev, status: 'done', config: data.config, warnings: data.warnings, projectName: data.projectName }));
+      setSelectedProject(data.projectName);
+      setCommitsList(data.commits || []);
+      setAllCases(data.cases || []);
+      if (data.cases?.length > 0) {
+        const first = data.cases[0];
+        setSelectedCommitHash(first.commitHash);
+        setSelectedCaseId(first.caseId);
+        runCase(first.caseId);
+      }
+    } catch (err) {
+      if (requestId === liveRequestRef.current) {
+        setRepoEval({ status: 'error', error: `Unable to load evaluation cases: ${err.message}` });
+      }
+    }
+  };
 
   const loadHistoricalCases = async () => {
+    if (activeRepoPath) return loadRepoEvaluation();
     setCasesLoading(true);
     try {
       const res = await fetch(`${API_BASE}/evaluation/cases`);
@@ -83,47 +188,107 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
       const res = await fetch(url);
       const data = await res.json();
       if (data.success && data.components) {
-        setLiveComponents(data.components);
-        if (data.components.length > 0) {
-          setLiveSeed(data.components[0].id);
-        }
+        return data.components;
       }
     } catch (err) {
       console.warn('Could not load live components:', err.message);
     }
+    return [];
+  };
+
+  // Changed Java components of the latest commit, as { componentId, componentName }
+  const detectLatestCommitSeeds = async (targetRepo) => {
+    const res = await fetch(`${API_BASE}/detect-git-changes`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ repoPath: targetRepo, mode: 'commit' })
+    });
+    const data = await res.json();
+    if (!data.success || !Array.isArray(data.mapped)) return [];
+    return data.mapped
+      .filter(m => m.mappedComponentId)
+      .map(m => ({ componentId: m.mappedComponentId, componentName: m.componentName }));
+  };
+
+  // On repository load: list its components, seed from the latest commit's changes, then run the 3 models
+  const autoRunLiveComparison = async (targetRepo) => {
+    const requestId = liveRequestRef.current;
+    const isStale = () => requestId !== liveRequestRef.current;
+
+    setLiveStatus('Loading repository components...');
+    const components = await loadLiveComponents(targetRepo);
+    if (isStale()) return;
+    setLiveComponents(components);
+    if (components.length === 0) {
+      setLiveStatus('No Java components found in this repository.');
+      return;
+    }
+
+    setLiveStatus('Detecting files changed in the latest commit...');
+    let seed = null;
+    try {
+      const changed = await detectLatestCommitSeeds(targetRepo);
+      if (isStale()) return;
+      const componentIds = new Set(components.map(c => c.id));
+      seed = changed.find(c => componentIds.has(c.componentId)) || null;
+    } catch (err) {
+      console.warn('Latest commit detection failed:', err.message);
+    }
+    if (isStale()) return;
+
+    if (!seed) {
+      setLiveSeed(components[0].id);
+      setLiveStatus('No changed Java file found in the latest commit. Pick a seed component and run the comparison.');
+      return;
+    }
+
+    setLiveSeed(seed.componentId);
+    setLiveStatus(`Seed auto-selected from the latest commit: ${seed.componentName}`);
+    await handleRunLiveAnalysis({ seed: seed.componentId, repo: targetRepo, op: 'UNKNOWN_OR_MIXED', requestId });
   };
 
   // Run a selected historical case
   const runCase = async (caseIdToRun) => {
     if (!caseIdToRun) return;
+    const requestId = liveRequestRef.current;
     setCaseRunning(true);
     setSelectedCandidateForExplanation(null);
     try {
-      const res = await fetch(`${API_BASE}/evaluation/run-case`, {
+      const endpoint = activeRepoPath ? 'repo-evaluation/run-case' : 'evaluation/run-case';
+      const res = await fetch(`${API_BASE}/${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ caseId: caseIdToRun })
       });
       const data = await res.json();
+      if (requestId !== liveRequestRef.current) return;
       if (data.success) {
         setHistoricalCaseResult(data);
-        // Also fetch co-change evidence for seed
-        if (data.caseInfo?.inputComponent) {
+        // Repository cases carry leak-free co-change evidence; benchmark cases fetch it
+        if (data.coChangeEvidence) {
+          setCoChangeEvidence(data.coChangeEvidence);
+        } else if (data.caseInfo?.inputComponent) {
           fetchCoChange(data.caseInfo.inputComponent);
         }
       } else {
         alert(`Failed to run case: ${data.error}`);
       }
     } catch (err) {
-      alert(`API Error running evaluation case: ${err.message}`);
+      if (requestId === liveRequestRef.current) {
+        alert(`API Error running evaluation case: ${err.message}`);
+      }
     } finally {
-      setCaseRunning(false);
+      if (requestId === liveRequestRef.current) setCaseRunning(false);
     }
   };
 
   // Run live 3-way analysis
-  const handleRunLiveAnalysis = async () => {
-    if (!liveSeed) {
+  const handleRunLiveAnalysis = async (overrides = {}) => {
+    const seed = overrides.seed || liveSeed;
+    const repo = overrides.repo || liveRepoPath;
+    const op = overrides.op || liveOpType;
+    const requestId = overrides.requestId ?? liveRequestRef.current;
+    if (!seed) {
       alert('Please select a changed seed component.');
       return;
     }
@@ -134,44 +299,41 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          changedComponents: [liveSeed],
-          repoPath: liveRepoPath,
-          editOperation: liveOpType,
+          changedComponents: [seed],
+          repoPath: repo,
+          editOperation: op,
           commitLimit: 100
         })
       });
       const data = await res.json();
+      if (requestId !== liveRequestRef.current) return;
       if (data.success) {
         setLiveResult(data);
-        fetchCoChange(liveSeed);
+        fetchCoChange(seed, repo);
       } else {
         alert(`Analysis failed: ${data.error}`);
       }
     } catch (err) {
-      alert(`API Connection Error: ${err.message}`);
+      if (requestId === liveRequestRef.current) {
+        alert(`API Connection Error: ${err.message}`);
+      }
     } finally {
-      setLiveRunning(false);
+      if (requestId === liveRequestRef.current) {
+        setLiveRunning(false);
+      }
     }
   };
 
-  // Detect Git Changes (Latest Commit / Working tree) for Live Mode
+  // Detect Git Changes (Latest Commit) for Live Mode
   const handleDetectGitChanges = async () => {
     setGitDetecting(true);
     try {
-      const res = await fetch(`${API_BASE}/detect-git-changes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ repoPath: liveRepoPath, mode: 'commit' })
-      });
-      const data = await res.json();
-      if (data.success && data.mapped && data.mapped.length > 0) {
-        const first = data.mapped[0];
-        setLiveSeed(first.componentId);
-        if (first.operationCategory) {
-          setLiveOpType(first.operationCategory);
-        }
+      const changed = await detectLatestCommitSeeds(liveRepoPath);
+      if (changed.length > 0) {
+        setLiveSeed(changed[0].componentId);
+        setLiveStatus(`Seed selected from the latest commit: ${changed[0].componentName}`);
       } else {
-        alert(data.message || 'No changed Java components detected in latest commit.');
+        alert('No changed Java components detected in latest commit.');
       }
     } catch (err) {
       alert(`Git change detection error: ${err.message}`);
@@ -181,10 +343,13 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
   };
 
   // Fetch Co-Change Evidence for Seed Component
-  const fetchCoChange = async (compId) => {
+  const fetchCoChange = async (compId, repo = null) => {
     setCoChangeLoading(true);
+    // Historical cases belong to the fixed benchmark projects, so only live mode sends a repository path
+    const repoForEvidence = repo ?? (analysisMode === 'live' ? liveRepoPath : '');
+    const query = repoForEvidence ? `?repoPath=${encodeURIComponent(repoForEvidence)}` : '';
     try {
-      const res = await fetch(`${API_BASE}/cochange-evidence/${encodeURIComponent(compId)}?repoPath=${encodeURIComponent(liveRepoPath)}`);
+      const res = await fetch(`${API_BASE}/cochange-evidence/${encodeURIComponent(compId)}${query}`);
       const data = await res.json();
       if (data.success) {
         setCoChangeEvidence(data);
@@ -350,6 +515,11 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
             <h2 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>
               Change Impact Comparison Dashboard
             </h2>
+            {analysisMode === 'live' && activeRepoName && (
+              <span className="badge-clean badge-clean-success" style={{ fontSize: '0.72rem' }} title={activeRepoPath}>
+                Comparing: {activeRepoName}
+              </span>
+            )}
           </div>
           <p style={{ fontSize: '0.84rem', color: '#64748b', margin: 0 }}>
             Compare <strong>Model A (Canonical Baseline)</strong>, <strong>Model B (CSF Frozen Baseline)</strong>, and <strong>Model C (EGCP v4 Combined)</strong> across identical candidate universes.
@@ -375,9 +545,11 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
               gap: '0.4rem'
             }}
           >
-            <span>Historical Benchmark Mode</span>
+            <span>{activeRepoPath ? 'Historical Mode' : 'Research Benchmark Mode'}</span>
             <span className="badge-clean badge-clean-primary" style={{ fontSize: '0.65rem' }}>
-              25 Commits · 170 Cases
+              {activeRepoPath
+                ? (repoEval?.config ? `${repoEval.config.eligibleCommits} Commits · ${repoEval.config.totalCases} Cases` : 'Past Commits')
+                : 'Fixed 3 Projects · 170 Cases'}
             </span>
           </button>
           <button
@@ -397,9 +569,9 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
               gap: '0.4rem'
             }}
           >
-            <span>Live Working Tree Mode</span>
+            <span>Live Mode</span>
             <span className="badge-clean badge-clean-success" style={{ fontSize: '0.65rem' }}>
-              Git Diff
+              {activeRepoName || 'Git Diff'}
             </span>
           </button>
         </div>
@@ -420,8 +592,10 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
             </h3>
             <span style={{ fontSize: '0.78rem', color: '#64748b' }}>
               {analysisMode === 'historical'
-                ? 'Select an empirical historical evaluation case from the 3 evaluated repositories.'
-                : 'Inspect current workspace working tree or detect changes from latest Git commits.'}
+                ? (activeRepoPath
+                  ? `Past commits of ${activeRepoName}: each case hides one changed file and checks the models against the files that really changed with it.`
+                  : 'Fixed research benchmark: PetClinic, Shopizer and Commons Lang. Analyse a repository to evaluate its own commits.')
+                : 'Runs the 3 models on your analysed repository, seeded from the latest commit.'}
             </span>
           </div>
           {analysisMode === 'historical' && (
@@ -434,6 +608,9 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
         {/* HISTORICAL SELECTION CONTROLS */}
         {analysisMode === 'historical' ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            {activeRepoPath && <RepoEvaluationNotice repoEval={repoEval} repoName={activeRepoName} onRetry={() => loadRepoEvaluation(true)} />}
+            {(!activeRepoPath || (repoEval?.status === 'done' && allCases.length > 0)) && (
+            <>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
               
               {/* 1. Project Dropdown */}
@@ -454,9 +631,17 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
                     fontWeight: '600'
                   }}
                 >
-                  <option value="Spring PetClinic REST">Spring PetClinic REST (8 commits, 57 cases)</option>
-                  <option value="Shopizer">Shopizer (12 commits, 46 cases)</option>
-                  <option value="Apache Commons Lang">Apache Commons Lang (5 commits, 67 cases)</option>
+                  {activeRepoPath ? (
+                    <option value={selectedProject}>
+                      {selectedProject} ({commitsList.length} commits, {allCases.length} cases)
+                    </option>
+                  ) : (
+                    <>
+                      <option value="Spring PetClinic REST">Spring PetClinic REST (8 commits, 57 cases)</option>
+                      <option value="Shopizer">Shopizer (12 commits, 46 cases)</option>
+                      <option value="Apache Commons Lang">Apache Commons Lang (5 commits, 67 cases)</option>
+                    </>
+                  )}
                 </select>
               </div>
 
@@ -596,6 +781,8 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
                 </div>
               </div>
             )}
+            </>
+            )}
           </div>
         ) : (
           /* LIVE WORKING TREE SELECTION CONTROLS */
@@ -681,9 +868,14 @@ export default function ThreeWayComparisonDashboard({ activeRepoPath = '' }) {
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '0.8rem', color: '#475569' }}>
+                {!activeRepoPath
+                  ? 'No repository analysed yet. Analyse one on the Run Analysis tab.'
+                  : (liveRunning ? 'Running the 3 models...' : liveStatus)}
+              </span>
               <button
-                onClick={handleRunLiveAnalysis}
+                onClick={() => handleRunLiveAnalysis()}
                 disabled={liveRunning || !liveSeed}
                 className="btn-cobalt"
                 style={{ padding: '0.65rem 1.5rem', fontSize: '0.88rem' }}
