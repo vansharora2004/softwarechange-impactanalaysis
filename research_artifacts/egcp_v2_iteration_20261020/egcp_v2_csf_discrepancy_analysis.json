@@ -1,0 +1,2676 @@
+[
+  {
+    "project": "Spring PetClinic REST",
+    "commitHash": "a3884f7",
+    "caseId": "loo_20_a3884f7_org.springframework.samples.petclinic.mapper.PetMapper",
+    "inputComponent": "org.springframework.samples.petclinic.mapper.PetMapper",
+    "oracleSize": 7,
+    "csfMap": 0.1714,
+    "egcpMap": 0.0833,
+    "deltaMap": 0.0881,
+    "targetRanks": [
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.PetRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcPetRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jpa.JpaPetRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.springdatajpa.SpringDataPetRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.rest.controller.OwnerRestController",
+        "csfRank": 1,
+        "egcpRank": 3
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.service.ClinicService",
+        "csfRank": 10,
+        "egcpRank": 8
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.service.ClinicServiceImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "org.springframework.samples.petclinic.mapper.VisitMapper",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 6,
+        "inDegree": 7,
+        "egcpScore": "0.4000",
+        "structScore": "1.0000",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.model.Pet",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 8,
+        "inDegree": 50,
+        "egcpScore": "0.2689",
+        "structScore": "0.6722",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.rest.controller.PetRestController",
+        "egcpRank": 4,
+        "minHop": 1,
+        "structuralRank": 4,
+        "inDegree": 4,
+        "egcpScore": "0.2254",
+        "structScore": "0.5634",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      }
+    ]
+  },
+  {
+    "project": "Spring PetClinic REST",
+    "commitHash": "a3884f7",
+    "caseId": "loo_20_a3884f7_org.springframework.samples.petclinic.repository.PetRepository",
+    "inputComponent": "org.springframework.samples.petclinic.repository.PetRepository",
+    "oracleSize": 7,
+    "csfMap": 0.7143,
+    "egcpMap": 0.4604,
+    "deltaMap": 0.2539,
+    "targetRanks": [
+      {
+        "targetId": "org.springframework.samples.petclinic.mapper.PetMapper",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcPetRepositoryImpl",
+        "csfRank": 1,
+        "egcpRank": 5
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jpa.JpaPetRepositoryImpl",
+        "csfRank": 2,
+        "egcpRank": 3
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.springdatajpa.SpringDataPetRepository",
+        "csfRank": 3,
+        "egcpRank": 1
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.rest.controller.OwnerRestController",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.service.ClinicService",
+        "csfRank": 5,
+        "egcpRank": 13
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.service.ClinicServiceImpl",
+        "csfRank": 4,
+        "egcpRank": 7
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "org.springframework.samples.petclinic.model.PetType",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 7,
+        "inDegree": 21,
+        "egcpScore": "0.3893",
+        "structScore": "0.9732",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.model.Pet",
+        "egcpRank": 4,
+        "minHop": 2,
+        "structuralRank": 6,
+        "inDegree": 50,
+        "egcpScore": "0.3619",
+        "structScore": "0.9048",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      }
+    ]
+  },
+  {
+    "project": "Spring PetClinic REST",
+    "commitHash": "a3884f7",
+    "caseId": "loo_20_a3884f7_org.springframework.samples.petclinic.repository.jdbc.JdbcPetRepositoryImpl",
+    "inputComponent": "org.springframework.samples.petclinic.repository.jdbc.JdbcPetRepositoryImpl",
+    "oracleSize": 7,
+    "csfMap": 0.22,
+    "egcpMap": 0.1321,
+    "deltaMap": 0.0879,
+    "targetRanks": [
+      {
+        "targetId": "org.springframework.samples.petclinic.mapper.PetMapper",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.PetRepository",
+        "csfRank": 6,
+        "egcpRank": 10
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jpa.JpaPetRepositoryImpl",
+        "csfRank": 7,
+        "egcpRank": 12
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.springdatajpa.SpringDataPetRepository",
+        "csfRank": 9,
+        "egcpRank": 13
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.rest.controller.OwnerRestController",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.service.ClinicService",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.service.ClinicServiceImpl",
+        "csfRank": 3,
+        "egcpRank": 6
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "org.springframework.samples.petclinic.model.Owner",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 9,
+        "inDegree": 34,
+        "egcpScore": "0.8557",
+        "structScore": "0.7883",
+        "evoScore": "0.9006",
+        "directCoChange": 1
+      },
+      {
+        "id": "org.springframework.samples.petclinic.repository.OwnerRepository",
+        "egcpRank": 2,
+        "minHop": 1,
+        "structuralRank": 1,
+        "inDegree": 14,
+        "egcpScore": "0.8094",
+        "structScore": "0.9686",
+        "evoScore": "0.7033",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.repository.jdbc.JdbcOwnerRepositoryImpl",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 10,
+        "inDegree": 32,
+        "egcpScore": "0.8071",
+        "structScore": "0.5289",
+        "evoScore": "0.9925",
+        "directCoChange": 2
+      }
+    ]
+  },
+  {
+    "project": "Spring PetClinic REST",
+    "commitHash": "a3884f7",
+    "caseId": "loo_20_a3884f7_org.springframework.samples.petclinic.repository.jpa.JpaPetRepositoryImpl",
+    "inputComponent": "org.springframework.samples.petclinic.repository.jpa.JpaPetRepositoryImpl",
+    "oracleSize": 7,
+    "csfMap": 0.5714,
+    "egcpMap": 0.3952,
+    "deltaMap": 0.1762,
+    "targetRanks": [
+      {
+        "targetId": "org.springframework.samples.petclinic.mapper.PetMapper",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.PetRepository",
+        "csfRank": 1,
+        "egcpRank": 1
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcPetRepositoryImpl",
+        "csfRank": 3,
+        "egcpRank": 5
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.springdatajpa.SpringDataPetRepository",
+        "csfRank": 4,
+        "egcpRank": 4
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.rest.controller.OwnerRestController",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.service.ClinicService",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.service.ClinicServiceImpl",
+        "csfRank": 2,
+        "egcpRank": 6
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "org.springframework.samples.petclinic.model.PetType",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 3,
+        "inDegree": 21,
+        "egcpScore": "0.2475",
+        "structScore": "0.6187",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.model.Pet",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 2,
+        "inDegree": 50,
+        "egcpScore": "0.2280",
+        "structScore": "0.5701",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      }
+    ]
+  },
+  {
+    "project": "Spring PetClinic REST",
+    "commitHash": "a3884f7",
+    "caseId": "loo_20_a3884f7_org.springframework.samples.petclinic.repository.springdatajpa.SpringDataPetRepository",
+    "inputComponent": "org.springframework.samples.petclinic.repository.springdatajpa.SpringDataPetRepository",
+    "oracleSize": 7,
+    "csfMap": 0.4405,
+    "egcpMap": 0.2517,
+    "deltaMap": 0.1888,
+    "targetRanks": [
+      {
+        "targetId": "org.springframework.samples.petclinic.mapper.PetMapper",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.PetRepository",
+        "csfRank": 1,
+        "egcpRank": 2
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcPetRepositoryImpl",
+        "csfRank": 3,
+        "egcpRank": 7
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jpa.JpaPetRepositoryImpl",
+        "csfRank": 4,
+        "egcpRank": 6
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.rest.controller.OwnerRestController",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.service.ClinicService",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.service.ClinicServiceImpl",
+        "csfRank": 6,
+        "egcpRank": 8
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "org.springframework.samples.petclinic.repository.springdatajpa.PetRepositoryOverride",
+        "egcpRank": 1,
+        "minHop": 1,
+        "structuralRank": 2,
+        "inDegree": 3,
+        "egcpScore": "0.4000",
+        "structScore": "1.0000",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.model.PetType",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 4,
+        "inDegree": 21,
+        "egcpScore": "0.1616",
+        "structScore": "0.4039",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.model.Pet",
+        "egcpRank": 4,
+        "minHop": 2,
+        "structuralRank": 3,
+        "inDegree": 50,
+        "egcpScore": "0.1374",
+        "structScore": "0.3435",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      }
+    ]
+  },
+  {
+    "project": "Spring PetClinic REST",
+    "commitHash": "a3884f7",
+    "caseId": "loo_20_a3884f7_org.springframework.samples.petclinic.service.ClinicService",
+    "inputComponent": "org.springframework.samples.petclinic.service.ClinicService",
+    "oracleSize": 7,
+    "csfMap": 0.267,
+    "egcpMap": 0.1582,
+    "deltaMap": 0.1089,
+    "targetRanks": [
+      {
+        "targetId": "org.springframework.samples.petclinic.mapper.PetMapper",
+        "csfRank": 22,
+        "egcpRank": 25
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.PetRepository",
+        "csfRank": 16,
+        "egcpRank": 26
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcPetRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jpa.JpaPetRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.springdatajpa.SpringDataPetRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.rest.controller.OwnerRestController",
+        "csfRank": 4,
+        "egcpRank": 3
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.service.ClinicServiceImpl",
+        "csfRank": 1,
+        "egcpRank": 4
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "org.springframework.samples.petclinic.repository.OwnerRepository",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 34,
+        "inDegree": 14,
+        "egcpScore": "0.7485",
+        "structScore": "0.3712",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      },
+      {
+        "id": "org.springframework.samples.petclinic.service.clinicService.AbstractClinicServiceTests",
+        "egcpRank": 2,
+        "minHop": 1,
+        "structuralRank": 7,
+        "inDegree": 20,
+        "egcpScore": "0.7366",
+        "structScore": "0.3416",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      },
+      {
+        "id": "org.springframework.samples.petclinic.model.Vet",
+        "egcpRank": 5,
+        "minHop": 2,
+        "structuralRank": 25,
+        "inDegree": 29,
+        "egcpScore": "0.4507",
+        "structScore": "0.9085",
+        "evoScore": "0.1454",
+        "directCoChange": 0
+      }
+    ]
+  },
+  {
+    "project": "Spring PetClinic REST",
+    "commitHash": "a3884f7",
+    "caseId": "loo_20_a3884f7_org.springframework.samples.petclinic.service.ClinicServiceImpl",
+    "inputComponent": "org.springframework.samples.petclinic.service.ClinicServiceImpl",
+    "oracleSize": 7,
+    "csfMap": 0.3774,
+    "egcpMap": 0.2339,
+    "deltaMap": 0.1435,
+    "targetRanks": [
+      {
+        "targetId": "org.springframework.samples.petclinic.mapper.PetMapper",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.PetRepository",
+        "csfRank": 19,
+        "egcpRank": 23
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcPetRepositoryImpl",
+        "csfRank": 3,
+        "egcpRank": 12
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jpa.JpaPetRepositoryImpl",
+        "csfRank": 14,
+        "egcpRank": 33
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.springdatajpa.SpringDataPetRepository",
+        "csfRank": 34,
+        "egcpRank": 37
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.rest.controller.OwnerRestController",
+        "csfRank": 12,
+        "egcpRank": 5
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.service.ClinicService",
+        "csfRank": 1,
+        "egcpRank": 2
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "org.springframework.samples.petclinic.repository.OwnerRepository",
+        "egcpRank": 1,
+        "minHop": 1,
+        "structuralRank": 1,
+        "inDegree": 14,
+        "egcpScore": "0.9528",
+        "structScore": "0.8820",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      },
+      {
+        "id": "org.springframework.samples.petclinic.repository.springdatajpa.SpringDataOwnerRepository",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 39,
+        "inDegree": 10,
+        "egcpScore": "0.7437",
+        "structScore": "0.3593",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      },
+      {
+        "id": "org.springframework.samples.petclinic.service.clinicService.AbstractClinicServiceTests",
+        "egcpRank": 4,
+        "minHop": 2,
+        "structuralRank": 26,
+        "inDegree": 20,
+        "egcpScore": "0.7020",
+        "structScore": "0.2549",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Spring PetClinic REST",
+    "commitHash": "f2670f9",
+    "caseId": "loo_22_f2670f9_org.springframework.samples.petclinic.mapper.OwnerMapper",
+    "inputComponent": "org.springframework.samples.petclinic.mapper.OwnerMapper",
+    "oracleSize": 1,
+    "csfMap": 0.5,
+    "egcpMap": 0.3333,
+    "deltaMap": 0.1667,
+    "targetRanks": [
+      {
+        "targetId": "org.springframework.samples.petclinic.rest.controller.OwnerRestController",
+        "csfRank": 2,
+        "egcpRank": 3
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "org.springframework.samples.petclinic.mapper.PetMapper",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 3,
+        "inDegree": 9,
+        "egcpScore": "0.4000",
+        "structScore": "1.0000",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.model.Owner",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 5,
+        "inDegree": 34,
+        "egcpScore": "0.3147",
+        "structScore": "0.7867",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.mapper.VisitMapper",
+        "egcpRank": 4,
+        "minHop": 2,
+        "structuralRank": 4,
+        "inDegree": 7,
+        "egcpScore": "0.1772",
+        "structScore": "0.4429",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      }
+    ]
+  },
+  {
+    "project": "Spring PetClinic REST",
+    "commitHash": "f2670f9",
+    "caseId": "loo_22_f2670f9_org.springframework.samples.petclinic.rest.controller.OwnerRestController",
+    "inputComponent": "org.springframework.samples.petclinic.rest.controller.OwnerRestController",
+    "oracleSize": 1,
+    "csfMap": 0.1667,
+    "egcpMap": 0.1111,
+    "deltaMap": 0.0556,
+    "targetRanks": [
+      {
+        "targetId": "org.springframework.samples.petclinic.mapper.OwnerMapper",
+        "csfRank": 6,
+        "egcpRank": 9
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "org.springframework.samples.petclinic.service.ClinicService",
+        "egcpRank": 1,
+        "minHop": 1,
+        "structuralRank": 2,
+        "inDegree": 28,
+        "egcpScore": "0.8400",
+        "structScore": "0.6000",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      },
+      {
+        "id": "org.springframework.samples.petclinic.service.clinicService.AbstractClinicServiceTests",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 24,
+        "inDegree": 20,
+        "egcpScore": "0.6683",
+        "structScore": "0.1708",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      },
+      {
+        "id": "org.springframework.samples.petclinic.service.ClinicServiceImpl",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 25,
+        "inDegree": 27,
+        "egcpScore": "0.4799",
+        "structScore": "0.2897",
+        "evoScore": "0.6067",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Spring PetClinic REST",
+    "commitHash": "0b02b04",
+    "caseId": "loo_23_0b02b04_org.springframework.samples.petclinic.service.ClinicServiceImpl",
+    "inputComponent": "org.springframework.samples.petclinic.service.ClinicServiceImpl",
+    "oracleSize": 6,
+    "csfMap": 0.2622,
+    "egcpMap": 0.1804,
+    "deltaMap": 0.0818,
+    "targetRanks": [
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.OwnerRepository",
+        "csfRank": 13,
+        "egcpRank": 23
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcOwnerRepositoryImpl",
+        "csfRank": 2,
+        "egcpRank": 4
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jpa.JpaOwnerRepositoryImpl",
+        "csfRank": 7,
+        "egcpRank": 11
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.springdatajpa.SpringDataOwnerRepository",
+        "csfRank": 39,
+        "egcpRank": 31
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.rest.controller.OwnerRestController",
+        "csfRank": 26,
+        "egcpRank": 27
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.service.ClinicService",
+        "csfRank": 19,
+        "egcpRank": 28
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "org.springframework.samples.petclinic.repository.jdbc.JdbcVetRepositoryImpl",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 31,
+        "inDegree": 22,
+        "egcpScore": "0.7790",
+        "structScore": "0.4475",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      },
+      {
+        "id": "org.springframework.samples.petclinic.repository.jdbc.JdbcPetRepositoryImpl",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 28,
+        "inDegree": 28,
+        "egcpScore": "0.7716",
+        "structScore": "0.4289",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      },
+      {
+        "id": "org.springframework.samples.petclinic.repository.jdbc.JdbcPetTypeRepositoryImpl",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 29,
+        "inDegree": 23,
+        "egcpScore": "0.7714",
+        "structScore": "0.4284",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Spring PetClinic REST",
+    "commitHash": "f957c77",
+    "caseId": "loo_47_f957c77_org.springframework.samples.petclinic.rest.controller.OwnerRestController",
+    "inputComponent": "org.springframework.samples.petclinic.rest.controller.OwnerRestController",
+    "oracleSize": 1,
+    "csfMap": 0.2,
+    "egcpMap": 0.0526,
+    "deltaMap": 0.1474,
+    "targetRanks": [
+      {
+        "targetId": "org.springframework.samples.petclinic.rest.advice.ExceptionControllerAdvice",
+        "csfRank": 5,
+        "egcpRank": 19
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "org.springframework.samples.petclinic.mapper.PetMapper",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 4,
+        "inDegree": 9,
+        "egcpScore": "0.4000",
+        "structScore": "1.0000",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.mapper.OwnerMapper",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 3,
+        "inDegree": 4,
+        "egcpScore": "0.3814",
+        "structScore": "0.9535",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.mapper.VisitMapper",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 5,
+        "inDegree": 7,
+        "egcpScore": "0.3755",
+        "structScore": "0.9387",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      }
+    ]
+  },
+  {
+    "project": "Spring PetClinic REST",
+    "commitHash": "a66fd63",
+    "caseId": "loo_55_a66fd63_org.springframework.samples.petclinic.model.Vet",
+    "inputComponent": "org.springframework.samples.petclinic.model.Vet",
+    "oracleSize": 11,
+    "csfMap": 0.0996,
+    "egcpMap": 0.0463,
+    "deltaMap": 0.0532,
+    "targetRanks": [
+      {
+        "targetId": "org.springframework.samples.petclinic.model.Owner",
+        "csfRank": 6,
+        "egcpRank": 12
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.model.Pet",
+        "csfRank": 7,
+        "egcpRank": 17
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcOwnerRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcPetRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcPetTypeRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcSpecialtyRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcUserRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcVetRepositoryImpl",
+        "csfRank": 3,
+        "egcpRank": 6
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcVisitRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jpa.JpaOwnerRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.rest.controller.BindingErrorsResponse",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "org.springframework.samples.petclinic.model.Person",
+        "egcpRank": 1,
+        "minHop": 1,
+        "structuralRank": 9,
+        "inDegree": 4,
+        "egcpScore": "0.4000",
+        "structScore": "1.0000",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.model.BaseEntity",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 23,
+        "inDegree": 4,
+        "egcpScore": "0.3200",
+        "structScore": "0.8001",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.repository.VetRepository",
+        "egcpRank": 3,
+        "minHop": 1,
+        "structuralRank": 5,
+        "inDegree": 5,
+        "egcpScore": "0.1626",
+        "structScore": "0.4064",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      }
+    ]
+  },
+  {
+    "project": "Spring PetClinic REST",
+    "commitHash": "a66fd63",
+    "caseId": "loo_55_a66fd63_org.springframework.samples.petclinic.repository.jdbc.JdbcPetRepositoryImpl",
+    "inputComponent": "org.springframework.samples.petclinic.repository.jdbc.JdbcPetRepositoryImpl",
+    "oracleSize": 11,
+    "csfMap": 0.3188,
+    "egcpMap": 0.2544,
+    "deltaMap": 0.0644,
+    "targetRanks": [
+      {
+        "targetId": "org.springframework.samples.petclinic.model.Owner",
+        "csfRank": 14,
+        "egcpRank": 10
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.model.Pet",
+        "csfRank": 10,
+        "egcpRank": 8
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.model.Vet",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcOwnerRepositoryImpl",
+        "csfRank": 1,
+        "egcpRank": 1
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcPetTypeRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcSpecialtyRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcUserRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcVetRepositoryImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jdbc.JdbcVisitRepositoryImpl",
+        "csfRank": 2,
+        "egcpRank": 3
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.repository.jpa.JpaOwnerRepositoryImpl",
+        "csfRank": 4,
+        "egcpRank": 14
+      },
+      {
+        "targetId": "org.springframework.samples.petclinic.rest.controller.BindingErrorsResponse",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "org.springframework.samples.petclinic.service.ClinicServiceImpl",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 9,
+        "inDegree": 20,
+        "egcpScore": "0.7677",
+        "structScore": "0.4192",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      },
+      {
+        "id": "org.springframework.samples.petclinic.repository.jdbc.JdbcPet",
+        "egcpRank": 4,
+        "minHop": 1,
+        "structuralRank": 3,
+        "inDegree": 6,
+        "egcpScore": "0.4000",
+        "structScore": "1.0000",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      },
+      {
+        "id": "org.springframework.samples.petclinic.repository.PetRepository",
+        "egcpRank": 5,
+        "minHop": 1,
+        "structuralRank": 4,
+        "inDegree": 6,
+        "egcpScore": "0.3850",
+        "structScore": "0.9625",
+        "evoScore": "0.0000",
+        "directCoChange": 0
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "a59820c",
+    "caseId": "loo_10_a59820c_com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+    "inputComponent": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+    "oracleSize": 15,
+    "csfMap": 0.1667,
+    "egcpMap": 0.1111,
+    "deltaMap": 0.0556,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.PageableCategoryRepository",
+        "csfRank": 6,
+        "egcpRank": 6
+      },
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.product.ProductRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": 2,
+        "egcpRank": 3
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": 1,
+        "egcpRank": 2
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.reference.init.InitializationDatabaseImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.reference.loader.ZonesLoader",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.search.SearchServiceImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.model.catalog.category.Category",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.category.CategoryApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductGroupApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductRelationshipApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepositoryCustom",
+        "egcpRank": 1,
+        "minHop": 1,
+        "structuralRank": 2,
+        "inDegree": 1207,
+        "egcpScore": "0.8610",
+        "structScore": "1.0000",
+        "evoScore": "0.7683",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.model.catalog.category.Category",
+        "egcpRank": 4,
+        "minHop": 2,
+        "structuralRank": 8,
+        "inDegree": 1246,
+        "egcpScore": "0.5496",
+        "structScore": "0.2217",
+        "evoScore": "0.7683",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepositoryImpl",
+        "egcpRank": 5,
+        "minHop": 2,
+        "structuralRank": 3,
+        "inDegree": 1206,
+        "egcpScore": "0.5482",
+        "structScore": "0.2181",
+        "evoScore": "0.7683",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "a59820c",
+    "caseId": "loo_10_a59820c_com.salesmanager.core.business.services.catalog.category.CategoryService",
+    "inputComponent": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+    "oracleSize": 15,
+    "csfMap": 0.3362,
+    "egcpMap": 0.214,
+    "deltaMap": 0.1222,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": 4,
+        "egcpRank": 6
+      },
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.PageableCategoryRepository",
+        "csfRank": 6,
+        "egcpRank": 16
+      },
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.product.ProductRepository",
+        "csfRank": 52,
+        "egcpRank": 70
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": 1,
+        "egcpRank": 2
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.reference.init.InitializationDatabaseImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.reference.loader.ZonesLoader",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.search.SearchServiceImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper",
+        "csfRank": 74,
+        "egcpRank": 28
+      },
+      {
+        "targetId": "com.salesmanager.shop.model.catalog.category.Category",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.category.CategoryApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": 2,
+        "egcpRank": 3
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductGroupApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductRelationshipApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": 3,
+        "egcpRank": 4
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.core.model.catalog.category.CategoryDescription",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 46,
+        "inDegree": 1219,
+        "egcpScore": "0.8602",
+        "structScore": "1.0000",
+        "evoScore": "0.7670",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.model.catalog.category.Category",
+        "egcpRank": 5,
+        "minHop": 2,
+        "structuralRank": 45,
+        "inDegree": 1246,
+        "egcpScore": "0.7302",
+        "structScore": "0.6749",
+        "evoScore": "0.7670",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "a59820c",
+    "caseId": "loo_10_a59820c_com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+    "inputComponent": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+    "oracleSize": 15,
+    "csfMap": 0.3889,
+    "egcpMap": 0.2847,
+    "deltaMap": 0.1042,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": 3,
+        "egcpRank": 1
+      },
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.PageableCategoryRepository",
+        "csfRank": 6,
+        "egcpRank": 3
+      },
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.product.ProductRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": 1,
+        "egcpRank": 4
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.reference.init.InitializationDatabaseImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.reference.loader.ZonesLoader",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.search.SearchServiceImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.model.catalog.category.Category",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.category.CategoryApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": 2,
+        "egcpRank": 6
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductGroupApi",
+        "csfRank": 12,
+        "egcpRank": 26
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductRelationshipApi",
+        "csfRank": 14,
+        "egcpRank": 29
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": 4,
+        "egcpRank": 7
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.core.business.repositories.catalog.category.CategoryDescriptionRepository",
+        "egcpRank": 2,
+        "minHop": 1,
+        "structuralRank": 1,
+        "inDegree": 1205,
+        "egcpScore": "0.8602",
+        "structScore": "1.0000",
+        "evoScore": "0.7670",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.model.catalog.category.CategoryDescription",
+        "egcpRank": 5,
+        "minHop": 2,
+        "structuralRank": 8,
+        "inDegree": 1219,
+        "egcpScore": "0.6573",
+        "structScore": "0.4927",
+        "evoScore": "0.7670",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "a59820c",
+    "caseId": "loo_10_a59820c_com.salesmanager.core.business.services.reference.loader.ZonesLoader",
+    "inputComponent": "com.salesmanager.core.business.services.reference.loader.ZonesLoader",
+    "oracleSize": 15,
+    "csfMap": 0.0667,
+    "egcpMap": 0.0111,
+    "deltaMap": 0.0556,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.PageableCategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.product.ProductRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.reference.init.InitializationDatabaseImpl",
+        "csfRank": 1,
+        "egcpRank": 6
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.search.SearchServiceImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.model.catalog.category.Category",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.category.CategoryApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductGroupApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductRelationshipApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.core.model.reference.zone.ZoneDescription",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 28,
+        "inDegree": 1214,
+        "egcpScore": "1.0000",
+        "structScore": "1.0000",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.business.services.reference.country.CountryService",
+        "egcpRank": 2,
+        "minHop": 1,
+        "structuralRank": 2,
+        "inDegree": 1227,
+        "egcpScore": "0.8943",
+        "structScore": "0.7358",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.model.reference.zone.Zone",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 27,
+        "inDegree": 1235,
+        "egcpScore": "0.8441",
+        "structScore": "0.6104",
+        "evoScore": "1.0000",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "a59820c",
+    "caseId": "loo_10_a59820c_com.salesmanager.shop.store.api.v1.product.ProductApi",
+    "inputComponent": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+    "oracleSize": 15,
+    "csfMap": 0.316,
+    "egcpMap": 0.153,
+    "deltaMap": 0.163,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.PageableCategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.product.ProductRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": 1,
+        "egcpRank": 2
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": 2,
+        "egcpRank": 7
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.reference.init.InitializationDatabaseImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.reference.loader.ZonesLoader",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.search.SearchServiceImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.model.catalog.category.Category",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.category.CategoryApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductGroupApi",
+        "csfRank": 52,
+        "egcpRank": 25
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductRelationshipApi",
+        "csfRank": 8,
+        "egcpRank": 27
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": 3,
+        "egcpRank": 4
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": 4,
+        "egcpRank": 9
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.shop.model.catalog.product.LightPersistableProduct",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 30,
+        "inDegree": 1207,
+        "egcpScore": "0.8609",
+        "structScore": "1.0000",
+        "evoScore": "0.7681",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.store.controller.product.facade.ProductFacade",
+        "egcpRank": 3,
+        "minHop": 1,
+        "structuralRank": 5,
+        "inDegree": 1214,
+        "egcpScore": "0.7129",
+        "structScore": "0.6301",
+        "evoScore": "0.7681",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.model.catalog.product.ProductCriteria",
+        "egcpRank": 5,
+        "minHop": 2,
+        "structuralRank": 18,
+        "inDegree": 1216,
+        "egcpScore": "0.6951",
+        "structScore": "0.5856",
+        "evoScore": "0.7681",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "a59820c",
+    "caseId": "loo_10_a59820c_com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+    "inputComponent": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+    "oracleSize": 15,
+    "csfMap": 0.2367,
+    "egcpMap": 0.0493,
+    "deltaMap": 0.1873,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.PageableCategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.product.ProductRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.reference.init.InitializationDatabaseImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.reference.loader.ZonesLoader",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.search.SearchServiceImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.model.catalog.category.Category",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.category.CategoryApi",
+        "csfRank": 4,
+        "egcpRank": 24
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": 2,
+        "egcpRank": 9
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductGroupApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductRelationshipApi",
+        "csfRank": 5,
+        "egcpRank": 28
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": 1,
+        "egcpRank": 4
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.shop.model.catalog.product.LightPersistableProduct",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 14,
+        "inDegree": 1207,
+        "egcpScore": "0.7759",
+        "structScore": "1.0000",
+        "evoScore": "0.6265",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.store.controller.product.facade.ProductDefinitionFacade",
+        "egcpRank": 2,
+        "minHop": 1,
+        "structuralRank": 3,
+        "inDegree": 1208,
+        "egcpScore": "0.7612",
+        "structScore": "0.9633",
+        "evoScore": "0.6265",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 16,
+        "inDegree": 1211,
+        "egcpScore": "0.7047",
+        "structScore": "0.8220",
+        "evoScore": "0.6265",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "a59820c",
+    "caseId": "loo_10_a59820c_com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+    "inputComponent": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+    "oracleSize": 15,
+    "csfMap": 0.3413,
+    "egcpMap": 0.1293,
+    "deltaMap": 0.212,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.PageableCategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.product.ProductRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": 2,
+        "egcpRank": 3
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": 3,
+        "egcpRank": 10
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.reference.init.InitializationDatabaseImpl",
+        "csfRank": 21,
+        "egcpRank": 38
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.reference.loader.ZonesLoader",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.search.SearchServiceImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.model.catalog.category.Category",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.category.CategoryApi",
+        "csfRank": 6,
+        "egcpRank": 13
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": 4,
+        "egcpRank": 11
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductGroupApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductRelationshipApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": 1,
+        "egcpRank": 5
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariant",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 10,
+        "inDegree": 1208,
+        "egcpScore": "0.7761",
+        "structScore": "1.0000",
+        "evoScore": "0.6268",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.model.entity.ListCriteria",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 11,
+        "inDegree": 1209,
+        "egcpScore": "0.6860",
+        "structScore": "0.7748",
+        "evoScore": "0.6268",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.store.controller.category.facade.CategoryFacade",
+        "egcpRank": 4,
+        "minHop": 1,
+        "structuralRank": 4,
+        "inDegree": 1214,
+        "egcpScore": "0.6767",
+        "structScore": "0.7514",
+        "evoScore": "0.6268",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "81b0ade",
+    "caseId": "loo_27_81b0ade_com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+    "inputComponent": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+    "oracleSize": 5,
+    "csfMap": 0.4,
+    "egcpMap": 0.2333,
+    "deltaMap": 0.1667,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": 2,
+        "egcpRank": 3
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": 1,
+        "egcpRank": 2
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepositoryCustom",
+        "egcpRank": 1,
+        "minHop": 1,
+        "structuralRank": 2,
+        "inDegree": 1207,
+        "egcpScore": "0.9211",
+        "structScore": "1.0000",
+        "evoScore": "0.8685",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.model.catalog.category.Category",
+        "egcpRank": 4,
+        "minHop": 2,
+        "structuralRank": 8,
+        "inDegree": 1246,
+        "egcpScore": "0.6098",
+        "structScore": "0.2217",
+        "evoScore": "0.8685",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepositoryImpl",
+        "egcpRank": 5,
+        "minHop": 2,
+        "structuralRank": 3,
+        "inDegree": 1206,
+        "egcpScore": "0.6084",
+        "structScore": "0.2181",
+        "evoScore": "0.8685",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "81b0ade",
+    "caseId": "loo_27_81b0ade_com.salesmanager.core.business.services.catalog.category.CategoryService",
+    "inputComponent": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+    "oracleSize": 5,
+    "csfMap": 0.8,
+    "egcpMap": 0.4343,
+    "deltaMap": 0.3657,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": 4,
+        "egcpRank": 7
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": 1,
+        "egcpRank": 2
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": 2,
+        "egcpRank": 4
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": 3,
+        "egcpRank": 5
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.core.model.catalog.category.CategoryDescription",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 46,
+        "inDegree": 1219,
+        "egcpScore": "0.9206",
+        "structScore": "1.0000",
+        "evoScore": "0.8677",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.model.catalog.category.Category",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 45,
+        "inDegree": 1246,
+        "egcpScore": "0.7906",
+        "structScore": "0.6749",
+        "evoScore": "0.8677",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "81b0ade",
+    "caseId": "loo_27_81b0ade_com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+    "inputComponent": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+    "oracleSize": 5,
+    "csfMap": 0.76,
+    "egcpMap": 0.4639,
+    "deltaMap": 0.2961,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": 3,
+        "egcpRank": 1
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": 1,
+        "egcpRank": 4
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": 2,
+        "egcpRank": 8
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": 5,
+        "egcpRank": 9
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.core.business.repositories.catalog.category.CategoryDescriptionRepository",
+        "egcpRank": 2,
+        "minHop": 1,
+        "structuralRank": 1,
+        "inDegree": 1205,
+        "egcpScore": "0.9206",
+        "structScore": "1.0000",
+        "evoScore": "0.8677",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.business.repositories.catalog.category.PageableCategoryRepository",
+        "egcpRank": 3,
+        "minHop": 1,
+        "structuralRank": 3,
+        "inDegree": 1205,
+        "egcpScore": "0.9111",
+        "structScore": "0.9754",
+        "evoScore": "0.8683",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.model.catalog.category.CategoryDescription",
+        "egcpRank": 5,
+        "minHop": 2,
+        "structuralRank": 8,
+        "inDegree": 1219,
+        "egcpScore": "0.7177",
+        "structScore": "0.4927",
+        "evoScore": "0.8677",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "81b0ade",
+    "caseId": "loo_27_81b0ade_com.salesmanager.shop.store.api.v1.product.ProductApi",
+    "inputComponent": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+    "oracleSize": 5,
+    "csfMap": 0.76,
+    "egcpMap": 0.2882,
+    "deltaMap": 0.4718,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": 1,
+        "egcpRank": 2
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": 2,
+        "egcpRank": 10
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": 3,
+        "egcpRank": 6
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": 5,
+        "egcpRank": 13
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.shop.model.catalog.product.LightPersistableProduct",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 30,
+        "inDegree": 1207,
+        "egcpScore": "0.9206",
+        "structScore": "1.0000",
+        "evoScore": "0.8677",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.store.controller.product.facade.ProductFacade",
+        "egcpRank": 3,
+        "minHop": 1,
+        "structuralRank": 5,
+        "inDegree": 1214,
+        "egcpScore": "0.7727",
+        "structScore": "0.6301",
+        "evoScore": "0.8677",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.model.catalog.product.ProductCriteria",
+        "egcpRank": 4,
+        "minHop": 2,
+        "structuralRank": 18,
+        "inDegree": 1216,
+        "egcpScore": "0.7548",
+        "structScore": "0.5856",
+        "evoScore": "0.8677",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "81b0ade",
+    "caseId": "loo_27_81b0ade_com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+    "inputComponent": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+    "oracleSize": 5,
+    "csfMap": 0.3333,
+    "egcpMap": 0.0686,
+    "deltaMap": 0.2648,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": 3,
+        "egcpRank": 10
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": 1,
+        "egcpRank": 7
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.shop.model.catalog.product.LightPersistableProduct",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 14,
+        "inDegree": 1207,
+        "egcpScore": "0.8142",
+        "structScore": "1.0000",
+        "evoScore": "0.6903",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.store.controller.product.facade.ProductDefinitionFacade",
+        "egcpRank": 2,
+        "minHop": 1,
+        "structuralRank": 3,
+        "inDegree": 1208,
+        "egcpScore": "0.7995",
+        "structScore": "0.9633",
+        "evoScore": "0.6903",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 16,
+        "inDegree": 1211,
+        "egcpScore": "0.7430",
+        "structScore": "0.8220",
+        "evoScore": "0.6903",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "81b0ade",
+    "caseId": "loo_27_81b0ade_com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+    "inputComponent": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+    "oracleSize": 5,
+    "csfMap": 0.8,
+    "egcpMap": 0.2004,
+    "deltaMap": 0.5996,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": 2,
+        "egcpRank": 5
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": 3,
+        "egcpRank": 13
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": 4,
+        "egcpRank": 14
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": 1,
+        "egcpRank": 7
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariant",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 10,
+        "inDegree": 1208,
+        "egcpScore": "0.8144",
+        "structScore": "1.0000",
+        "evoScore": "0.6907",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.model.entity.ListCriteria",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 11,
+        "inDegree": 1209,
+        "egcpScore": "0.7243",
+        "structScore": "0.7748",
+        "evoScore": "0.6907",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.store.controller.category.facade.CategoryFacade",
+        "egcpRank": 3,
+        "minHop": 1,
+        "structuralRank": 4,
+        "inDegree": 1214,
+        "egcpScore": "0.7150",
+        "structScore": "0.7514",
+        "evoScore": "0.6907",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "3f237ee",
+    "caseId": "loo_28_3f237ee_com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+    "inputComponent": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+    "oracleSize": 5,
+    "csfMap": 0.2667,
+    "egcpMap": 0.1,
+    "deltaMap": 0.1667,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": 6,
+        "egcpRank": 8
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": 1,
+        "egcpRank": 4
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepositoryCustom",
+        "egcpRank": 1,
+        "minHop": 1,
+        "structuralRank": 2,
+        "inDegree": 1207,
+        "egcpScore": "0.9997",
+        "structScore": "1.0000",
+        "evoScore": "0.9994",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.model.catalog.category.Category",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 8,
+        "inDegree": 1246,
+        "egcpScore": "0.6883",
+        "structScore": "0.2217",
+        "evoScore": "0.9994",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepositoryImpl",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 3,
+        "inDegree": 1206,
+        "egcpScore": "0.6869",
+        "structScore": "0.2181",
+        "evoScore": "0.9994",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "3f237ee",
+    "caseId": "loo_28_3f237ee_com.salesmanager.core.business.services.catalog.category.CategoryService",
+    "inputComponent": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+    "oracleSize": 5,
+    "csfMap": 0.3186,
+    "egcpMap": 0.2554,
+    "deltaMap": 0.0632,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": 43,
+        "egcpRank": 17
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": 2,
+        "egcpRank": 3
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": 4,
+        "egcpRank": 6
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": 6,
+        "egcpRank": 8
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.core.model.catalog.category.CategoryDescription",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 46,
+        "inDegree": 1219,
+        "egcpScore": "0.9993",
+        "structScore": "1.0000",
+        "evoScore": "0.9988",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.model.catalog.category.Category",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 45,
+        "inDegree": 1246,
+        "egcpScore": "0.8693",
+        "structScore": "0.6749",
+        "evoScore": "0.9988",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.populator.catalog.PersistableCategoryPopulator",
+        "egcpRank": 4,
+        "minHop": 1,
+        "structuralRank": 12,
+        "inDegree": 1211,
+        "egcpScore": "0.8079",
+        "structScore": "0.5216",
+        "evoScore": "0.9988",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "3f237ee",
+    "caseId": "loo_28_3f237ee_com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+    "inputComponent": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+    "oracleSize": 5,
+    "csfMap": 0.2729,
+    "egcpMap": 0.2183,
+    "deltaMap": 0.0546,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": 2,
+        "egcpRank": 3
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": 5,
+        "egcpRank": 7
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": 14,
+        "egcpRank": 12
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": 16,
+        "egcpRank": 18
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.core.business.repositories.catalog.category.CategoryDescriptionRepository",
+        "egcpRank": 1,
+        "minHop": 1,
+        "structuralRank": 1,
+        "inDegree": 1205,
+        "egcpScore": "0.9993",
+        "structScore": "1.0000",
+        "evoScore": "0.9988",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.business.repositories.catalog.category.PageableCategoryRepository",
+        "egcpRank": 2,
+        "minHop": 1,
+        "structuralRank": 3,
+        "inDegree": 1205,
+        "egcpScore": "0.9898",
+        "structScore": "0.9754",
+        "evoScore": "0.9994",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.model.catalog.category.CategoryDescription",
+        "egcpRank": 4,
+        "minHop": 2,
+        "structuralRank": 8,
+        "inDegree": 1219,
+        "egcpScore": "0.7964",
+        "structScore": "0.4927",
+        "evoScore": "0.9988",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "3f237ee",
+    "caseId": "loo_28_3f237ee_com.salesmanager.shop.store.api.v1.product.ProductApi",
+    "inputComponent": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+    "oracleSize": 5,
+    "csfMap": 0.1884,
+    "egcpMap": 0.1219,
+    "deltaMap": 0.0666,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": 2,
+        "egcpRank": 5
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": 7,
+        "egcpRank": 24
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": 42,
+        "egcpRank": 11
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": 47,
+        "egcpRank": 39
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.shop.model.catalog.product.LightPersistableProduct",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 30,
+        "inDegree": 1207,
+        "egcpScore": "0.9993",
+        "structScore": "1.0000",
+        "evoScore": "0.9988",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.store.controller.product.facade.ProductFacade",
+        "egcpRank": 2,
+        "minHop": 1,
+        "structuralRank": 5,
+        "inDegree": 1214,
+        "egcpScore": "0.8514",
+        "structScore": "0.6301",
+        "evoScore": "0.9988",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.core.model.catalog.product.ProductCriteria",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 18,
+        "inDegree": 1216,
+        "egcpScore": "0.8335",
+        "structScore": "0.5856",
+        "evoScore": "0.9988",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "3f237ee",
+    "caseId": "loo_28_3f237ee_com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+    "inputComponent": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+    "oracleSize": 5,
+    "csfMap": 0.2167,
+    "egcpMap": 0.0614,
+    "deltaMap": 0.1553,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": 24,
+        "egcpRank": 11
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+        "csfRank": 1,
+        "egcpRank": 8
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.shop.model.catalog.product.LightPersistableProduct",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 14,
+        "inDegree": 1207,
+        "egcpScore": "0.8615",
+        "structScore": "1.0000",
+        "evoScore": "0.7692",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.store.controller.product.facade.ProductDefinitionFacade",
+        "egcpRank": 2,
+        "minHop": 1,
+        "structuralRank": 3,
+        "inDegree": 1208,
+        "egcpScore": "0.8468",
+        "structScore": "0.9633",
+        "evoScore": "0.7692",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.model.catalog.product.product.definition.PersistableProductDefinition",
+        "egcpRank": 3,
+        "minHop": 2,
+        "structuralRank": 16,
+        "inDegree": 1211,
+        "egcpScore": "0.7903",
+        "structScore": "0.8220",
+        "evoScore": "0.7692",
+        "directCoChange": 1
+      }
+    ]
+  },
+  {
+    "project": "Shopizer",
+    "commitHash": "3f237ee",
+    "caseId": "loo_28_3f237ee_com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+    "inputComponent": "com.salesmanager.shop.store.facade.category.CategoryFacadeImpl",
+    "oracleSize": 5,
+    "csfMap": 0.4622,
+    "egcpMap": 0.1497,
+    "deltaMap": 0.3125,
+    "targetRanks": [
+      {
+        "targetId": "com.salesmanager.core.business.repositories.catalog.category.CategoryRepository",
+        "csfRank": "Not Ranked",
+        "egcpRank": "Not Ranked"
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryService",
+        "csfRank": 2,
+        "egcpRank": 6
+      },
+      {
+        "targetId": "com.salesmanager.core.business.services.catalog.category.CategoryServiceImpl",
+        "csfRank": 15,
+        "egcpRank": 22
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v1.product.ProductApi",
+        "csfRank": 36,
+        "egcpRank": 25
+      },
+      {
+        "targetId": "com.salesmanager.shop.store.api.v2.product.ProductApiV2",
+        "csfRank": 1,
+        "egcpRank": 7
+      }
+    ],
+    "topFalsePositives": [
+      {
+        "id": "com.salesmanager.shop.model.catalog.product.attribute.ReadableProductVariant",
+        "egcpRank": 1,
+        "minHop": 2,
+        "structuralRank": 10,
+        "inDegree": 1208,
+        "egcpScore": "0.8618",
+        "structScore": "1.0000",
+        "evoScore": "0.7697",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.model.entity.ListCriteria",
+        "egcpRank": 2,
+        "minHop": 2,
+        "structuralRank": 11,
+        "inDegree": 1209,
+        "egcpScore": "0.7717",
+        "structScore": "0.7748",
+        "evoScore": "0.7697",
+        "directCoChange": 1
+      },
+      {
+        "id": "com.salesmanager.shop.store.controller.category.facade.CategoryFacade",
+        "egcpRank": 3,
+        "minHop": 1,
+        "structuralRank": 4,
+        "inDegree": 1214,
+        "egcpScore": "0.7624",
+        "structScore": "0.7514",
+        "evoScore": "0.7697",
+        "directCoChange": 1
+      }
+    ]
+  }
+]

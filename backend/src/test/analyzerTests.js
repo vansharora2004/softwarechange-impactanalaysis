@@ -345,9 +345,9 @@ console.log('\n=== javaAnalyzer Regression Tests ===\n');
   assert(!!assoc, 'ASSOCIATED_WITH between Entity/Model components');
 }
 
-// 13. Interface implementation — EXTENDS relationship
+// 13. Interface implementation — IMPLEMENTS relationship
 {
-  console.log('\nTest 13: Interface implementation → EXTENDS');
+  console.log('\nTest 13: Interface implementation → IMPLEMENTS');
   const { relationships } = analyze({
     'src/main/java/com/x/Printable.java': `
       package com.x;
@@ -359,9 +359,9 @@ console.log('\n=== javaAnalyzer Regression Tests ===\n');
       public class Document implements Printable {}
     `,
   });
-  const ext = relationships.find(r => r.type === 'EXTENDS');
-  assert(!!ext, 'EXTENDS for interface implementation');
-  assert(ext && ext.source.endsWith('Document'), 'Document implements Printable');
+  const impl = relationships.find(r => r.type === 'IMPLEMENTS');
+  assert(!!impl, 'IMPLEMENTS for interface implementation');
+  assert(impl && impl.source.endsWith('Document'), 'Document implements Printable');
 }
 
 // 14. Renamed/deleted file: verifying mapFileToComponent returns null for unknown paths

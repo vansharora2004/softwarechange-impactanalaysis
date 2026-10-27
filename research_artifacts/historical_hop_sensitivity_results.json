@@ -1,0 +1,219 @@
+{
+  "metadata": {
+    "generatedAt": "2026-10-15T05:37:20.596Z",
+    "evaluationType": "Pre-Change Historical Graph Reconstruction (Leak-Free)",
+    "hopsEvaluated": [
+      1,
+      2,
+      3
+    ]
+  },
+  "springPetClinic": {
+    "hop1": {
+      "baseline": {
+        "commitCount": 8,
+        "candidateCount": 2.373,
+        "precision": 0.2357,
+        "recall": 0.1383,
+        "f1": 0.1543,
+        "P@3": 0.2649,
+        "R@3": 0.1225,
+        "P@5": 0.2437,
+        "R@5": 0.1296,
+        "P@10": 0.2377,
+        "R@10": 0.1383,
+        "map": 0.126,
+        "mrr": 0.316,
+        "testRecall": 0.2478
+      },
+      "proposed": {
+        "commitCount": 8,
+        "candidateCount": 2.373,
+        "precision": 0.2357,
+        "recall": 0.1383,
+        "f1": 0.1543,
+        "P@3": 0.2666,
+        "R@3": 0.1238,
+        "P@5": 0.2469,
+        "R@5": 0.1318,
+        "P@10": 0.2377,
+        "R@10": 0.1383,
+        "map": 0.1263,
+        "mrr": 0.3143,
+        "testRecall": 0.2478
+      }
+    },
+    "hop2_operating": {
+      "baseline": {
+        "commitCount": 8,
+        "candidateCount": 15.1612,
+        "precision": 0.1868,
+        "recall": 0.5655,
+        "f1": 0.2339,
+        "P@3": 0.2103,
+        "R@3": 0.197,
+        "P@5": 0.186,
+        "R@5": 0.2373,
+        "P@10": 0.1689,
+        "R@10": 0.3578,
+        "map": 0.2437,
+        "mrr": 0.4137,
+        "testRecall": 0.3824
+      },
+      "proposed": {
+        "commitCount": 8,
+        "candidateCount": 15.1612,
+        "precision": 0.1868,
+        "recall": 0.5655,
+        "f1": 0.2339,
+        "P@3": 0.1822,
+        "R@3": 0.1286,
+        "P@5": 0.196,
+        "R@5": 0.2448,
+        "P@10": 0.1728,
+        "R@10": 0.3622,
+        "map": 0.2255,
+        "mrr": 0.3893,
+        "testRecall": 0.3824
+      }
+    },
+    "hop3": {
+      "baseline": {
+        "commitCount": 8,
+        "candidateCount": 40.1875,
+        "precision": 0.093,
+        "recall": 0.7026,
+        "f1": 0.1524,
+        "P@3": 0.2103,
+        "R@3": 0.197,
+        "P@5": 0.186,
+        "R@5": 0.2373,
+        "P@10": 0.1523,
+        "R@10": 0.368,
+        "map": 0.2712,
+        "mrr": 0.4184,
+        "testRecall": 0.5655
+      },
+      "proposed": {
+        "commitCount": 8,
+        "candidateCount": 40.1875,
+        "precision": 0.093,
+        "recall": 0.7026,
+        "f1": 0.1524,
+        "P@3": 0.1926,
+        "R@3": 0.1315,
+        "P@5": 0.1843,
+        "R@5": 0.1778,
+        "P@10": 0.1553,
+        "R@10": 0.3688,
+        "map": 0.2431,
+        "mrr": 0.3917,
+        "testRecall": 0.5655
+      }
+    }
+  },
+  "shopizer": {
+    "hop1": {
+      "baseline": {
+        "commitCount": 12,
+        "candidateCount": 3.4965,
+        "precision": 0.0625,
+        "recall": 0.0486,
+        "f1": 0.0474,
+        "P@3": 0.0801,
+        "R@3": 0.0365,
+        "P@5": 0.0734,
+        "R@5": 0.0486,
+        "P@10": 0.0635,
+        "R@10": 0.0486,
+        "map": 0.0345,
+        "mrr": 0.1434,
+        "testRecall": 0.0052
+      },
+      "proposed": {
+        "commitCount": 12,
+        "candidateCount": 3.4965,
+        "precision": 0.0625,
+        "recall": 0.0486,
+        "f1": 0.0474,
+        "P@3": 0.0929,
+        "R@3": 0.0427,
+        "P@5": 0.0734,
+        "R@5": 0.0486,
+        "P@10": 0.0635,
+        "R@10": 0.0486,
+        "map": 0.042,
+        "mrr": 0.1667,
+        "testRecall": 0.0052
+      }
+    },
+    "hop2_operating": {
+      "baseline": {
+        "commitCount": 12,
+        "candidateCount": 40.0729,
+        "precision": 0.0218,
+        "recall": 0.1295,
+        "f1": 0.0334,
+        "P@3": 0.0729,
+        "R@3": 0.0368,
+        "P@5": 0.0622,
+        "R@5": 0.0504,
+        "P@10": 0.0387,
+        "R@10": 0.0628,
+        "map": 0.0478,
+        "mrr": 0.1489,
+        "testRecall": 0.0052
+      },
+      "proposed": {
+        "commitCount": 12,
+        "candidateCount": 40.0729,
+        "precision": 0.0218,
+        "recall": 0.1295,
+        "f1": 0.0334,
+        "P@3": 0.1458,
+        "R@3": 0.0736,
+        "P@5": 0.1115,
+        "R@5": 0.0927,
+        "P@10": 0.0606,
+        "R@10": 0.0997,
+        "map": 0.0918,
+        "mrr": 0.2037,
+        "testRecall": 0.0052
+      }
+    },
+    "hop3": {
+      "baseline": {
+        "commitCount": 12,
+        "candidateCount": 340.0052,
+        "precision": 0.0064,
+        "recall": 0.6896,
+        "f1": 0.0123,
+        "P@3": 0.0729,
+        "R@3": 0.0368,
+        "P@5": 0.0622,
+        "R@5": 0.0504,
+        "P@10": 0.0387,
+        "R@10": 0.0628,
+        "map": 0.0559,
+        "mrr": 0.1521,
+        "testRecall": 0.3594
+      },
+      "proposed": {
+        "commitCount": 12,
+        "candidateCount": 340.0052,
+        "precision": 0.0064,
+        "recall": 0.6896,
+        "f1": 0.0123,
+        "P@3": 0.2054,
+        "R@3": 0.2059,
+        "P@5": 0.1788,
+        "R@5": 0.2503,
+        "P@10": 0.099,
+        "R@10": 0.2993,
+        "map": 0.2422,
+        "mrr": 0.3225,
+        "testRecall": 0.3594
+      }
+    }
+  }
+}

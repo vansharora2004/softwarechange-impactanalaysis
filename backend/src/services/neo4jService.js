@@ -25,6 +25,9 @@ export async function verifyConnection() {
   try {
     const session = d.session();
     await session.run('RETURN 1');
+    try {
+      await session.run('CREATE INDEX component_id_project_idx IF NOT EXISTS FOR (c:Component) ON (c.id, c.project)');
+    } catch {}
     await session.close();
     return true;
   } catch (error) {
@@ -71,7 +74,7 @@ export async function storeGraph(analysisResult, project) {
     );
 
     // Store relationships grouped by their specific types
-    const relTypes = ['USES', 'TESTS', 'DEPENDS_ON', 'EXTENDS', 'ASSOCIATED_WITH', 'REFERENCES'];
+    const relTypes = ['USES', 'TESTS', 'DEPENDS_ON', 'EXTENDS', 'IMPLEMENTS', 'ASSOCIATED_WITH', 'REFERENCES'];
     for (const type of relTypes) {
       const filteredRels = relationships.filter(r => r.type === type);
       if (filteredRels.length > 0) {

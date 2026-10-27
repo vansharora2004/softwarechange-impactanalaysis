@@ -1,0 +1,961 @@
+{
+  "metadata": {
+    "timestamp": "2026-10-15T07:49:14.930Z",
+    "evaluationProtocol": "Strict Chronological Lookback (j < c)",
+    "maxHops": 2,
+    "taxonomy": [
+      "METHOD_SIGNATURE_OR_DECLARATION",
+      "METHOD_BODY_OR_IMPLEMENTATION",
+      "FIELD_OR_DATA_SHAPE",
+      "TYPE_OR_INHERITANCE",
+      "ADD_DELETE_OR_RENAME",
+      "UNKNOWN_OR_MIXED"
+    ]
+  },
+  "springPetClinic": {
+    "repoName": "Spring PetClinic REST",
+    "repoPath": "c:/yashika/STUDY/clg_project/spring-petclinic-rest",
+    "durationSec": "59.46",
+    "totalCommitsInspected": 100,
+    "eligibleCommitsCount": 8,
+    "looCasesCount": 57,
+    "exclusionsCount": 92,
+    "exclusions": [
+      {
+        "commitHash": "d413204505c6744742e238e2fc3f5432809ee22b",
+        "subject": "chnaged service",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (org.springframework.samples.petclinic.service.ClinicServiceImpl); cannot split into input + target"
+      },
+      {
+        "commitHash": "0df21cfb655a2f60628a7d1d10caf88151f6eb5b",
+        "subject": "Added Owner API access",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (org.springframework.samples.petclinic.rest.controller.v1.OwnerRestControllerV1); cannot split into input + target"
+      },
+      {
+        "commitHash": "698bd832eac0da48e72deb63ce7ab275d98a88fb",
+        "subject": "Merge pull request #345 from spring-petclinic/dependabot/maven/org.hjug.refactorfirst.plugin-refactor-first-maven-plugin-0.9.0",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "9506c4b296bc2fca553d6114dd231a164876d964",
+        "subject": "Merge pull request #344 from spring-petclinic/dependabot/maven/com.google.cloud.tools-jib-maven-plugin-3.5.2",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "a90f8c2549e471b8946c68afae52b6d29944fdb3",
+        "subject": "Merge pull request #343 from spring-petclinic/dependabot/maven/org.openapitools-jackson-databind-nullable-0.2.11",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "defe2ac849fb282ac6fae76cf16d04a30f401150",
+        "subject": "Merge pull request #342 from spring-petclinic/dependabot/maven/org.openapitools-openapi-generator-maven-plugin-7.24.0",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "b0162a4616d34a5eee4551d6cd0d912aed9e94bb",
+        "subject": "chore(deps-dev): bump org.hjug.refactorfirst.plugin:refactor-first-maven-plugin",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "68a62a7b5e8099dc3f8c681b6b6c6b05b97495cf",
+        "subject": "chore(deps-dev): bump com.google.cloud.tools:jib-maven-plugin",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "1bafe0a8c1db75a24f8ec6ff6a57dbab712e7f4f",
+        "subject": "chore(deps): bump org.openapitools:jackson-databind-nullable",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "401cc3a6d2f049046a820619213063b634c09bec",
+        "subject": "chore(deps-dev): bump org.openapitools:openapi-generator-maven-plugin",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "c7b5f5e9e90af2e5b94a40dd77b2a53dc33f67bd",
+        "subject": "Merge pull request #333 from spring-petclinic/dependabot/maven/org.springframework.boot-spring-boot-starter-parent-4.1.0",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "201603e1279aff673f296b7aeed0b2442905bd05",
+        "subject": "Merge pull request #334 from spring-petclinic/dependabot/maven/org.openapitools-openapi-generator-maven-plugin-7.23.0",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "f70bb4bd1022e472b0b3fad6b7debeaaa2f6e790",
+        "subject": "Merge pull request #335 from spring-petclinic/dependabot/maven/org.jacoco-jacoco-maven-plugin-0.8.15",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "5b705f16f43c0760ac44013a3d434a536bb269c7",
+        "subject": "chore(deps): bump org.jacoco:jacoco-maven-plugin from 0.8.14 to 0.8.15",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "005068288e93a365ecbb54c963dff6591697c471",
+        "subject": "chore(deps-dev): bump org.openapitools:openapi-generator-maven-plugin",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "2a3f1759468cf7ec2f35079291da6719576be093",
+        "subject": "chore(deps): bump org.springframework.boot:spring-boot-starter-parent",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "7690a61fb289fb9b0cc41b6b2fb115e83dec122d",
+        "subject": "Merge pull request #329 from San-43/feature/pets-v2-pagination",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "03af87f40aafa2d2358630817c0f38bfa7e3c161",
+        "subject": "Merge pull request #330 from spring-petclinic/dependabot/maven/org.apache.maven.plugins-maven-site-plugin-3.22.0",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "3110e637a7ac5c53311679377b58f0e578efe5d6",
+        "subject": "chore(deps-dev): bump org.apache.maven.plugins:maven-site-plugin",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "4020fdbca5eaaa0ab63763f576af47bf8233c923",
+        "subject": "Merge pull request #328 from San-43/feature/owners-v2-pagination",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "32d530bf420ffdfb6c2b091dced7d91c2a2b663e",
+        "subject": "Merge pull request #322 from San-43/Update-Maven-Wrapper-to-latest-version-(3.3.4)",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "c480fee78015523373e7696bf0d828bf7a265306",
+        "subject": "chore(deps): bump org.springdoc:springdoc-openapi-starter-webmvc-ui (#325)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "eecdd34f77e8908c223a1cd6ccc8cd6ac0efe377",
+        "subject": "chore(deps-dev): bump org.openapitools:openapi-generator-maven-plugin (#324)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "01cc4795c251be11d1d5bb6fa1f543c7b013f31d",
+        "subject": "chore(deps): bump org.springframework.boot:spring-boot-starter-parent (#323)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "c5f6180390c15f71ea97abb1994be8eb73b68ba6",
+        "subject": "Update Maven Wrapper to latest version",
+        "rule": "E7_TEST_ONLY",
+        "reason": "Test-only commit or no active non-Test components in pre-change graph"
+      },
+      {
+        "commitHash": "155f89a08828386493c27b5584cd2a93d0dcfc39",
+        "subject": "chore(deps-dev): bump org.openapitools:openapi-generator-maven-plugin (#314)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "90974c3df8005bc6ca117e2a2e17e2474b2c4ef1",
+        "subject": "chore(deps): bump org.openapitools:jackson-databind-nullable (#313)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "044bc7f7d343d6cb159b63dd831512a5715830fc",
+        "subject": "chore(deps-dev): bump org.apache.rat:apache-rat-plugin from 0.17 to 0.18 (#312)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "45f53e6398e6b3c566caf40c5799cdcfe1fcb389",
+        "subject": "Merge pull request #306 from San-43/fix-305-validation-error-details",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "9d3c02bf9bb52b22c058b3e6d811c55771897c67",
+        "subject": "\"fix(advice): Map validation errors to ValidationMessageDTO instead of generic maps.",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (org.springframework.samples.petclinic.rest.advice.ExceptionControllerAdvice); cannot split into input + target"
+      },
+      {
+        "commitHash": "4c5c1cc356d4093136e5eea3bfb31f387d7740a1",
+        "subject": "fix(advice): enhance validation error handling to include schema validation errors",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (org.springframework.samples.petclinic.rest.advice.ExceptionControllerAdvice); cannot split into input + target"
+      },
+      {
+        "commitHash": "0dc4e6466cc3dff5696c356593e4d1024a8a394e",
+        "subject": "fix(advice): include binding errors in validation error handling",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (org.springframework.samples.petclinic.rest.advice.ExceptionControllerAdvice); cannot split into input + target"
+      },
+      {
+        "commitHash": "5ee3fa8dc41f23f79a5a13e94574e8f7e436616e",
+        "subject": "test(owner): fix typos in variable names in createOwner error handling test",
+        "rule": "E7_TEST_ONLY",
+        "reason": "Test-only commit or no active non-Test components in pre-change graph"
+      },
+      {
+        "commitHash": "396571e20ca147e380e2e4a30f329e747ebcaef1",
+        "subject": "test(advice): add generic-error response tests for owner/pet endpoints",
+        "rule": "E7_TEST_ONLY",
+        "reason": "Test-only commit or no active non-Test components in pre-change graph"
+      },
+      {
+        "commitHash": "d18b7c4b376fddf66e348573139754389313c853",
+        "subject": "fix(advice): sanitize error details and add validation tests for owner pets",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (org.springframework.samples.petclinic.rest.advice.ExceptionControllerAdvice); cannot split into input + target"
+      },
+      {
+        "commitHash": "c04a4a587e3c9c89c6e89185fa30a921051e41a9",
+        "subject": "Merge pull request #309 from sourav-18/fix-duplicate-admin-user",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "d66f39e04fff68d00ac9e88884d257d28b77663d",
+        "subject": "fix: prevent duplicate admin user insertion on restart",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "18470806224c765f411dda7912b1a6e9446956d9",
+        "subject": "Merge pull request #295 from Rajshri-Firke/feature/pet-birthdate-validation",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "c2cdc055385f6e997148fa8dc2d12ec5833b2f38",
+        "subject": "Merge pull request #302 from San-43/fix-287-hide-technical-error-details",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "296edb5e8efff6fddaad021b5044abce9ecf94c2",
+        "subject": "Merge branch 'spring-petclinic:master' into fix-287-hide-technical-error-details",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "407f7cab4af624c4325ed126150a9ef3447fe3cd",
+        "subject": "Refactor testCreatePetShouldNotExposeTechnicalDetails",
+        "rule": "E7_TEST_ONLY",
+        "reason": "Test-only commit or no active non-Test components in pre-change graph"
+      },
+      {
+        "commitHash": "34eff332b11c98d55095a541159c1929a22247d0",
+        "subject": "chore(deps): bump org.springdoc:springdoc-openapi-starter-webmvc-ui (#297)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "e304cb6c607a4018ad54e03130071498855f792e",
+        "subject": "chore(deps-dev): bump org.hjug.refactorfirst.plugin:refactor-first-maven-plugin (#298)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "0329768ffe22961c53af08d81e1fa29d850aa511",
+        "subject": "chore(deps): bump org.openapitools:jackson-databind-nullable (#296)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "a1e2595ccaeb637e24d88d91adc18f68a6da5580",
+        "subject": "chore(deps-dev): bump org.openapitools:openapi-generator-maven-plugin (#299)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "0d5964213e8303e98adb01255f162fb4782ccec2",
+        "subject": "chore(deps): bump org.springframework.boot:spring-boot-starter-parent (#300)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "13789d0597ff1bc0e5271a1f01482f02bfdf3cab",
+        "subject": "Add custom validation for pet birth date and unit tests",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (org.springframework.samples.petclinic.rest.controller.OwnerRestController); cannot split into input + target"
+      },
+      {
+        "commitHash": "68921fdca0200e625c1766999941ecbdb23be279",
+        "subject": "chore(deps-dev): bump org.codehaus.mojo:license-maven-plugin (#290)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "ada68dc18a43e41c4ee8fb770474dc9f878eee27",
+        "subject": "chore(deps-dev): bump org.openapitools:openapi-generator-maven-plugin (#291)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "d8026bb5bcc58145b95a66a7f8e7694f0fae142f",
+        "subject": "Merge pull request #289 from arey/feature/spring-boot-4",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "5030c754f15df05d07335bed2e5b61a5f6f40d1f",
+        "subject": "chore(deps): bump com.google.cloud.tools:jib-maven-plugin (#275)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "562807ebf59c230f394e2c5701136bddd3f91672",
+        "subject": "chore(deps): bump org.openapitools:openapi-generator-maven-plugin (#272)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "e0c3456a7772e25c9c594b21697e36817e8bc847",
+        "subject": "chore(deps): bump org.apache.rat:apache-rat-plugin from 0.16.1 to 0.17 (#270)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "9cdbf8f712fbe3a8e22940e84c09f67a79d97727",
+        "subject": "chore(deps): bump org.openapitools:jackson-databind-nullable (#267)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "5e78914bb18349d84766d14702127d93e1fc1cd1",
+        "subject": "chore(deps): bump org.jacoco:jacoco-maven-plugin from 0.8.13 to 0.8.14 (#266)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "7882f8aea25186a52c27f531f2a2c76d85c973a7",
+        "subject": "chore(deps): bump org.openapitools:openapi-generator-maven-plugin (#268)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "494f99276d6cfc0aef4b02f78545379af68f4b23",
+        "subject": "chore(deps): bump org.springframework.boot:spring-boot-starter-parent (#269)",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "5848de84f424c2cbfc0145f687b43f84a219e36c",
+        "subject": "Merge pull request #263 from arey/bugfix/githubactions-S7637",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "99b582bb249a1b78a724377c36515741cdf84b4e",
+        "subject": "chore(ci): update Docker actions to specific versions in workflow",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "ff9e7ed8d26b465fbed3fa359148481acf900d29",
+        "subject": "Merge pull request #258 from spring-petclinic/dependabot/maven/org.springdoc-springdoc-openapi-starter-webmvc-ui-2.8.13",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "487ad34a6fe9729bed68055fe04d3ba035798dae",
+        "subject": "Merge pull request #259 from spring-petclinic/dependabot/maven/org.springframework.boot-spring-boot-starter-parent-3.5.6",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "b997b5ddea76ddab005ceeb5a27c3bc948c0a873",
+        "subject": "chore(deps): bump org.springdoc:springdoc-openapi-starter-webmvc-ui",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "25a0e3abc04db3d3d4791de5d9840a2b61c70006",
+        "subject": "Merge pull request #260 from spring-petclinic/dependabot/maven/org.openapitools-jackson-databind-nullable-0.2.7",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "fae776d416deadbdd7fec4b93f8eadc24320eb18",
+        "subject": "Merge pull request #262 from spring-petclinic/dependabot/maven/org.openapitools-openapi-generator-maven-plugin-7.16.0",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "2e934fa48213b64a33f4ce28b83f4fea181bf49d",
+        "subject": "chore(deps): bump org.openapitools:openapi-generator-maven-plugin",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "f569806735a6ca77c90bb0d412c51c27e14ae008",
+        "subject": "Merge pull request #261 from spring-petclinic/dependabot/maven/org.codehaus.mojo-license-maven-plugin-2.7.0",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "b19f4f078ced615eccba1356149e4fc947014a5c",
+        "subject": "chore(deps): bump org.codehaus.mojo:license-maven-plugin",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "6fc685072a6386c42977f29d890aa498783d2a71",
+        "subject": "chore(deps): bump org.openapitools:jackson-databind-nullable",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "4df25e026c260d808aab8ea30bb5a646c1492844",
+        "subject": "chore(deps): bump org.springframework.boot:spring-boot-starter-parent",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "a2e3b93f13ab4a54a0a319b2babe29cd073cebd4",
+        "subject": "Merge pull request #255 from Toparvion/fix-h2-sql-error",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "ff80e67da0a00ab12ff2ec1378c01beb0c771066",
+        "subject": "Fix H2 SQL error in JDBC mode",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (org.springframework.samples.petclinic.repository.jdbc.JdbcVisitRepositoryImpl); cannot split into input + target"
+      },
+      {
+        "commitHash": "117c867ca9cd70974be256183b9018f7ccbe1a04",
+        "subject": "Merge pull request #253 from Toparvion/hix-h2-console-access",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "480719795769a09f4bc60b8081fdac10e5b679a4",
+        "subject": "Merge pull request #252 from Toparvion/fix-db-init-error",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "3fab1d360092d8f68af70fe00e8d38946c6bb258",
+        "subject": "Make the H2 console accessible when security configuration is disabled",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (org.springframework.samples.petclinic.security.DisableSecurityConfig); cannot split into input + target"
+      },
+      {
+        "commitHash": "4800ba79b865ba5d31ec07054c86d225ad737262",
+        "subject": "Fix database initialization when switching back to HSQLDB",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "8409c0a7361a56b5526ae2fd2f60f723c6e3d30a",
+        "subject": "Visit post (#234)",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (org.springframework.samples.petclinic.rest.controller.VisitRestController); cannot split into input + target"
+      },
+      {
+        "commitHash": "6236d30656c3e8d3836be3a9c4ab9df9decb72db",
+        "subject": "chore(deps): bump org.springframework.boot:spring-boot-starter-parent",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "d6c1fb1ff62a2cf047630f8014beb638251fcd48",
+        "subject": "Fix: Removed validation dependency and reverted toString changes",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (org.springframework.samples.petclinic.model.Owner); cannot split into input + target"
+      },
+      {
+        "commitHash": "db1a0ee95cb4e9a5645fc885ff725939b7b53bbc",
+        "subject": "Added phone number pattern validation for Owner.java",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (org.springframework.samples.petclinic.model.Owner); cannot split into input + target"
+      },
+      {
+        "commitHash": "2345dca0674d354fc765663b50b963bd3b8cb653",
+        "subject": "chore(deps): bump org.openapitools:openapi-generator-maven-plugin",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "46d828376e0de1ac6953d3464968c93f45846a48",
+        "subject": "chore(deps): bump org.springframework.boot:spring-boot-starter-parent",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "65a44c816878e9debb7032ae9af74aa20aa8a26f",
+        "subject": "chore(deps): bump org.springdoc:springdoc-openapi-starter-webmvc-ui",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "c9e23b48399b0efe7413ba4acc0b15cce40bd341",
+        "subject": "chore(deps): bump com.google.cloud.tools:jib-maven-plugin",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "e28c2708feb8ab47a22adecb6079e6cc083bdfaa",
+        "subject": "chore(deps): bump org.codehaus.mojo:license-maven-plugin",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "3a890079df87610027d4d3e5c6447e72350071d4",
+        "subject": "chore(deps): bump org.springdoc:springdoc-openapi-starter-webmvc-ui",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "58ae4387d6b8bfbf99422054ad7f8871c7d1ce89",
+        "subject": "Merge pull request #229 from ARMS2025/resolve-mismatch-stubbings-1",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "73b992d04f1b01890591a1bba2b1cc7ce39a82e6",
+        "subject": "Merge pull request #230 from ARMS2025/resolve-mismatch-stubbings-2",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "123ef4f276c97739c8f55e2478a7c8ec948da163",
+        "subject": "Resolved mismatch stubbings in VetRestControllerTests.java",
+        "rule": "E7_TEST_ONLY",
+        "reason": "Test-only commit or no active non-Test components in pre-change graph"
+      },
+      {
+        "commitHash": "bd91d6f6503dd0239e3dd47df27e301e9ea56621",
+        "subject": "Resolved mismatch stubbings in PetRestControllerTests.java",
+        "rule": "E7_TEST_ONLY",
+        "reason": "Test-only commit or no active non-Test components in pre-change graph"
+      },
+      {
+        "commitHash": "186ef0f6480d921eec65c66e89d4bf82488ccd42",
+        "subject": "Fix: added BCryptPasswordEncoder, updateed data.sql with bcrypt-hashed passwords",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (org.springframework.samples.petclinic.security.BasicAuthenticationConfig); cannot split into input + target"
+      },
+      {
+        "commitHash": "7ce622ba6157fa1293b1c1e96206b392f25c3d2a",
+        "subject": "Merge pull request #227 from spring-petclinic/dependabot/maven/org.jacoco-jacoco-maven-plugin-0.8.13",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "9780d06186f82b091b8c4f2902443caecb4bcbd8",
+        "subject": "Merge pull request #226 from spring-petclinic/dependabot/maven/org.openapitools-openapi-generator-maven-plugin-7.13.0",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      }
+    ],
+    "totalTargetSourceComps": 57,
+    "reliableTargetSourceComps": 25,
+    "targetCategoryCounts": {
+      "METHOD_SIGNATURE_OR_DECLARATION": 0,
+      "METHOD_BODY_OR_IMPLEMENTATION": 25,
+      "FIELD_OR_DATA_SHAPE": 0,
+      "TYPE_OR_INHERITANCE": 0,
+      "ADD_DELETE_OR_RENAME": 0,
+      "UNKNOWN_OR_MIXED": 32
+    },
+    "indexedHistoricalEpisodes": 26,
+    "categoryOpportunities": {
+      "METHOD_SIGNATURE_OR_DECLARATION": {
+        "positivePairs": 0,
+        "negativePairs": 0,
+        "totalOpportunities": 0
+      },
+      "METHOD_BODY_OR_IMPLEMENTATION": {
+        "positivePairs": 124,
+        "negativePairs": 927,
+        "totalOpportunities": 1051
+      },
+      "FIELD_OR_DATA_SHAPE": {
+        "positivePairs": 0,
+        "negativePairs": 0,
+        "totalOpportunities": 0
+      },
+      "TYPE_OR_INHERITANCE": {
+        "positivePairs": 0,
+        "negativePairs": 0,
+        "totalOpportunities": 0
+      },
+      "ADD_DELETE_OR_RENAME": {
+        "positivePairs": 0,
+        "negativePairs": 0,
+        "totalOpportunities": 0
+      },
+      "UNKNOWN_OR_MIXED": {
+        "positivePairs": 196,
+        "negativePairs": 569,
+        "totalOpportunities": 765
+      }
+    },
+    "pathPatternStats": {
+      "totalUniquePatterns": 109,
+      "patternsWithPositiveSupport": 60,
+      "patternsInMultipleCommits": 101,
+      "supportSingle": 7,
+      "support2to5": 26,
+      "support6plus": 76
+    },
+    "fallbackSimulation": {
+      "totalCandidatesEvaluated": 1031,
+      "conditionedCount": 320,
+      "conditionedPct": "31.04",
+      "genericCount": 36,
+      "genericPct": "3.49",
+      "structuralCount": 675,
+      "structuralPct": "65.47"
+    }
+  },
+  "shopizer": {
+    "repoName": "Shopizer",
+    "repoPath": "c:/yashika/STUDY/clg_project/shopizer",
+    "durationSec": "60.13",
+    "totalCommitsInspected": 54,
+    "eligibleCommitsCount": 12,
+    "looCasesCount": 46,
+    "exclusionsCount": 42,
+    "exclusions": [
+      {
+        "commitHash": "6a4a0a65a3408ee8f62597b51d1b3aac24b77dee",
+        "subject": "Update README.md",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "b8db16cc0e34298251e4ac926bcc94fa7cc2aabf",
+        "subject": "Update README.md",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "ce31370bd24b4181c93a1b4d162bd05b957f6eef",
+        "subject": "Update README.md",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "dfd4b7ef9d9196a4171a58f84d388c3f51a96452",
+        "subject": "3.2.7",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "05dc1e53e156c22dfefee1e3daeb251ea080e6c0",
+        "subject": "working version",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (com.salesmanager.shop.mapper.catalog.ReadableCategoryMapper); cannot split into input + target"
+      },
+      {
+        "commitHash": "e1451b7cddbf5d5b4098c701f451b9a0f65dff9e",
+        "subject": "reverted version",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "3441f272d8c17cf8ee5d41a0a397229f0a5669a3",
+        "subject": "3.2.7",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "40d126afd5ae7aa7b89c1b7544adcdfb19634d05",
+        "subject": "cleanup",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "d3a2b10817a0d539a02e161fae832b6a2350b0eb",
+        "subject": "berrrk",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "d38038851bf603b26284261a87da59dbc8a07d97",
+        "subject": "bof",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "054a3bde1ea8894d13b0a8fb4e28f9db17262224",
+        "subject": "ProductApi",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (com.salesmanager.shop.store.api.v1.product.ProductApi); cannot split into input + target"
+      },
+      {
+        "commitHash": "c36d9ae66fa0e08c39d17dd978b8bc5f6a9f08bc",
+        "subject": "ProductApi",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (com.salesmanager.shop.store.api.v1.product.ProductApi); cannot split into input + target"
+      },
+      {
+        "commitHash": "1e495f7893a5b3b270de23358787c9635bf4ad41",
+        "subject": "slack url",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "f811b3c83702348ba8ca116f29bbd0b06d031b40",
+        "subject": "slack url",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "4ddd9b6fa72533376a7bc28085d67eb7a9c8d243",
+        "subject": "Merge pull request #874 from shivajshankar/fix/dp1",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "1f91f6a085d1bc9db7a679016c444e4b8fcaf9cc",
+        "subject": "Merge pull request #874 from shivajshankar/fix/dp1",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "50ecad795f23f1441823702df26fbe09f8c1add7",
+        "subject": "Merge branch 'main' into fix/dp1",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "46758d35ec27b6bf4e9d907ed025d6950b3f4f11",
+        "subject": "Merge branch 'main' into fix/dp1",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "6d6c78728d772176067e479445d86c8036928e95",
+        "subject": "Merge pull request #890 from SimonHasak/bug/existsBySku_query_fixed",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "5c20a1c3eed3d5b20121805f45c41f1277ef33a1",
+        "subject": "Merge pull request #890 from SimonHasak/bug/existsBySku_query_fixed",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "4ce46e4bfa9726c4f8619ec32624beae7b8336c2",
+        "subject": "existsBySku query in ProductRepository fixed",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (com.salesmanager.core.business.repositories.catalog.product.ProductRepository); cannot split into input + target"
+      },
+      {
+        "commitHash": "4fbdff7fb70339d30bce09c9d2eced9793f2c266",
+        "subject": "existsBySku query in ProductRepository fixed",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (com.salesmanager.core.business.repositories.catalog.product.ProductRepository); cannot split into input + target"
+      },
+      {
+        "commitHash": "672d88f0c3d43572a0333b0b14cf642857c599b5",
+        "subject": "List products by category friendly url",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (com.salesmanager.shop.store.api.v2.product.ProductApiV2); cannot split into input + target"
+      },
+      {
+        "commitHash": "30f00049d1023e9d6c70c8928cbb2a06f683361f",
+        "subject": "List products by category friendly url",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (com.salesmanager.shop.store.api.v2.product.ProductApiV2); cannot split into input + target"
+      },
+      {
+        "commitHash": "e0a1b61381f2f276974e534c54154c0ecd26d15c",
+        "subject": "making products/<id> work for backward compatability",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (com.salesmanager.shop.store.api.v1.product.ProductApi); cannot split into input + target"
+      },
+      {
+        "commitHash": "022c6f10962978ef4898c323aac4130a6fae328b",
+        "subject": "making products/<id> work for backward compatability",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (com.salesmanager.shop.store.api.v1.product.ProductApi); cannot split into input + target"
+      },
+      {
+        "commitHash": "dd7ea9e4f72ccd33a3f467b3e235e2dfe195a3b7",
+        "subject": "documentqtion link change",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (com.salesmanager.core.business.services.reference.init.InitializationDatabaseImpl); cannot split into input + target"
+      },
+      {
+        "commitHash": "1876a7e1b285207605769a5547c61cfcc65e2132",
+        "subject": "documentqtion link change",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (com.salesmanager.core.business.services.reference.init.InitializationDatabaseImpl); cannot split into input + target"
+      },
+      {
+        "commitHash": "f304ca5254322978b6207ded5ae000636c9dcb57",
+        "subject": "Merge branch 'main' of github.com:shopizer-ecommerce/shopizer",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "852b82b0da5a3f3aefeb8b63384bc999ee4dc610",
+        "subject": "Merge branch 'main' of github.com:shopizer-ecommerce/shopizer",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "b900080513272c2b8d0755428c626a2e3bc32ae4",
+        "subject": "Merge pull request #868 from Kordedekehine/main",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "2df952e90e65dba4bd9b7a475653628189aa83b9",
+        "subject": "Merge pull request #868 from Kordedekehine/main",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "1c0ee17e69355d22d7c1d068d4f56967bb48441c",
+        "subject": "Correct web name typo in the main pom",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "b540ad05ee1eb67652b990dcfd4c6ad410a6525e",
+        "subject": "Correct web name typo in the main pom",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "56c4cf3a80d58608a27efab1d0ec93f97f9ba7db",
+        "subject": "Merge pull request #865 from cdigruttola/bugfix/jackson-version",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "4e0ed676ff975361258e134fcf03a87163f28681",
+        "subject": "Merge pull request #865 from cdigruttola/bugfix/jackson-version",
+        "rule": "E1_MERGE_COMMIT",
+        "reason": "Merge commit; excluded from single-change causality"
+      },
+      {
+        "commitHash": "d008e1498b80e81be43b28fa41c392c92695b8e1",
+        "subject": "PR 865",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "fd83d420844ca77090a0d2f5b5633d40cddf39ae",
+        "subject": "modify jackson version to avoid error on startup",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "66ffd6f8e3db0ae516bb28cd466d436bcbfacfd5",
+        "subject": "fixed load of mappings",
+        "rule": "E8_SINGLE_NON_TEST",
+        "reason": "Only 1 non-Test component in pre-change graph (com.salesmanager.core.business.services.search.SearchServiceImpl); cannot split into input + target"
+      },
+      {
+        "commitHash": "38ff7d42760dff34cdcb028f6c0fbd841b802ac3",
+        "subject": "tag in circle",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "507eccc50dfe32b365dbe0fd39e7fd99821f79d2",
+        "subject": "3.2.5 doc",
+        "rule": "E2/E3/E4_NO_JAVA",
+        "reason": "No eligible Java source files touched in commit"
+      },
+      {
+        "commitHash": "052d2ed3c026525329405cef433c0aca7dd2cee3",
+        "subject": "3.2.5 - main default branch",
+        "rule": "E9_ROOT_COMMIT",
+        "reason": "Root commit has no parent revision; cannot reconstruct pre-change structural graph"
+      }
+    ],
+    "totalTargetSourceComps": 46,
+    "reliableTargetSourceComps": 21,
+    "targetCategoryCounts": {
+      "METHOD_SIGNATURE_OR_DECLARATION": 11,
+      "METHOD_BODY_OR_IMPLEMENTATION": 10,
+      "FIELD_OR_DATA_SHAPE": 0,
+      "TYPE_OR_INHERITANCE": 0,
+      "ADD_DELETE_OR_RENAME": 0,
+      "UNKNOWN_OR_MIXED": 25
+    },
+    "indexedHistoricalEpisodes": 24,
+    "categoryOpportunities": {
+      "METHOD_SIGNATURE_OR_DECLARATION": {
+        "positivePairs": 24,
+        "negativePairs": 931,
+        "totalOpportunities": 955
+      },
+      "METHOD_BODY_OR_IMPLEMENTATION": {
+        "positivePairs": 27,
+        "negativePairs": 746,
+        "totalOpportunities": 773
+      },
+      "FIELD_OR_DATA_SHAPE": {
+        "positivePairs": 0,
+        "negativePairs": 0,
+        "totalOpportunities": 0
+      },
+      "TYPE_OR_INHERITANCE": {
+        "positivePairs": 0,
+        "negativePairs": 0,
+        "totalOpportunities": 0
+      },
+      "ADD_DELETE_OR_RENAME": {
+        "positivePairs": 0,
+        "negativePairs": 0,
+        "totalOpportunities": 0
+      },
+      "UNKNOWN_OR_MIXED": {
+        "positivePairs": 61,
+        "negativePairs": 1225,
+        "totalOpportunities": 1286
+      }
+    },
+    "pathPatternStats": {
+      "totalUniquePatterns": 106,
+      "patternsWithPositiveSupport": 35,
+      "patternsInMultipleCommits": 106,
+      "supportSingle": 0,
+      "support2to5": 35,
+      "support6plus": 71
+    },
+    "fallbackSimulation": {
+      "totalCandidatesEvaluated": 2081,
+      "conditionedCount": 195,
+      "conditionedPct": "9.37",
+      "genericCount": 111,
+      "genericPct": "5.33",
+      "structuralCount": 1775,
+      "structuralPct": "85.30"
+    }
+  }
+}

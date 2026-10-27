@@ -18,17 +18,24 @@ function loadFallbackData() {
 /**
  * Computes potentially impacted components using Neo4j.
  */
-async function analyzeImpactNeo4j(changedIds) {
+async function analyzeImpactNeo4j(changedIds, projectName = null) {
   const d = getDriver();
   const session = d.session();
   
   try {
-    const query = `
-      MATCH path = (a:Component)-[r:DEPENDS_ON|USES|TESTS*1..2]-(b:Component)
-      WHERE b.id IN $changedIds AND NOT a.id IN $changedIds
-      RETURN path
-    `;
-    const res = await session.run(query, { changedIds });
+    const query = projectName
+      ? `
+        MATCH path = (a:Component)-[r:DEPENDS_ON|USES|TESTS*1..2]-(b:Component)
+        WHERE b.id IN $changedIds AND NOT a.id IN $changedIds
+          AND a.project = $projectName AND b.project = $projectName
+        RETURN path
+      `
+      : `
+        MATCH path = (a:Component)-[r:DEPENDS_ON|USES|TESTS*1..2]-(b:Component)
+        WHERE b.id IN $changedIds AND NOT a.id IN $changedIds
+        RETURN path
+      `;
+    const res = await session.run(query, { changedIds, projectName });
     
     const impacts = processNeo4jPaths(res.records, changedIds);
     return impacts;
@@ -149,24 +156,31 @@ function processNeo4jPaths(records, changedIds) {
         reasoningPath = `${impactedId} ➔ [TESTS] ➔ ${n1} ➔ [${rel2}] ➔ ${n2}`;
       }
       else {
-        reason = `${impactedId} is connected via indirect path to ${sourceChangedNode.properties.id}.`;
-        reasoningPath = `${pathNodes[0]} ➔ [${pathRels[0]}] ➔ ${pathNodes[1]} ➔ [${pathRels[1]}] ➔ ${pathNodes[2]}`;
+        // Exclude alternating paths to maintain exact parity with in-memory traversal
+        continue;
       }
     }
 
     const existing = impactMap.get(impactedId);
     if (!existing || getImpactPriority(impactLevel) > getImpactPriority(existing.impactLevel)) {
       impactMap.set(impactedId, {
-        name: impactedId,
+        id: impactedId,
+        name: targetComponentNode.properties.name || impactedId,
+        displayName: targetComponentNode.properties.name || impactedId,
         type: impactedType,
         impactLevel,
         reason,
-        reasoningPath
+        reasoningPath,
+        hopDistance: segments.length
       });
     }
   }
 
-  return Array.from(impactMap.values()).sort((a, b) => getImpactPriority(b.impactLevel) - getImpactPriority(a.impactLevel));
+  return Array.from(impactMap.values()).sort((a, b) => {
+    const priDiff = getImpactPriority(b.impactLevel) - getImpactPriority(a.impactLevel);
+    if (priDiff !== 0) return priDiff;
+    return a.id.localeCompare(b.id);
+  });
 }
 
 function getImpactPriority(level) {
@@ -295,7 +309,12 @@ export function analyzeImpactInMemory(changedIds, options = {}) {
         let reasoningPath = '';
         let valid = false;
 
-        if (conn2.direction === 'incoming' && conn1.direction === 'incoming') {
+        if (conn2.type === 'TESTS' && conn2.direction === 'incoming' && conn1.direction === 'incoming') {
+          reason = `${leafId} tests ${midId}, which directly depends on the changed component ${changedId}.`;
+          reasoningPath = `${leafId} ➔ [TESTS] ➔ ${midId} ➔ [${conn1.type}] ➔ ${changedId}`;
+          valid = true;
+        }
+        else if (conn2.direction === 'incoming' && conn1.direction === 'incoming') {
           reason = `${leafId} depends indirectly on the changed component ${changedId} via ${midId}.`;
           reasoningPath = `${leafId} ➔ [${conn2.type}] ➔ ${midId} ➔ [${conn1.type}] ➔ ${changedId}`;
           valid = true;
@@ -303,11 +322,6 @@ export function analyzeImpactInMemory(changedIds, options = {}) {
         else if (conn1.direction === 'outgoing' && conn2.direction === 'outgoing') {
           reason = `${leafId} is indirectly used by the changed component ${changedId} via ${midId}.`;
           reasoningPath = `${changedId} ➔ [${conn1.type}] ➔ ${midId} ➔ [${conn2.type}] ➔ ${leafId}`;
-          valid = true;
-        }
-        else if (conn2.type === 'TESTS' && conn2.direction === 'incoming' && conn1.direction === 'incoming') {
-          reason = `${leafId} tests ${midId}, which directly depends on the changed component ${changedId}.`;
-          reasoningPath = `${leafId} ➔ [TESTS] ➔ ${midId} ➔ [${conn1.type}] ➔ ${changedId}`;
           valid = true;
         }
 
@@ -346,12 +360,42 @@ export async function analyzeImpact(changedIds, options = {}) {
     return [];
   }
 
+  const requestedRepo = options.repoPath ? path.resolve(options.repoPath) : null;
+  let fallback = options.data || loadFallbackData();
+
+  if (requestedRepo && (!fallback.repoPath || path.resolve(fallback.repoPath) !== requestedRepo) && fs.existsSync(requestedRepo)) {
+    try {
+      const { analyzeRepository } = await import('../analyzers/javaAnalyzer.js');
+      const fresh = analyzeRepository(requestedRepo);
+      fallback = {
+        repoPath: requestedRepo,
+        projectName: path.basename(requestedRepo),
+        analyzedAt: new Date().toISOString(),
+        components: fresh.components,
+        relationships: fresh.relationships
+      };
+      const filePath = path.join(import.meta.dirname || '.', '../../analysis_output.json');
+      fs.writeFileSync(filePath, JSON.stringify(fallback, null, 2), 'utf-8');
+    } catch (e) {
+      console.warn('Failed to dynamically analyze requestedRepo in impactEngine:', e.message);
+    }
+  }
+
+  const resolvedIds = (fallback.components && fallback.components.length > 0)
+    ? changedIds.map(seed => {
+        const direct = fallback.components.find(c => c.id === seed || c.name === seed);
+        if (direct) return direct.id;
+        const suffix = fallback.components.find(c => c.id.endsWith(`.${seed}`));
+        return suffix ? suffix.id : seed;
+      })
+    : changedIds;
+
   const isNeo4jConnected = await verifyConnection();
   if (isNeo4jConnected) {
     console.log('🔗 [BaselineEngine] Running Change Impact Analysis using live Neo4j database...');
-    return await analyzeImpactNeo4j(changedIds);
+    return await analyzeImpactNeo4j(resolvedIds, options.project || (requestedRepo ? path.basename(requestedRepo) : null));
   } else {
     console.log('⚡ [BaselineEngine] Neo4j is offline; running via in-memory fallback graph.');
-    return analyzeImpactInMemory(changedIds, options);
+    return analyzeImpactInMemory(resolvedIds, { ...options, data: fallback });
   }
 }

@@ -6,31 +6,95 @@ import util from 'util';
 import { analyzeRepository } from '../analyzers/javaAnalyzer.js';
 import { clearGraph, storeGraph, verifyConnection, getAllComponents, getAllRelationships } from '../services/neo4jService.js';
 import { analyzeImpact } from '../services/impactEngine.js';
+import { validateRepository, getAvailableExampleRepositories, normalizeRepoPath } from '../services/repoValidation.js';
 
 const execAsync = util.promisify(exec);
 
 const router = express.Router();
-const defaultRepoPath = 'c:/yashika/STUDY/clg_project/spring-petclinic-rest';
 
 // Helper to get local JSON filepath
 const getJsonFilePath = () => path.join(import.meta.dirname || '.', '../../analysis_output.json');
 
 /**
- * Endpoint to analyze a local Spring Boot repository.
+ * Validate a local repository path before analysis.
+ */
+router.post('/validate-repository', (req, res) => {
+  const repoPath = req.body?.repoPath;
+  const result = validateRepository(repoPath);
+  if (!result.valid) {
+    return res.status(400).json({ success: false, ...result });
+  }
+  res.json({ success: true, ...result });
+});
+
+/**
+ * Get system-discovered preset example repositories.
+ */
+router.get('/example-repositories', (req, res) => {
+  const examples = getAvailableExampleRepositories();
+  res.json({ success: true, examples });
+});
+
+/**
+ * Get active/currently analyzed repository info.
+ */
+router.get('/current-repository', (req, res) => {
+  const jsonPath = getJsonFilePath();
+  if (fs.existsSync(jsonPath)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+      if (data.repoPath && data.projectName) {
+        return res.json({
+          success: true,
+          repoPath: data.repoPath,
+          projectName: data.projectName,
+          analyzedAt: data.analyzedAt || null,
+          componentsCount: data.components?.length || 0,
+          relationshipsCount: data.relationships?.length || 0
+        });
+      }
+    } catch {}
+  }
+  res.json({ success: false, repoPath: null, projectName: null });
+});
+
+/**
+ * Endpoint to analyze a local Java / Spring Boot repository.
+ * Requires an explicit, valid repoPath. Never silently substitutes PetClinic.
  */
 router.post('/analyse-repository', async (req, res) => {
-  const repoPath = req.body.repoPath || defaultRepoPath;
+  const rawRepoPath = req.body?.repoPath;
 
-  if (!fs.existsSync(repoPath)) {
-    return res.status(400).json({ success: false, error: `Repository path does not exist: ${repoPath}` });
+  if (!rawRepoPath || typeof rawRepoPath !== 'string' || rawRepoPath.trim().length === 0) {
+    return res.status(400).json({
+      success: false,
+      code: 'MISSING_PATH',
+      error: 'Please enter a repository path. The path cannot be empty.'
+    });
   }
 
+  const validation = validateRepository(rawRepoPath);
+  if (!validation.valid) {
+    return res.status(400).json({ success: false, ...validation });
+  }
+
+  const repoPath = validation.repoPath;
+  const projectName = validation.projectName;
+
   try {
-    console.log(`🤖 Starting API Repository Analysis for: ${repoPath}`);
+    console.log(`🤖 Starting API Repository Analysis for: ${repoPath} (${projectName})`);
     const result = analyzeRepository(repoPath);
 
+    const outputData = {
+      repoPath,
+      projectName,
+      analyzedAt: new Date().toISOString(),
+      components: result.components,
+      relationships: result.relationships
+    };
+
     // Save locally to intermediate JSON for fallback and UI retrieval
-    fs.writeFileSync(getJsonFilePath(), JSON.stringify(result, null, 2), 'utf-8');
+    fs.writeFileSync(getJsonFilePath(), JSON.stringify(outputData, null, 2), 'utf-8');
 
     // Attempt Neo4j integration
     const neo4jConnected = await verifyConnection();
@@ -39,7 +103,6 @@ router.post('/analyse-repository', async (req, res) => {
 
     if (neo4jConnected) {
       try {
-        const projectName = path.basename(repoPath);
         await clearGraph(projectName);
         await storeGraph(result, projectName);
         neo4jSaved = true;
@@ -54,6 +117,7 @@ router.post('/analyse-repository', async (req, res) => {
     res.json({
       success: true,
       repoPath,
+      projectName,
       componentsCount: result.components.length,
       relationshipsCount: result.relationships.length,
       neo4jStatus: neo4jConnected ? (neo4jSaved ? 'synchronized' : 'failed') : 'offline',
@@ -74,10 +138,12 @@ router.post('/analyse-repository', async (req, res) => {
 router.get('/components', async (req, res) => {
   try {
     const isNeo4jOnline = await verifyConnection();
+    const requestedProject = req.query.project || (req.query.repoPath ? path.basename(normalizeRepoPath(req.query.repoPath)) : null);
+
     if (isNeo4jOnline) {
-      const components = await getAllComponents(req.query.project);
+      const components = await getAllComponents(requestedProject);
       if (components && components.length > 0) {
-        return res.json({ success: true, components });
+        return res.json({ success: true, components, project: requestedProject });
       }
     }
 
@@ -87,7 +153,38 @@ router.get('/components', async (req, res) => {
       return res.json({ success: true, components: [] });
     }
     const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
-    res.json({ success: true, components: data.components || [] });
+
+    // If a specific repoPath is queried, verify whether the local cache matches
+    if (req.query.repoPath) {
+      const normRequested = normalizeRepoPath(req.query.repoPath);
+      if (data.repoPath && normalizeRepoPath(data.repoPath) !== normRequested) {
+        const validation = validateRepository(normRequested);
+        if (validation.valid) {
+          const freshResult = analyzeRepository(validation.repoPath);
+          const freshData = {
+            repoPath: validation.repoPath,
+            projectName: validation.projectName,
+            analyzedAt: new Date().toISOString(),
+            components: freshResult.components,
+            relationships: freshResult.relationships
+          };
+          fs.writeFileSync(jsonPath, JSON.stringify(freshData, null, 2), 'utf-8');
+          return res.json({
+            success: true,
+            repoPath: validation.repoPath,
+            projectName: validation.projectName,
+            components: freshResult.components || []
+          });
+        }
+      }
+    }
+
+    res.json({
+      success: true,
+      repoPath: data.repoPath || null,
+      projectName: data.projectName || null,
+      components: data.components || []
+    });
   } catch (error) {
     console.error('API /components Error:', error);
     res.status(500).json({ success: false, error: error.message });
@@ -100,10 +197,12 @@ router.get('/components', async (req, res) => {
 router.get('/relationships', async (req, res) => {
   try {
     const isNeo4jOnline = await verifyConnection();
+    const requestedProject = req.query.project || (req.query.repoPath ? path.basename(normalizeRepoPath(req.query.repoPath)) : null);
+
     if (isNeo4jOnline) {
-      const relationships = await getAllRelationships(req.query.project);
+      const relationships = await getAllRelationships(requestedProject);
       if (relationships && relationships.length > 0) {
-        return res.json({ success: true, relationships });
+        return res.json({ success: true, relationships, project: requestedProject });
       }
     }
 
@@ -113,34 +212,176 @@ router.get('/relationships', async (req, res) => {
       return res.json({ success: true, relationships: [] });
     }
     const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
-    res.json({ success: true, relationships: data.relationships || [] });
+    res.json({
+      success: true,
+      repoPath: data.repoPath || null,
+      projectName: data.projectName || null,
+      relationships: data.relationships || []
+    });
   } catch (error) {
     console.error('API /relationships Error:', error);
     res.status(500).json({ success: false, error: error.message });
   }
 });
 
+import { runLiveEGCPv4, runComparativeImpactAnalysis } from '../services/egcpLiveService.js';
+import {
+  runThreeWayImpactAnalysis,
+  getEvaluationCases,
+  runHistoricalEvaluationCase,
+  getCoChangeEvidenceForComponent,
+  getBenchmarkSummary
+} from '../services/threeWayComparisonService.js';
+
 /**
- * Endpoint to analyze change impact.
+ * Change Impact Analysis API with Model Selection.
+ * Supported models:
+ *   - 'canonical' (default): Deterministic BFS 2-hop structural baseline.
+ *   - 'csf': Continuous Score Fusion (OCCP/CSF Frozen Baseline).
+ *   - 'egcp_v4': Evolutionary-Graph Change Propagation v4 Combined model.
+ *   - 'compare' | 'three_way': Evaluates all 3 models on identical candidate universe and outputs alignment.
+ *
+ * Supports both /analyse-impact and /analyze-impact spellings.
  */
-router.post('/analyse-impact', async (req, res) => {
-  const { changedComponents } = req.body;
+router.post(['/analyse-impact', '/analyze-impact'], async (req, res) => {
+  const { changedComponents, model, repoPath: reqRepoPath, editOperation, commitLimit } = req.body;
+
+  if (!changedComponents || !Array.isArray(changedComponents) || changedComponents.length === 0) {
+    return res.status(400).json({ success: false, error: 'Please select at least one changed component.' });
+  }
+
+  // Resolve repository context
+  let repoPath = reqRepoPath;
+  let projectName = null;
+  if (repoPath) {
+    const val = validateRepository(repoPath);
+    if (!val.valid) {
+      return res.status(400).json({ success: false, ...val });
+    }
+    repoPath = val.repoPath;
+    projectName = val.projectName;
+  } else {
+    const jsonPath = getJsonFilePath();
+    if (fs.existsSync(jsonPath)) {
+      try {
+        const cached = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+        if (cached.repoPath) {
+          repoPath = cached.repoPath;
+          projectName = cached.projectName || path.basename(cached.repoPath);
+        }
+      } catch {}
+    }
+  }
+
+  const selectedModel = model || 'canonical';
+
+  try {
+    if (selectedModel === 'three_way' || selectedModel === 'compare') {
+      const threeWayResult = await runThreeWayImpactAnalysis(changedComponents, { repoPath, editOperation, commitLimit });
+      const comp = threeWayResult.comparisonSummary || {};
+      comp.commonCount = comp.sharedAllThreeCount || 0;
+      comp.promotedCount = (comp.rankShifts || []).filter(r => (r.egcpVsBaselineShift || 0) > 0).length;
+      comp.demotedCount = (comp.rankShifts || []).filter(r => (r.egcpVsBaselineShift || 0) < 0).length;
+      comp.unchangedCount = (comp.rankShifts || []).filter(r => (r.egcpVsBaselineShift || 0) === 0).length;
+      comp.rankDeltas = (comp.rankShifts || []).map(r => ({
+        ...r,
+        rankShift: r.egcpVsBaselineShift,
+        isCommon: true
+      }));
+
+      return res.json({
+        ...threeWayResult,
+        repoPath,
+        projectName,
+        model: 'compare',
+        comparison: comp,
+        potentiallyImpactedComponents: threeWayResult.egcpOutput
+      });
+    }
+
+    if (selectedModel === 'csf') {
+      const threeWayResult = await runThreeWayImpactAnalysis(changedComponents, { repoPath, editOperation, commitLimit });
+      return res.json({
+        success: true,
+        repoPath,
+        projectName,
+        model: 'csf',
+        changedComponents,
+        potentiallyImpactedComponents: threeWayResult.csfOutput,
+        csfOutput: threeWayResult.csfOutput,
+        candidateUniverseSize: threeWayResult.candidateUniverseSize,
+        evolutionaryStatus: threeWayResult.evolutionaryStatus
+      });
+    }
+
+    if (selectedModel === 'egcp_v4') {
+      const egcpResult = await runLiveEGCPv4(changedComponents, { repoPath, editOperation, commitLimit });
+      return res.json({
+        success: true,
+        repoPath,
+        projectName,
+        model: 'egcp_v4',
+        changedComponents,
+        potentiallyImpactedComponents: egcpResult.potentiallyImpactedComponents,
+        egcpOutput: egcpResult.potentiallyImpactedComponents,
+        candidateUniverseSize: egcpResult.candidateUniverseSize,
+        evolutionaryStatus: egcpResult.evolutionaryStatus
+      });
+    }
+
+    // Default: Canonical Structural Baseline
+    const isNeo4jConnected = await verifyConnection();
+    const report = await analyzeImpact(changedComponents, { repoPath, project: projectName });
+    res.json({
+      success: true,
+      repoPath,
+      projectName,
+      model: 'canonical',
+      executionMode: isNeo4jConnected ? 'neo4j' : 'in-memory-fallback',
+      changedComponents,
+      potentiallyImpactedComponents: report,
+      baselineOutput: report
+    });
+  } catch (error) {
+    console.error(`API /analyse-impact [${selectedModel}] Error:`, error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
+ * Dedicated EGCP v4 Endpoint.
+ */
+router.post('/analyse-impact-egcp', async (req, res) => {
+  const { changedComponents, repoPath, editOperation, commitLimit } = req.body;
 
   if (!changedComponents || !Array.isArray(changedComponents) || changedComponents.length === 0) {
     return res.status(400).json({ success: false, error: 'Please select at least one changed component.' });
   }
 
   try {
-    const isNeo4jConnected = await verifyConnection();
-    const report = await analyzeImpact(changedComponents);
-    res.json({
-      success: true,
-      executionMode: isNeo4jConnected ? 'neo4j' : 'in-memory-fallback',
-      changedComponents,
-      potentiallyImpactedComponents: report
-    });
+    const egcpResult = await runLiveEGCPv4(changedComponents, { repoPath, editOperation, commitLimit });
+    res.json(egcpResult);
   } catch (error) {
-    console.error('API /analyse-impact Error:', error);
+    console.error('API /analyse-impact-egcp Error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
+ * Dedicated Comparative Analysis Endpoint (Canonical Baseline vs EGCP v4).
+ */
+router.post('/analyse-impact-compare', async (req, res) => {
+  const { changedComponents, repoPath, editOperation, commitLimit } = req.body;
+
+  if (!changedComponents || !Array.isArray(changedComponents) || changedComponents.length === 0) {
+    return res.status(400).json({ success: false, error: 'Please select at least one changed component.' });
+  }
+
+  try {
+    const compareResult = await runComparativeImpactAnalysis(changedComponents, { repoPath, editOperation, commitLimit });
+    res.json(compareResult);
+  } catch (error) {
+    console.error('API /analyse-impact-compare Error:', error);
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -183,24 +424,30 @@ import { detectGitChanges } from '../services/gitChangeDetector.js';
 
 /**
  * Endpoint to detect git changes (Phase 2 reliable change detection).
+ * Supports both POST and GET, and aliases /detect-git-uncommitted.
  */
-router.post('/detect-git-changes', async (req, res) => {
-  const { repoPath, mode, components: clientComponents } = req.body;
-  if (!repoPath || !fs.existsSync(repoPath)) {
-    return res.status(400).json({ success: false, error: 'Repository path does not exist.' });
+router.all(['/detect-git-changes', '/detect-git-uncommitted'], async (req, res) => {
+  const rawRepoPath = req.body?.repoPath || req.query?.repoPath;
+  if (!rawRepoPath || typeof rawRepoPath !== 'string' || rawRepoPath.trim().length === 0) {
+    return res.status(400).json({
+      success: false,
+      code: 'MISSING_PATH',
+      error: 'Repository path is required for Git change detection. Please enter or select a valid repository.'
+    });
   }
 
-  const gitPath = path.join(repoPath, '.git');
-  if (!fs.existsSync(gitPath)) {
-    return res.status(400).json({ success: false, error: 'Not a Git repository.' });
+  const validation = validateRepository(rawRepoPath);
+  if (!validation.valid) {
+    return res.status(400).json({ success: false, ...validation });
   }
 
-  if (mode !== 'local' && mode !== 'commit') {
-    return res.status(400).json({ success: false, error: 'Invalid mode. Must be "local" or "commit".' });
-  }
+  const repoPath = validation.repoPath;
+  const isUncommitted = req.path.includes('uncommitted');
+  const rawMode = req.body?.mode || req.query?.mode;
+  const mode = (rawMode === 'local' || rawMode === 'uncommitted' || isUncommitted) ? 'local' : 'commit';
 
   try {
-    let componentsToMap = clientComponents;
+    let componentsToMap = req.body?.components || null;
     if (!componentsToMap || componentsToMap.length === 0) {
       // Load fallback components for mapping if available
       const jsonPath = getJsonFilePath();
@@ -225,6 +472,10 @@ router.post('/detect-git-changes', async (req, res) => {
         renamed: [],
         message: 'No changes detected.'
       });
+    }
+
+    if (report.detailedChanges && !report.changes) {
+      report.changes = report.detailedChanges;
     }
 
     res.json(report);
@@ -321,6 +572,101 @@ router.get('/historical-context/:componentId', async (req, res) => {
     res.json({ success: true, componentId, data: pairs });
   } catch (error) {
     console.error('Historical Context Error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
+ * Dedicated 3-Way Comparative Analysis Endpoint.
+ * Compares:
+ *   1. Canonical Structural Baseline
+ *   2. Continuous Score Fusion (OCCP/CSF Frozen Baseline)
+ *   3. EGCP v4 Combined
+ */
+router.post('/analyse-impact-three-way', async (req, res) => {
+  const { changedComponents, repoPath, editOperation, commitLimit } = req.body;
+
+  if (!changedComponents || !Array.isArray(changedComponents) || changedComponents.length === 0) {
+    return res.status(400).json({ success: false, error: 'Please select at least one changed component.' });
+  }
+
+  try {
+    const result = await runThreeWayImpactAnalysis(changedComponents, { repoPath, editOperation, commitLimit });
+    res.json(result);
+  } catch (error) {
+    console.error('API /analyse-impact-three-way Error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
+ * Endpoint to list historical benchmark evaluation cases.
+ * Supports filters: project, split ('train' | 'test'), search.
+ */
+router.get('/evaluation/cases', async (req, res) => {
+  try {
+    const filterOptions = {
+      projectName: req.query.project || null,
+      split: req.query.split || null,
+      search: req.query.search || null
+    };
+    const casesData = getEvaluationCases(filterOptions);
+    res.json(casesData);
+  } catch (error) {
+    console.error('API /evaluation/cases Error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
+ * Endpoint to run a historical evaluation case.
+ * Returns:
+ *   - Ground truth affected files
+ *   - Predictions for Baseline, CSF, EGCP v4
+ *   - Verified benchmark metrics
+ *   - Worked step-by-step mathematical example
+ *   - Unified candidate alignment matrix
+ */
+router.post('/evaluation/run-case', async (req, res) => {
+  const { caseId } = req.body;
+  if (!caseId) {
+    return res.status(400).json({ success: false, error: 'Please specify a caseId.' });
+  }
+
+  try {
+    const result = await runHistoricalEvaluationCase(caseId);
+    res.json(result);
+  } catch (error) {
+    console.error(`API /evaluation/run-case [${caseId}] Error:`, error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
+ * Endpoint to get historical co-change evidence for a given component.
+ */
+router.get('/cochange-evidence/:componentId', async (req, res) => {
+  const { componentId } = req.params;
+  const { repoPath } = req.query;
+
+  try {
+    const evidence = getCoChangeEvidenceForComponent(componentId, repoPath);
+    res.json(evidence);
+  } catch (error) {
+    console.error(`API /cochange-evidence [${componentId}] Error:`, error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
+ * Endpoint to get macro/micro benchmark summary.
+ */
+router.get('/benchmark/summary', async (req, res) => {
+  try {
+    const summary = getBenchmarkSummary();
+    res.json(summary);
+  } catch (error) {
+    console.error('API /benchmark/summary Error:', error);
     res.status(500).json({ success: false, error: error.message });
   }
 });

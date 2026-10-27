@@ -1,0 +1,455 @@
+{
+  "metadata": {
+    "targetRepository": "Apache Commons Lang",
+    "repoPath": "C:/yashika/STUDY/clg_project/commons-lang",
+    "evaluationDate": "2026-10-20",
+    "protocol": "Leak-Free Chronological Lookback (j < c) with Pre-Change Historical Knowledge Graph Reconstruction (c^1)",
+    "operatingHorizon": "2 Hops"
+  },
+  "gitHistory": {
+    "totalCommits": 10093,
+    "mergeCommits": 240,
+    "mergePercentage": 2.38,
+    "nonMergeCommits": 9853,
+    "dateRange": "2002-07-19 to 2026-10-18"
+  },
+  "eligibilityBreakdown": {
+    "recent100": {
+      "total": 100,
+      "merges": 0,
+      "noJava": 43,
+      "testOnly": 12,
+      "singleNonTest": 40,
+      "eligibleCommits": 5
+    },
+    "recent200": {
+      "total": 200,
+      "merges": 0,
+      "noJava": 52,
+      "testOnly": 35,
+      "singleNonTest": 108,
+      "eligibleCommits": 5
+    },
+    "recent500": {
+      "total": 500,
+      "merges": 1,
+      "noJava": 117,
+      "testOnly": 65,
+      "singleNonTest": 296,
+      "eligibleCommits": 21,
+      "bulkJavadocCommits": 6
+    }
+  },
+  "astAnalyzer": {
+    "totalJavaFiles": 628,
+    "mainJavaFiles": 264,
+    "testJavaFiles": 364,
+    "runtimeSeconds": 54.67,
+    "registeredComponents": 612,
+    "duplicateComponentIds": 0,
+    "extractedRelationships": 1171,
+    "componentTypes": {
+      "Test": 325,
+      "Other": 287
+    },
+    "relationshipTypes": {
+      "REFERENCES": 233,
+      "USES": 51,
+      "EXTENDS": 333,
+      "IMPLEMENTS": 23,
+      "TESTS": 531
+    }
+  },
+  "modelEvaluation": {
+    "evaluatedCases": [
+      {
+        "commit": "72dc555185",
+        "input": "CompareToBuilder",
+        "oracle": [
+          "HashCodeBuilder",
+          "ToStringBuilder"
+        ],
+        "candidatesCount": 12,
+        "struct": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.1534090909090909,
+          "rr": 0.125
+        },
+        "hist": {
+          "p3": 0.3333333333333333,
+          "r3": 0.5,
+          "p5": 0.4,
+          "r5": 1,
+          "ap": 0.5,
+          "rr": 0.5
+        },
+        "occp": {
+          "p3": 0.3333333333333333,
+          "r3": 0.5,
+          "p5": 0.4,
+          "r5": 1,
+          "ap": 0.5,
+          "rr": 0.5
+        }
+      },
+      {
+        "commit": "72dc555185",
+        "input": "HashCodeBuilder",
+        "oracle": [
+          "CompareToBuilder",
+          "ToStringBuilder"
+        ],
+        "candidatesCount": 12,
+        "struct": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.1534090909090909,
+          "rr": 0.125
+        },
+        "hist": {
+          "p3": 0.3333333333333333,
+          "r3": 0.5,
+          "p5": 0.4,
+          "r5": 1,
+          "ap": 0.5,
+          "rr": 0.5
+        },
+        "occp": {
+          "p3": 0.3333333333333333,
+          "r3": 0.5,
+          "p5": 0.4,
+          "r5": 1,
+          "ap": 0.5,
+          "rr": 0.5
+        }
+      },
+      {
+        "commit": "72dc555185",
+        "input": "ToStringBuilder",
+        "oracle": [
+          "CompareToBuilder",
+          "HashCodeBuilder"
+        ],
+        "candidatesCount": 39,
+        "struct": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.04791666666666666,
+          "rr": 0.03333333333333333
+        },
+        "hist": {
+          "p3": 0.3333333333333333,
+          "r3": 0.5,
+          "p5": 0.4,
+          "r5": 1,
+          "ap": 0.3666666666666667,
+          "rr": 0.3333333333333333
+        },
+        "occp": {
+          "p3": 0.3333333333333333,
+          "r3": 0.5,
+          "p5": 0.4,
+          "r5": 1,
+          "ap": 0.3666666666666667,
+          "rr": 0.3333333333333333
+        }
+      },
+      {
+        "commit": "4c87656ee5",
+        "input": "CharRange",
+        "oracle": [
+          "Range",
+          "Fraction"
+        ],
+        "candidatesCount": 7,
+        "struct": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0,
+          "rr": 0
+        },
+        "hist": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0,
+          "rr": 0
+        },
+        "occp": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0,
+          "rr": 0
+        }
+      },
+      {
+        "commit": "4c87656ee5",
+        "input": "Range",
+        "oracle": [
+          "CharRange",
+          "Fraction"
+        ],
+        "candidatesCount": 12,
+        "struct": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0,
+          "rr": 0
+        },
+        "hist": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0,
+          "rr": 0
+        },
+        "occp": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0,
+          "rr": 0
+        }
+      },
+      {
+        "commit": "4c87656ee5",
+        "input": "Fraction",
+        "oracle": [
+          "CharRange",
+          "Range"
+        ],
+        "candidatesCount": 5,
+        "struct": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0,
+          "rr": 0
+        },
+        "hist": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0,
+          "rr": 0
+        },
+        "occp": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0,
+          "rr": 0
+        }
+      },
+      {
+        "commit": "8065c45316",
+        "input": "JavaVersion",
+        "oracle": [
+          "SystemUtils"
+        ],
+        "candidatesCount": 39,
+        "struct": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.027777777777777776,
+          "rr": 0.027777777777777776
+        },
+        "hist": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.027777777777777776,
+          "rr": 0.027777777777777776
+        },
+        "occp": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.027777777777777776,
+          "rr": 0.027777777777777776
+        }
+      },
+      {
+        "commit": "8065c45316",
+        "input": "SystemUtils",
+        "oracle": [
+          "JavaVersion"
+        ],
+        "candidatesCount": 59,
+        "struct": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.05,
+          "rr": 0.05
+        },
+        "hist": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.05,
+          "rr": 0.05
+        },
+        "occp": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.05,
+          "rr": 0.05
+        }
+      },
+      {
+        "commit": "117a9ea791",
+        "input": "FastDateFormat",
+        "oracle": [
+          "FastDateParser",
+          "FastDatePrinter"
+        ],
+        "candidatesCount": 21,
+        "struct": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.08333333333333334,
+          "rr": 0.06666666666666667
+        },
+        "hist": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.08333333333333334,
+          "rr": 0.06666666666666667
+        },
+        "occp": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.08333333333333334,
+          "rr": 0.06666666666666667
+        }
+      },
+      {
+        "commit": "117a9ea791",
+        "input": "FastDateParser",
+        "oracle": [
+          "FastDateFormat",
+          "FastDatePrinter"
+        ],
+        "candidatesCount": 17,
+        "struct": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.03571428571428571,
+          "rr": 0.07142857142857142
+        },
+        "hist": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.03571428571428571,
+          "rr": 0.07142857142857142
+        },
+        "occp": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0,
+          "r5": 0,
+          "ap": 0.03571428571428571,
+          "rr": 0.07142857142857142
+        }
+      },
+      {
+        "commit": "117a9ea791",
+        "input": "FastDatePrinter",
+        "oracle": [
+          "FastDateFormat",
+          "FastDateParser"
+        ],
+        "candidatesCount": 7,
+        "struct": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0.2,
+          "r5": 0.5,
+          "ap": 0.1,
+          "rr": 0.2
+        },
+        "hist": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0.2,
+          "r5": 0.5,
+          "ap": 0.1,
+          "rr": 0.2
+        },
+        "occp": {
+          "p3": 0,
+          "r3": 0,
+          "p5": 0.2,
+          "r5": 0.5,
+          "ap": 0.1,
+          "rr": 0.2
+        }
+      }
+    ],
+    "summary": {
+      "casesCount": 11,
+      "structural": {
+        "meanP3": 0,
+        "meanR3": 0,
+        "meanP5": 0.018181818181818184,
+        "meanR5": 0.045454545454545456,
+        "MAP": 0.059232749573658657,
+        "MRR": 0.06356421356421356
+      },
+      "historical": {
+        "meanP3": 0.09090909090909091,
+        "meanR3": 0.13636363636363635,
+        "meanP5": 0.1272727272727273,
+        "meanR5": 0.3181818181818182,
+        "MAP": 0.15122655122655124,
+        "MRR": 0.159018759018759
+      },
+      "occp": {
+        "meanP3": 0.09090909090909091,
+        "meanR3": 0.13636363636363635,
+        "meanP5": 0.1272727272727273,
+        "meanR5": 0.3181818181818182,
+        "MAP": 0.15122655122655124,
+        "MRR": 0.159018759018759
+      }
+    }
+  }
+}

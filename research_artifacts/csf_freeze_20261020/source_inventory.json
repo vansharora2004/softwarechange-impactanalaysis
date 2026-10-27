@@ -1,0 +1,54 @@
+{
+  "frozenAt": "2026-10-20T20:30:00.000Z",
+  "gitCommit": "2d233cf",
+  "gitBranch": "main",
+  "primaryModelFile": {
+    "relativePath": "backend/src/services/occp_experiments/occpFusionModel.js",
+    "sha256": "29646EB9A03CB25193BD3B30F371C6AA8603A6C14EC81DD5BDB1C778A53679FC",
+    "entryPoint": "rankModelB_OCCP_ContinuousFusion"
+  },
+  "dependencies": [
+    {
+      "relativePath": "backend/src/services/occp_experiments/occpSmoothedModel.js",
+      "sha256": "3E0AA10425D83B3D274A9DFF3AC82DC0E18F61DD2B5D467E638949456318FC34",
+      "consumedSymbols": ["computeSmoothedProbability"]
+    },
+    {
+      "relativePath": "backend/src/services/occp/occpModel.js",
+      "sha256": "113033EFD3F7093D837D9EAA5F5EEBC49685F0591958FDEB0CDB2E9B9A3478C0",
+      "consumedSymbols": ["trainPathModels"]
+    },
+    {
+      "relativePath": "backend/src/services/occp/operationClassifier.js",
+      "sha256": "01708C6EBB5C61C61844E9C0D27EFFD6F83C04FBB705B951771F184C34C31939",
+      "consumedSymbols": ["classifyOperation", "OPERATION_TAXONOMY"]
+    },
+    {
+      "relativePath": "backend/src/services/occp/pathSignature.js",
+      "sha256": "391C8A0DAC678A451EDB4CFA92D4E90954CB86D7DA25468F449626BCAD0EA3BE",
+      "consumedSymbols": ["extractCandidatePathsFromSeed"]
+    },
+    {
+      "relativePath": "backend/src/services/structuralHistoryReranker.js",
+      "sha256": "9CD69F3D0D39414B60ECB9BC4A376B173ED37E6092F267A81A4384D0254BA7AA",
+      "consumedSymbols": ["generateStructuralCandidatesInMemory", "rerankCandidatesWithHistory"]
+    }
+  ],
+  "protectedProductionFiles": [
+    {
+      "relativePath": "backend/src/services/impactEngine.js",
+      "sha256": "A26FD1408A5AFDC6349C418405751993CA3751D5C9457B1AB198317D19E05EA6",
+      "status": "UNCHANGED_PRODUCTION_BASELINE"
+    },
+    {
+      "relativePath": "backend/src/routes/api.js",
+      "sha256": "CBE60AB9A6D67FED28B899631544EDF032B6C289316FAB4834F3A605C25133DD",
+      "status": "UNCHANGED_PRODUCTION_ROUTE"
+    },
+    {
+      "relativePath": "frontend/src/App.jsx",
+      "sha256": "205CDB047F5DA13BAC6183BF753DF6AB4343A0707B81C40300369946932DA9A3",
+      "status": "UNCHANGED_PRODUCTION_UI"
+    }
+  ]
+}

@@ -367,7 +367,7 @@ export function parsePorcelainStatusLine(line) {
  * @param {Object} pathIndex
  * @returns {Object} Structured report
  */
-export function mapGitChanges(rawChanges = [], pathIndex) {
+export function mapGitChanges(rawChanges = [], pathIndex, options = {}) {
   const mapped = [];
   const unmapped = [];
   const deleted = [];
@@ -414,8 +414,10 @@ export function mapGitChanges(rawChanges = [], pathIndex) {
         if (oldCompId && newCompId) {
           isSameComponentId = (oldCompId === newCompId);
         }
-        mapResult = newRes;
+        mapResult = (options.perspective === 'pre' && oldRes.status === 'MAPPED') ? oldRes : newRes;
       }
+
+      const activeMappedId = (options.perspective === 'pre' && oldCompId) ? oldCompId : (newCompId || oldCompId);
 
       const renRecord = {
         changeType: 'RENAMED',
@@ -427,15 +429,15 @@ export function mapGitChanges(rawChanges = [], pathIndex) {
         oldComponentId: oldCompId,
         newComponentId: newCompId,
         isSameComponentId,
-        mappedComponentId: newCompId, // Active component corresponds to new path
-        status: newCompId ? 'MAPPED' : 'UNMAPPED',
-        reason: newCompId ? 'Renamed file mapped to new component path' : 'Renamed file new path not found in graph'
+        mappedComponentId: activeMappedId,
+        status: activeMappedId ? 'MAPPED' : 'UNMAPPED',
+        reason: activeMappedId ? 'Renamed file mapped' : 'Renamed file not found in graph'
       };
 
       renamed.push(renRecord);
       detailedChanges.push(renRecord);
 
-      if (newCompId) {
+      if (activeMappedId) {
         mapped.push(renRecord);
       } else if (isJava) {
         unmapped.push(renRecord);
@@ -586,7 +588,7 @@ export function detectGitChanges(repoPath, options = {}, components = []) {
       // For root commit, --root is used
       let diffRaw;
       try {
-        diffRaw = execFileSync('git', ['diff-tree', '--no-commit-id', '--name-status', '-r', '-M', rev], {
+        diffRaw = execFileSync('git', ['diff-tree', '--no-commit-id', '--name-status', '-r', '--root', '-M', rev], {
           cwd: repoPath,
           maxBuffer: 10 * 1024 * 1024,
           encoding: 'utf-8'
@@ -715,7 +717,7 @@ export function parseGitLogCommits(repoPath, commitLimit = 100, options = {}) {
   // If pathIndex provided, map each commit's changes
   if (pathIndex) {
     for (const c of commits) {
-      const report = mapGitChanges(c.rawChanges, pathIndex);
+      const report = mapGitChanges(c.rawChanges, pathIndex, options);
       c.mappingReport = report;
       c.mappedComponentIds = report.mappedComponentIds;
       c.unmappedFiles = report.unmapped;

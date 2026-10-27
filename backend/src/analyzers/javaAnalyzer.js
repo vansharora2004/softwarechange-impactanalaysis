@@ -232,6 +232,8 @@ export function analyzeFile(filePath, repoRoot) {
     filePath:      relativePath,
     packageName,
     imports,
+    parentClasses,
+    interfaces,
     inheritanceInfo,   // simple names extracted from extends/implements
     rawCode:       codeRaw,
     cleanCode:     code,
@@ -258,7 +260,10 @@ function resolveRelType(trigger, typeA, typeB, classNameA) {
 
   switch (trigger) {
     case 'EXTENDS':
-      return { relType: 'EXTENDS', detail: 'Class Inheritance or Interface Implementation' };
+      return { relType: 'EXTENDS', detail: 'Class Inheritance' };
+
+    case 'IMPLEMENTS':
+      return { relType: 'IMPLEMENTS', detail: 'Interface Implementation' };
 
     case 'constructor':
     case 'autowired': {
@@ -320,8 +325,24 @@ function extractRelationshipsFrom(compA, candidates) {
     const classNameB = compB.name;
     const typeB      = compB.type;
 
-    // 1. Inheritance (simple name match from inheritanceInfo)
-    if (compA.inheritanceInfo.includes(classNameB)) {
+    // 1. Inheritance (simple name match from parentClasses / interfaces / inheritanceInfo)
+    if (compA.parentClasses && compA.parentClasses.includes(classNameB)) {
+      const { relType, detail } = resolveRelType('EXTENDS', typeA, typeB, classNameA);
+      let finalType = relType;
+      if (typeA === 'Test' && typeB !== 'Test') finalType = 'TESTS';
+      results.push({ source: compA.id, target: compB.id, type: finalType, detail });
+      seenTargets.add(compB.id);
+      continue;
+    }
+    if (compA.interfaces && compA.interfaces.includes(classNameB)) {
+      const { relType, detail } = resolveRelType('IMPLEMENTS', typeA, typeB, classNameA);
+      let finalType = relType;
+      if (typeA === 'Test' && typeB !== 'Test') finalType = 'TESTS';
+      results.push({ source: compA.id, target: compB.id, type: finalType, detail });
+      seenTargets.add(compB.id);
+      continue;
+    }
+    if (compA.inheritanceInfo && compA.inheritanceInfo.includes(classNameB)) {
       const { relType, detail } = resolveRelType('EXTENDS', typeA, typeB, classNameA);
       let finalType = relType;
       if (typeA === 'Test' && typeB !== 'Test') finalType = 'TESTS';

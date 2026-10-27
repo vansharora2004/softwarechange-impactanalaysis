@@ -100,13 +100,33 @@ assert(baselineResults.length > 0, `Baseline found ${baselineResults.length} imp
 
 // Verify all baseline IDs resolve to actual components
 let allBaselineResolved = true;
+let allBaselineFieldsValid = true;
 for (const rec of baselineResults) {
   if (!compMap.has(rec.id)) {
     allBaselineResolved = false;
     console.error(`  Unresolved baseline component ID: ${rec.id}`);
   }
+  if (!rec.id || !rec.name || !rec.type || !rec.impactLevel || !rec.reason || !rec.reasoningPath || !rec.hopDistance) {
+    allBaselineFieldsValid = false;
+    console.error(`  Missing required baseline field in record:`, rec);
+  }
 }
 assert(allBaselineResolved, 'Every baseline recommendation ID resolves to an actual component in the graph');
+assert(allBaselineFieldsValid, 'Every baseline recommendation contains complete contract fields (id, name, type, impactLevel, reason, reasoningPath, hopDistance)');
+
+// Verify deterministic ordering of baseline
+let baselineOrdered = true;
+const priMap = { High: 3, Medium: 2, Low: 1 };
+for (let i = 0; i < baselineResults.length - 1; i++) {
+  const a = baselineResults[i];
+  const b = baselineResults[i + 1];
+  const priDiff = priMap[b.impactLevel] - priMap[a.impactLevel];
+  if (priDiff > 0 || (priDiff === 0 && a.id.localeCompare(b.id) > 0)) {
+    baselineOrdered = false;
+    console.error(`  Baseline ordering violation between ${a.id} (${a.impactLevel}) and ${b.id} (${b.impactLevel})`);
+  }
+}
+assert(baselineOrdered, 'Baseline candidates are deterministically ordered by impactLevel and ID');
 
 // Verify context-aware impact results
 const contextResults = await analyzeContextAwareImpact([testSeedId]);
@@ -198,6 +218,7 @@ const apiSimulation = {
   success: true,
   executionMode: isNeo4jOnline ? 'neo4j' : 'in-memory-fallback',
   changedComponents: [testSeedId],
+  potentiallyImpactedComponents: baselineResults,
   baselineOutput: baselineResults,
   contextAwareOutput: contextResults
 };
@@ -207,6 +228,8 @@ assertEqual(
   isNeo4jOnline ? 'neo4j' : 'in-memory-fallback',
   'API payload explicitly identifies correct executionMode'
 );
+assert(Array.isArray(apiSimulation.potentiallyImpactedComponents), 'API payload contains potentiallyImpactedComponents array');
+assert(Array.isArray(apiSimulation.baselineOutput), 'API payload contains baselineOutput alias array');
 
 // ── Test Suite 7: Edge Cases & Graceful Degradation ──────────────────────
 console.log('\n--- 7. Robustness & Error Handling ---');

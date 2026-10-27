@@ -1,0 +1,918 @@
+{
+  "verifiedAt": "2026-10-20T14:24:07.764Z",
+  "targetRepositories": [
+    "Spring PetClinic REST",
+    "Shopizer",
+    "Apache Commons Lang"
+  ],
+  "commitUniverse": {
+    "totalEligibleCommits": 25,
+    "totalTestCases": 170,
+    "projectBreakdown": {
+      "Spring PetClinic REST": {
+        "commits": 8,
+        "cases": 57
+      },
+      "Shopizer": {
+        "commits": 12,
+        "cases": 46
+      },
+      "Apache Commons Lang": {
+        "commits": 5,
+        "cases": 67
+      }
+    }
+  },
+  "candidateAlignmentVerified": true,
+  "modelsEvaluated": [
+    {
+      "key": "structural_baseline",
+      "name": "Canonical Structural Baseline"
+    },
+    {
+      "key": "historical_reranker",
+      "name": "Historical Co-Change Reranker (V4)"
+    },
+    {
+      "key": "modelA_context_free",
+      "name": "Context-Independent Typed Path (Model A)"
+    },
+    {
+      "key": "modelB_occp",
+      "name": "Original OCCP (Unregularized MLE)"
+    },
+    {
+      "key": "occp_fusion",
+      "name": "Continuous Score Fusion"
+    },
+    {
+      "key": "occp_enhanced",
+      "name": "Enhanced OCCP (Selected Best)"
+    }
+  ],
+  "verifiedProjectSummaries": [
+    {
+      "project": "Spring PetClinic REST",
+      "modelKey": "structural_baseline",
+      "modelName": "Canonical Structural Baseline",
+      "eligibleCommits": 8,
+      "testCases": 57,
+      "pAt3": 0.1654265873015873,
+      "rAt3": 0.17958603896103895,
+      "pAt5": 0.1642361111111111,
+      "rAt5": 0.22312409812409809,
+      "pAt10": 0.16263227513227518,
+      "rAt10": 0.3519345238095237,
+      "map": 0.17581070527077974,
+      "mrr": 0.29125151950672784
+    },
+    {
+      "project": "Spring PetClinic REST",
+      "modelKey": "historical_reranker",
+      "modelName": "Historical Co-Change Reranker (V4)",
+      "eligibleCommits": 8,
+      "testCases": 57,
+      "pAt3": 0.15004960317460317,
+      "rAt3": 0.1158685064935065,
+      "pAt5": 0.16076388888888887,
+      "rAt5": 0.16682449494949492,
+      "pAt10": 0.16645171957671961,
+      "rAt10": 0.3563537157287157,
+      "map": 0.1650521789057672,
+      "mrr": 0.28245173874702856
+    },
+    {
+      "project": "Spring PetClinic REST",
+      "modelKey": "modelA_context_free",
+      "modelName": "Context-Independent Typed Path (Model A)",
+      "eligibleCommits": 8,
+      "testCases": 57,
+      "pAt3": 0.17187499999999997,
+      "rAt3": 0.12371482683982683,
+      "pAt5": 0.18105158730158732,
+      "rAt5": 0.23212031024531024,
+      "pAt10": 0.17282572751322753,
+      "rAt10": 0.4191017316017316,
+      "map": 0.17858748316131032,
+      "mrr": 0.31687900255608586
+    },
+    {
+      "project": "Spring PetClinic REST",
+      "modelKey": "modelB_occp",
+      "modelName": "Original OCCP (Unregularized MLE)",
+      "eligibleCommits": 8,
+      "testCases": 57,
+      "pAt3": 0.19270833333333331,
+      "rAt3": 0.13264339826839827,
+      "pAt5": 0.19042658730158732,
+      "rAt5": 0.2388167388167388,
+      "pAt10": 0.17126322751322753,
+      "rAt10": 0.41686958874458874,
+      "map": 0.18644154729327625,
+      "mrr": 0.3343073785782119
+    },
+    {
+      "project": "Spring PetClinic REST",
+      "modelKey": "occp_fusion",
+      "modelName": "Continuous Score Fusion",
+      "eligibleCommits": 8,
+      "testCases": 57,
+      "pAt3": 0.1753472222222222,
+      "rAt3": 0.12628517316017315,
+      "pAt5": 0.18000992063492063,
+      "rAt5": 0.23245851370851367,
+      "pAt10": 0.1711392195767196,
+      "rAt10": 0.3614267676767676,
+      "map": 0.1793894170663636,
+      "mrr": 0.31434693090199045
+    },
+    {
+      "project": "Spring PetClinic REST",
+      "modelKey": "occp_enhanced",
+      "modelName": "Enhanced OCCP (Selected Best)",
+      "eligibleCommits": 8,
+      "testCases": 57,
+      "pAt3": 0.1701388888888889,
+      "rAt3": 0.12405303030303032,
+      "pAt5": 0.1623015873015873,
+      "rAt5": 0.16677940115440112,
+      "pAt10": 0.17009755291005293,
+      "rAt10": 0.36047979797979796,
+      "map": 0.17448889724569958,
+      "mrr": 0.28864008566389515
+    },
+    {
+      "project": "Shopizer",
+      "modelKey": "structural_baseline",
+      "modelName": "Canonical Structural Baseline",
+      "eligibleCommits": 12,
+      "testCases": 46,
+      "pAt3": 0.0619212962962963,
+      "rAt3": 0.03090277777777778,
+      "pAt5": 0.05555555555555555,
+      "rAt5": 0.044444444444444446,
+      "pAt10": 0.03871527777777778,
+      "rAt10": 0.06284722222222222,
+      "map": 0.043234007228384407,
+      "mrr": 0.1323581003650637
+    },
+    {
+      "project": "Shopizer",
+      "modelKey": "historical_reranker",
+      "modelName": "Historical Co-Change Reranker (V4)",
+      "eligibleCommits": 12,
+      "testCases": 46,
+      "pAt3": 0.1412037037037037,
+      "rAt3": 0.07083333333333333,
+      "pAt5": 0.10868055555555556,
+      "rAt5": 0.08993055555555556,
+      "pAt10": 0.06059027777777778,
+      "rAt10": 0.09965277777777777,
+      "map": 0.08966561626363939,
+      "mrr": 0.1967122395833333
+    },
+    {
+      "project": "Shopizer",
+      "modelKey": "modelA_context_free",
+      "modelName": "Context-Independent Typed Path (Model A)",
+      "eligibleCommits": 12,
+      "testCases": 46,
+      "pAt3": 0.10532407407407407,
+      "rAt3": 0.05069444444444444,
+      "pAt5": 0.08541666666666668,
+      "rAt5": 0.06736111111111111,
+      "pAt10": 0.05902777777777777,
+      "rAt10": 0.09305555555555556,
+      "map": 0.06885628533067972,
+      "mrr": 0.1656814659076712
+    },
+    {
+      "project": "Shopizer",
+      "modelKey": "modelB_occp",
+      "modelName": "Original OCCP (Unregularized MLE)",
+      "eligibleCommits": 12,
+      "testCases": 46,
+      "pAt3": 0.11805555555555554,
+      "rAt3": 0.056944444444444436,
+      "pAt5": 0.0920138888888889,
+      "rAt5": 0.07326388888888889,
+      "pAt10": 0.06232638888888888,
+      "rAt10": 0.09895833333333333,
+      "map": 0.07587913477989051,
+      "mrr": 0.19463489284003832
+    },
+    {
+      "project": "Shopizer",
+      "modelKey": "occp_fusion",
+      "modelName": "Continuous Score Fusion",
+      "eligibleCommits": 12,
+      "testCases": 46,
+      "pAt3": 0.1412037037037037,
+      "rAt3": 0.07083333333333333,
+      "pAt5": 0.11180555555555555,
+      "rAt5": 0.09097222222222222,
+      "pAt10": 0.06371527777777777,
+      "rAt10": 0.1017361111111111,
+      "map": 0.08910230772962596,
+      "mrr": 0.19697864284003833
+    },
+    {
+      "project": "Shopizer",
+      "modelKey": "occp_enhanced",
+      "modelName": "Enhanced OCCP (Selected Best)",
+      "eligibleCommits": 12,
+      "testCases": 46,
+      "pAt3": 0.1412037037037037,
+      "rAt3": 0.07083333333333333,
+      "pAt5": 0.10972222222222222,
+      "rAt5": 0.09027777777777778,
+      "pAt10": 0.06371527777777777,
+      "rAt10": 0.1017361111111111,
+      "map": 0.09006212915819739,
+      "mrr": 0.1968050317289272
+    },
+    {
+      "project": "Apache Commons Lang",
+      "modelKey": "structural_baseline",
+      "modelName": "Canonical Structural Baseline",
+      "eligibleCommits": 5,
+      "testCases": 67,
+      "pAt3": 0.007142857142857143,
+      "rAt3": 0.00038961038961038966,
+      "pAt5": 0.028630952380952385,
+      "rAt5": 0.03463203463203463,
+      "pAt10": 0.04328514739229025,
+      "rAt10": 0.10292207792207793,
+      "map": 0.047239501201848555,
+      "mrr": 0.07232316150075495
+    },
+    {
+      "project": "Apache Commons Lang",
+      "modelKey": "historical_reranker",
+      "modelName": "Historical Co-Change Reranker (V4)",
+      "eligibleCommits": 5,
+      "testCases": 67,
+      "pAt3": 0.0738095238095238,
+      "rAt3": 0.10038961038961039,
+      "pAt5": 0.1086309523809524,
+      "rAt5": 0.23463203463203466,
+      "pAt10": 0.06995181405895692,
+      "rAt10": 0.23625541125541125,
+      "map": 0.11469079990314723,
+      "mrr": 0.14172792340551685
+    },
+    {
+      "project": "Apache Commons Lang",
+      "modelKey": "modelA_context_free",
+      "modelName": "Context-Independent Typed Path (Model A)",
+      "eligibleCommits": 5,
+      "testCases": 67,
+      "pAt3": 0.15833333333333333,
+      "rAt3": 0.20136363636363636,
+      "pAt5": 0.12077380952380953,
+      "rAt5": 0.23573593073593074,
+      "pAt10": 0.07245181405895693,
+      "rAt10": 0.23670995670995673,
+      "map": 0.1581239437309524,
+      "mrr": 0.20670631311381368
+    },
+    {
+      "project": "Apache Commons Lang",
+      "modelKey": "modelB_occp",
+      "modelName": "Original OCCP (Unregularized MLE)",
+      "eligibleCommits": 5,
+      "testCases": 67,
+      "pAt3": 0.15833333333333333,
+      "rAt3": 0.20136363636363636,
+      "pAt5": 0.12220238095238098,
+      "rAt5": 0.23586580086580086,
+      "pAt10": 0.07280895691609977,
+      "rAt10": 0.2367748917748918,
+      "map": 0.15814194845350257,
+      "mrr": 0.2070634559709566
+    },
+    {
+      "project": "Apache Commons Lang",
+      "modelKey": "occp_fusion",
+      "modelName": "Continuous Score Fusion",
+      "eligibleCommits": 5,
+      "testCases": 67,
+      "pAt3": 0.15833333333333333,
+      "rAt3": 0.20136363636363636,
+      "pAt5": 0.1229166666666667,
+      "rAt5": 0.23593073593073594,
+      "pAt10": 0.07280895691609979,
+      "rAt10": 0.2367748917748918,
+      "map": 0.15815424676125542,
+      "mrr": 0.2070634559709566
+    },
+    {
+      "project": "Apache Commons Lang",
+      "modelKey": "occp_enhanced",
+      "modelName": "Enhanced OCCP (Selected Best)",
+      "eligibleCommits": 5,
+      "testCases": 67,
+      "pAt3": 0.15476190476190474,
+      "rAt3": 0.20116883116883116,
+      "pAt5": 0.1229166666666667,
+      "rAt5": 0.23593073593073594,
+      "pAt10": 0.07316609977324265,
+      "rAt10": 0.23683982683982685,
+      "map": 0.1578096973712515,
+      "mrr": 0.19664678930428992
+    },
+    {
+      "project": "Overall (All 3 Projects)",
+      "modelKey": "structural_baseline",
+      "modelName": "Canonical Structural Baseline",
+      "eligibleCommits": 25,
+      "testCases": 170,
+      "pAt3": 0.08408730158730159,
+      "rAt3": 0.07237878787878788,
+      "pAt5": 0.0849484126984127,
+      "rAt5": 0.09965945165945164,
+      "pAt10": 0.07928269085411946,
+      "rAt10": 0.16337012987012986,
+      "map": 0.08645964939664375,
+      "mrr": 0.17119700671753446
+    },
+    {
+      "project": "Overall (All 3 Projects)",
+      "modelKey": "historical_reranker",
+      "modelName": "Historical Co-Change Reranker (V4)",
+      "eligibleCommits": 25,
+      "testCases": 170,
+      "pAt3": 0.13055555555555556,
+      "rAt3": 0.09115584415584417,
+      "pAt5": 0.12533730158730155,
+      "rAt5": 0.14347691197691195,
+      "pAt10": 0.096338246409675,
+      "rAt10": 0.20911760461760462,
+      "map": 0.11879435303702188,
+      "mrr": 0.2131520160801525
+    },
+    {
+      "project": "Overall (All 3 Projects)",
+      "modelKey": "modelA_context_free",
+      "modelName": "Context-Independent Typed Path (Model A)",
+      "eligibleCommits": 25,
+      "testCases": 170,
+      "pAt3": 0.1372222222222222,
+      "rAt3": 0.10419480519480519,
+      "pAt5": 0.12309126984126985,
+      "rAt5": 0.15375901875901873,
+      "pAt10": 0.09812792894935753,
+      "rAt10": 0.22612121212121208,
+      "map": 0.12182380031653604,
+      "mrr": 0.22226964707639238
+    },
+    {
+      "project": "Overall (All 3 Projects)",
+      "modelKey": "modelB_occp",
+      "modelName": "Original OCCP (Unregularized MLE)",
+      "eligibleCommits": 25,
+      "testCases": 170,
+      "pAt3": 0.15,
+      "rAt3": 0.11005194805194804,
+      "pAt5": 0.1295436507936508,
+      "rAt5": 0.15876118326118324,
+      "pAt10": 0.09928269085411945,
+      "rAt10": 0.22825324675324676,
+      "map": 0.12771166951889637,
+      "mrr": 0.2418158009024375
+    },
+    {
+      "project": "Overall (All 3 Projects)",
+      "modelKey": "occp_fusion",
+      "modelName": "Continuous Score Fusion",
+      "eligibleCommits": 25,
+      "testCases": 170,
+      "pAt3": 0.15555555555555553,
+      "rAt3": 0.11468398268398268,
+      "pAt5": 0.13585317460317461,
+      "rAt5": 0.16523953823953821,
+      "pAt10": 0.09990967498110356,
+      "rAt10": 0.2118448773448773,
+      "map": 0.1318045705237079,
+      "mrr": 0.23655345764604666
+    },
+    {
+      "project": "Overall (All 3 Projects)",
+      "modelKey": "occp_enhanced",
+      "modelName": "Enhanced OCCP (Selected Best)",
+      "eligibleCommits": 25,
+      "testCases": 170,
+      "pAt3": 0.15317460317460319,
+      "rAt3": 0.11393073593073595,
+      "pAt5": 0.12918650793650793,
+      "rAt5": 0.14388888888888887,
+      "pAt10": 0.0996477702191988,
+      "rAt10": 0.21155483405483408,
+      "map": 0.13062820858880891,
+      "mrr": 0.22616060050318945
+    }
+  ],
+  "statisticalTests": {
+    "vs_baseline": {
+      "historical_reranker": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": 0.032334703640378125,
+        "medianDiff": 0,
+        "stdDiff": 0.1110518718224368,
+        "stderr": 0.02221037436448736,
+        "ci95Lower": -0.013507509047923784,
+        "ci95Upper": 0.07817691632868004,
+        "tStat": 1.4558378490044173,
+        "pValueT": 0.14543750442776893,
+        "wilcoxonW": 18,
+        "wilcoxonP": 0.18231452534405435,
+        "wins": 7,
+        "ties": 14,
+        "losses": 4
+      },
+      "modelA_context_free": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": 0.035364150919892305,
+        "medianDiff": 0,
+        "stdDiff": 0.12377378772517267,
+        "stderr": 0.024754757545034534,
+        "ci95Lower": -0.01572966865305897,
+        "ci95Upper": 0.08645797049284358,
+        "tStat": 1.4285799752050439,
+        "pValueT": 0.15312505901837592,
+        "wilcoxonW": 17,
+        "wilcoxonP": 0.1548598935845107,
+        "wins": 8,
+        "ties": 14,
+        "losses": 3
+      },
+      "modelB_occp": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": 0.04125202012225262,
+        "medianDiff": 0,
+        "stdDiff": 0.1265418520741994,
+        "stderr": 0.02530837041483988,
+        "ci95Lower": -0.010984456413976898,
+        "ci95Upper": 0.09348849665848213,
+        "tStat": 1.6299753577995673,
+        "pValueT": 0.10310666662015655,
+        "wilcoxonW": 16,
+        "wilcoxonP": 0.07118911513484338,
+        "wins": 9,
+        "ties": 13,
+        "losses": 3
+      },
+      "occp_fusion": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": 0.04534492112706416,
+        "medianDiff": 0,
+        "stdDiff": 0.13773111028477347,
+        "stderr": 0.027546222056954693,
+        "ci95Lower": -0.011510481198490324,
+        "ci95Upper": 0.10220032345261865,
+        "tStat": 1.646139388309177,
+        "pValueT": 0.0997350172292053,
+        "wilcoxonW": 18,
+        "wilcoxonP": 0.09948083262962149,
+        "wins": 9,
+        "ties": 13,
+        "losses": 3
+      },
+      "occp_enhanced": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": 0.04416855919216518,
+        "medianDiff": 0,
+        "stdDiff": 0.13858849170816778,
+        "stderr": 0.027717698341633557,
+        "ci95Lower": -0.01304077018496648,
+        "ci95Upper": 0.10137788856929685,
+        "tStat": 1.593514679601715,
+        "pValueT": 0.11104475965926386,
+        "wilcoxonW": 20,
+        "wilcoxonP": 0.13609741900303485,
+        "wins": 9,
+        "ties": 13,
+        "losses": 3
+      }
+    },
+    "vs_historical": {
+      "structural_baseline": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": -0.032334703640378125,
+        "medianDiff": 0,
+        "stdDiff": 0.1110518718224368,
+        "stderr": 0.02221037436448736,
+        "ci95Lower": -0.07817691632868004,
+        "ci95Upper": 0.013507509047923784,
+        "tStat": -1.4558378490044173,
+        "pValueT": 0.14543750442776893,
+        "wilcoxonW": 18,
+        "wilcoxonP": 0.18231452534405435,
+        "wins": 4,
+        "ties": 14,
+        "losses": 7
+      },
+      "modelA_context_free": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": 0.0030294472795141815,
+        "medianDiff": 0,
+        "stdDiff": 0.06468887045046211,
+        "stderr": 0.012937774090092422,
+        "ci95Lower": -0.02367411844243658,
+        "ci95Upper": 0.029733013001464942,
+        "tStat": 0.23415521545039905,
+        "pValueT": 0.8148643462893759,
+        "wilcoxonW": 36,
+        "wilcoxonP": 0.813945212761646,
+        "wins": 7,
+        "ties": 13,
+        "losses": 5
+      },
+      "modelB_occp": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": 0.008917316481874491,
+        "medianDiff": 0,
+        "stdDiff": 0.06544271174483855,
+        "stderr": 0.01308854234896771,
+        "ci95Lower": -0.018097434926394866,
+        "ci95Upper": 0.035932067890143846,
+        "tStat": 0.6813070733256861,
+        "pValueT": 0.49567695047189764,
+        "wilcoxonW": 26,
+        "wilcoxonP": 0.5336944685567488,
+        "wins": 7,
+        "ties": 14,
+        "losses": 4
+      },
+      "occp_fusion": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": 0.013010217486686036,
+        "medianDiff": 0,
+        "stdDiff": 0.04730505580756849,
+        "stderr": 0.009461011161513698,
+        "ci95Lower": -0.006517309550678238,
+        "ci95Upper": 0.03253774452405031,
+        "tStat": 1.3751402746051182,
+        "pValueT": 0.1690880441490208,
+        "wilcoxonW": 17,
+        "wilcoxonP": 0.2845027049646638,
+        "wins": 7,
+        "ties": 15,
+        "losses": 3
+      },
+      "occp_enhanced": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": 0.011833855551787049,
+        "medianDiff": 0,
+        "stdDiff": 0.04441738643129549,
+        "stderr": 0.008883477286259097,
+        "ci95Lower": -0.006501641567051729,
+        "ci95Upper": 0.03016935267062583,
+        "tStat": 1.3321197511352427,
+        "pValueT": 0.1828209335861284,
+        "wilcoxonW": 15,
+        "wilcoxonP": 0.20262170263837986,
+        "wins": 7,
+        "ties": 15,
+        "losses": 3
+      }
+    },
+    "vs_occp": {
+      "structural_baseline": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": -0.04125202012225262,
+        "medianDiff": 0,
+        "stdDiff": 0.1265418520741994,
+        "stderr": 0.02530837041483988,
+        "ci95Lower": -0.09348849665848213,
+        "ci95Upper": 0.010984456413976898,
+        "tStat": -1.6299753577995673,
+        "pValueT": 0.10310666662015655,
+        "wilcoxonW": 16,
+        "wilcoxonP": 0.07118911513484338,
+        "wins": 3,
+        "ties": 13,
+        "losses": 9
+      },
+      "historical_reranker": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": -0.008917316481874491,
+        "medianDiff": 0,
+        "stdDiff": 0.06544271174483855,
+        "stderr": 0.01308854234896771,
+        "ci95Lower": -0.035932067890143846,
+        "ci95Upper": 0.018097434926394866,
+        "tStat": -0.6813070733256861,
+        "pValueT": 0.49567695047189764,
+        "wilcoxonW": 26,
+        "wilcoxonP": 0.5336944685567488,
+        "wins": 4,
+        "ties": 14,
+        "losses": 7
+      },
+      "modelA_context_free": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": -0.0058878692023603095,
+        "medianDiff": 0,
+        "stdDiff": 0.016181436747067304,
+        "stderr": 0.003236287349413461,
+        "ci95Lower": -0.012567566291549693,
+        "ci95Upper": 0.0007918278868290739,
+        "tStat": -1.8193283125577266,
+        "pValueT": 0.06886123245048537,
+        "wilcoxonW": 0,
+        "wilcoxonP": 0.017960446400807184,
+        "wins": 0,
+        "ties": 18,
+        "losses": 7
+      },
+      "occp_fusion": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": 0.004092901004811545,
+        "medianDiff": 0,
+        "stdDiff": 0.033489201623529155,
+        "stderr": 0.006697840324705831,
+        "ci95Lower": -0.009731441425381291,
+        "ci95Upper": 0.01791724343500438,
+        "tStat": 0.6110777215327696,
+        "pValueT": 0.5411478869815598,
+        "wilcoxonW": 22,
+        "wilcoxonP": 0.9527646025255088,
+        "wins": 5,
+        "ties": 16,
+        "losses": 4
+      },
+      "occp_enhanced": {
+        "n": 25,
+        "df": 24,
+        "meanDiff": 0.002916539069912558,
+        "medianDiff": 0,
+        "stdDiff": 0.03912528389272571,
+        "stderr": 0.007825056778545142,
+        "ci95Lower": -0.013234378121004614,
+        "ci95Upper": 0.01906745626082973,
+        "tStat": 0.3727179434543106,
+        "pValueT": 0.7093583063293243,
+        "wilcoxonW": 21,
+        "wilcoxonP": 0.8589546911301866,
+        "wins": 5,
+        "ties": 16,
+        "losses": 4
+      }
+    }
+  },
+  "sensitivity4CommitsLang": {
+    "structural_baseline": {
+      "map": 0.05753742784992785,
+      "mrr": 0.06150793650793651
+    },
+    "historical_reranker": {
+      "map": 0.14186507936507936,
+      "mrr": 0.1490079365079365
+    },
+    "modelA_context_free": {
+      "map": 0.19507101086048453,
+      "mrr": 0.20499164578111947
+    },
+    "modelB_occp": {
+      "map": 0.19507101086048453,
+      "mrr": 0.20499164578111947
+    },
+    "occp_fusion": {
+      "map": 0.19507101086048453,
+      "mrr": 0.20499164578111947
+    },
+    "occp_enhanced": {
+      "map": 0.19507101086048453,
+      "mrr": 0.20499164578111947
+    }
+  },
+  "fallbackSummaries": {
+    "Spring PetClinic REST": {
+      "structural_baseline": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      },
+      "historical_reranker": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      },
+      "modelA_context_free": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      },
+      "modelB_occp": {
+        "operation_conditioned": 356,
+        "generic_path": 0,
+        "historical_cochange": 2,
+        "structural_baseline": 673,
+        "totalDecisions": 1031
+      },
+      "occp_smooth_05": {
+        "operation_conditioned": 356,
+        "generic_path": 0,
+        "historical_cochange": 2,
+        "structural_baseline": 673,
+        "totalDecisions": 1031
+      },
+      "occp_thresh_m2": {
+        "operation_conditioned": 349,
+        "generic_path": 0,
+        "historical_cochange": 3,
+        "structural_baseline": 679,
+        "totalDecisions": 1031
+      },
+      "occp_fusion": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      },
+      "occp_enhanced": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      }
+    },
+    "Shopizer": {
+      "structural_baseline": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      },
+      "historical_reranker": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      },
+      "modelA_context_free": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      },
+      "modelB_occp": {
+        "operation_conditioned": 272,
+        "generic_path": 34,
+        "historical_cochange": 1775,
+        "structural_baseline": 0,
+        "totalDecisions": 2081
+      },
+      "occp_smooth_05": {
+        "operation_conditioned": 272,
+        "generic_path": 34,
+        "historical_cochange": 1775,
+        "structural_baseline": 0,
+        "totalDecisions": 2081
+      },
+      "occp_thresh_m2": {
+        "operation_conditioned": 269,
+        "generic_path": 34,
+        "historical_cochange": 1778,
+        "structural_baseline": 0,
+        "totalDecisions": 2081
+      },
+      "occp_fusion": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      },
+      "occp_enhanced": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      }
+    },
+    "Apache Commons Lang": {
+      "structural_baseline": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      },
+      "historical_reranker": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      },
+      "modelA_context_free": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      },
+      "modelB_occp": {
+        "operation_conditioned": 532,
+        "generic_path": 67,
+        "historical_cochange": 0,
+        "structural_baseline": 244,
+        "totalDecisions": 843
+      },
+      "occp_smooth_05": {
+        "operation_conditioned": 532,
+        "generic_path": 67,
+        "historical_cochange": 0,
+        "structural_baseline": 244,
+        "totalDecisions": 843
+      },
+      "occp_thresh_m2": {
+        "operation_conditioned": 532,
+        "generic_path": 67,
+        "historical_cochange": 0,
+        "structural_baseline": 244,
+        "totalDecisions": 843
+      },
+      "occp_fusion": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      },
+      "occp_enhanced": {
+        "operation_conditioned": 0,
+        "generic_path": 0,
+        "historical_cochange": 0,
+        "structural_baseline": 0,
+        "totalDecisions": 0
+      }
+    }
+  },
+  "operationSummaries": {
+    "Spring PetClinic REST": {
+      "primaryDistribution": {
+        "METHOD_SIGNATURE_OR_DECLARATION": 0,
+        "METHOD_BODY_OR_IMPLEMENTATION": 25,
+        "FIELD_OR_DATA_SHAPE": 0,
+        "TYPE_OR_INHERITANCE": 0,
+        "ADD_DELETE_OR_RENAME": 0,
+        "UNKNOWN_OR_MIXED": 32
+      },
+      "dominantResolvedCount": 22,
+      "totalEvaluated": 57
+    },
+    "Shopizer": {
+      "primaryDistribution": {
+        "METHOD_SIGNATURE_OR_DECLARATION": 11,
+        "METHOD_BODY_OR_IMPLEMENTATION": 10,
+        "FIELD_OR_DATA_SHAPE": 0,
+        "TYPE_OR_INHERITANCE": 0,
+        "ADD_DELETE_OR_RENAME": 0,
+        "UNKNOWN_OR_MIXED": 25
+      },
+      "dominantResolvedCount": 12,
+      "totalEvaluated": 46
+    },
+    "Apache Commons Lang": {
+      "primaryDistribution": {
+        "METHOD_SIGNATURE_OR_DECLARATION": 1,
+        "METHOD_BODY_OR_IMPLEMENTATION": 10,
+        "FIELD_OR_DATA_SHAPE": 0,
+        "TYPE_OR_INHERITANCE": 0,
+        "ADD_DELETE_OR_RENAME": 0,
+        "UNKNOWN_OR_MIXED": 56
+      },
+      "dominantResolvedCount": 0,
+      "totalEvaluated": 67
+    }
+  }
+}

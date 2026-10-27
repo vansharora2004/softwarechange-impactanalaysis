@@ -1,0 +1,251 @@
+Project,CommitHash,CaseCount,Model,MAP,MRR,DeltaVsBaseline,DeltaVsCSF,DeltaVsV2
+"Spring PetClinic REST","28a1c2c",9,"Canonical Structural Baseline",0.1101,0.0628,0.0000,0.0212,-0.0193
+"Spring PetClinic REST","28a1c2c",9,"Historical Co-Change Reranker (V4)",0.1116,0.0899,0.0015,0.0227,-0.0178
+"Spring PetClinic REST","28a1c2c",9,"Continuous Score Fusion (CSF Frozen Baseline)",0.0889,0.0586,-0.0212,0.0000,-0.0405
+"Spring PetClinic REST","28a1c2c",9,"Original EGCP-Evo (v1, alpha=0.0)",0.1194,0.1796,0.0093,0.0305,-0.0100
+"Spring PetClinic REST","28a1c2c",9,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.1294,0.1286,0.0193,0.0405,0.0000
+"Spring PetClinic REST","28a1c2c",9,"EGCP v3 Base (Parity Baseline)",0.1308,0.1481,0.0207,0.0419,0.0014
+"Spring PetClinic REST","28a1c2c",9,"EGCP v3 Ablation 1: Adaptive Beta Only",0.1308,0.1481,0.0207,0.0419,0.0014
+"Spring PetClinic REST","28a1c2c",9,"EGCP v3 Ablation 2: Operation-Aware Only",0.1308,0.1481,0.0207,0.0419,0.0014
+"Spring PetClinic REST","28a1c2c",9,"EGCP v3 Ablation 3: Entity Dampening Only",0.1830,0.2130,0.0729,0.0941,0.0536
+"Spring PetClinic REST","28a1c2c",9,"EGCP v3 Combined (Adaptive + Op + Damp)",0.1830,0.2130,0.0729,0.0941,0.0536
+"Spring PetClinic REST","a3884f7",8,"Canonical Structural Baseline",0.2640,0.5990,0.0000,-0.1066,0.0228
+"Spring PetClinic REST","a3884f7",8,"Historical Co-Change Reranker (V4)",0.2729,0.5937,0.0089,-0.0977,0.0318
+"Spring PetClinic REST","a3884f7",8,"Continuous Score Fusion (CSF Frozen Baseline)",0.3706,0.8542,0.1066,0.0000,0.1294
+"Spring PetClinic REST","a3884f7",8,"Original EGCP-Evo (v1, alpha=0.0)",0.2825,0.7292,0.0185,-0.0881,0.0413
+"Spring PetClinic REST","a3884f7",8,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.2411,0.5417,-0.0228,-0.1294,0.0000
+"Spring PetClinic REST","a3884f7",8,"EGCP v3 Base (Parity Baseline)",0.2478,0.6012,-0.0161,-0.1227,0.0067
+"Spring PetClinic REST","a3884f7",8,"EGCP v3 Ablation 1: Adaptive Beta Only",0.2526,0.6042,-0.0113,-0.1179,0.0115
+"Spring PetClinic REST","a3884f7",8,"EGCP v3 Ablation 2: Operation-Aware Only",0.2359,0.5387,-0.0280,-0.1346,-0.0052
+"Spring PetClinic REST","a3884f7",8,"EGCP v3 Ablation 3: Entity Dampening Only",0.2593,0.6012,-0.0046,-0.1112,0.0182
+"Spring PetClinic REST","a3884f7",8,"EGCP v3 Combined (Adaptive + Op + Damp)",0.2606,0.6042,-0.0034,-0.1100,0.0194
+"Spring PetClinic REST","f2670f9",2,"Canonical Structural Baseline",0.4167,0.4167,0.0000,0.1212,0.1944
+"Spring PetClinic REST","f2670f9",2,"Historical Co-Change Reranker (V4)",0.3333,0.3333,-0.0833,0.0379,0.1111
+"Spring PetClinic REST","f2670f9",2,"Continuous Score Fusion (CSF Frozen Baseline)",0.2955,0.2955,-0.1212,0.0000,0.0732
+"Spring PetClinic REST","f2670f9",2,"Original EGCP-Evo (v1, alpha=0.0)",0.2833,0.2833,-0.1333,-0.0121,0.0611
+"Spring PetClinic REST","f2670f9",2,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.2222,0.2222,-0.1944,-0.0732,0.0000
+"Spring PetClinic REST","f2670f9",2,"EGCP v3 Base (Parity Baseline)",0.2167,0.2167,-0.2000,-0.0788,-0.0056
+"Spring PetClinic REST","f2670f9",2,"EGCP v3 Ablation 1: Adaptive Beta Only",0.2167,0.2167,-0.2000,-0.0788,-0.0056
+"Spring PetClinic REST","f2670f9",2,"EGCP v3 Ablation 2: Operation-Aware Only",0.2167,0.2167,-0.2000,-0.0788,-0.0056
+"Spring PetClinic REST","f2670f9",2,"EGCP v3 Ablation 3: Entity Dampening Only",0.2381,0.2381,-0.1786,-0.0574,0.0159
+"Spring PetClinic REST","f2670f9",2,"EGCP v3 Combined (Adaptive + Op + Damp)",0.2381,0.2381,-0.1786,-0.0574,0.0159
+"Spring PetClinic REST","0b02b04",7,"Canonical Structural Baseline",0.3544,0.7321,0.0000,0.0525,0.0408
+"Spring PetClinic REST","0b02b04",7,"Historical Co-Change Reranker (V4)",0.3242,0.6012,-0.0302,0.0223,0.0106
+"Spring PetClinic REST","0b02b04",7,"Continuous Score Fusion (CSF Frozen Baseline)",0.3019,0.4693,-0.0525,0.0000,-0.0117
+"Spring PetClinic REST","0b02b04",7,"Original EGCP-Evo (v1, alpha=0.0)",0.3129,0.5583,-0.0415,0.0110,-0.0008
+"Spring PetClinic REST","0b02b04",7,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.3136,0.5720,-0.0408,0.0117,0.0000
+"Spring PetClinic REST","0b02b04",7,"EGCP v3 Base (Parity Baseline)",0.2949,0.4577,-0.0595,-0.0070,-0.0187
+"Spring PetClinic REST","0b02b04",7,"EGCP v3 Ablation 1: Adaptive Beta Only",0.2921,0.4424,-0.0623,-0.0098,-0.0215
+"Spring PetClinic REST","0b02b04",7,"EGCP v3 Ablation 2: Operation-Aware Only",0.2939,0.4532,-0.0605,-0.0080,-0.0197
+"Spring PetClinic REST","0b02b04",7,"EGCP v3 Ablation 3: Entity Dampening Only",0.3265,0.5881,-0.0279,0.0246,0.0128
+"Spring PetClinic REST","0b02b04",7,"EGCP v3 Combined (Adaptive + Op + Damp)",0.3133,0.4929,-0.0411,0.0114,-0.0003
+"Spring PetClinic REST","f957c77",2,"Canonical Structural Baseline",0.0942,0.0942,0.0000,0.0175,0.0506
+"Spring PetClinic REST","f957c77",2,"Historical Co-Change Reranker (V4)",0.0932,0.0932,-0.0010,0.0165,0.0496
+"Spring PetClinic REST","f957c77",2,"Continuous Score Fusion (CSF Frozen Baseline)",0.0767,0.0767,-0.0175,0.0000,0.0331
+"Spring PetClinic REST","f957c77",2,"Original EGCP-Evo (v1, alpha=0.0)",0.0932,0.0932,-0.0010,0.0165,0.0496
+"Spring PetClinic REST","f957c77",2,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0436,0.0436,-0.0506,-0.0331,0.0000
+"Spring PetClinic REST","f957c77",2,"EGCP v3 Base (Parity Baseline)",0.0436,0.0436,-0.0506,-0.0331,0.0000
+"Spring PetClinic REST","f957c77",2,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0436,0.0436,-0.0506,-0.0331,0.0000
+"Spring PetClinic REST","f957c77",2,"EGCP v3 Ablation 2: Operation-Aware Only",0.0463,0.0463,-0.0479,-0.0304,0.0027
+"Spring PetClinic REST","f957c77",2,"EGCP v3 Ablation 3: Entity Dampening Only",0.0505,0.0505,-0.0437,-0.0262,0.0069
+"Spring PetClinic REST","f957c77",2,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0612,0.0612,-0.0330,-0.0155,0.0176
+"Spring PetClinic REST","a66fd63",12,"Canonical Structural Baseline",0.0884,0.2139,0.0000,-0.0358,-0.0196
+"Spring PetClinic REST","a66fd63",12,"Historical Co-Change Reranker (V4)",0.1064,0.3368,0.0180,-0.0178,-0.0016
+"Spring PetClinic REST","a66fd63",12,"Continuous Score Fusion (CSF Frozen Baseline)",0.1242,0.4772,0.0358,0.0000,0.0162
+"Spring PetClinic REST","a66fd63",12,"Original EGCP-Evo (v1, alpha=0.0)",0.1127,0.3785,0.0243,-0.0115,0.0047
+"Spring PetClinic REST","a66fd63",12,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.1080,0.3661,0.0196,-0.0162,0.0000
+"Spring PetClinic REST","a66fd63",12,"EGCP v3 Base (Parity Baseline)",0.1080,0.3661,0.0196,-0.0162,0.0000
+"Spring PetClinic REST","a66fd63",12,"EGCP v3 Ablation 1: Adaptive Beta Only",0.1068,0.3661,0.0184,-0.0175,-0.0013
+"Spring PetClinic REST","a66fd63",12,"EGCP v3 Ablation 2: Operation-Aware Only",0.1068,0.3661,0.0184,-0.0175,-0.0013
+"Spring PetClinic REST","a66fd63",12,"EGCP v3 Ablation 3: Entity Dampening Only",0.1080,0.3661,0.0196,-0.0162,0.0000
+"Spring PetClinic REST","a66fd63",12,"EGCP v3 Combined (Adaptive + Op + Damp)",0.1055,0.3661,0.0171,-0.0187,-0.0025
+"Spring PetClinic REST","64b36a2",9,"Canonical Structural Baseline",0.0156,0.0554,0.0000,0.0000,-0.0046
+"Spring PetClinic REST","64b36a2",9,"Historical Co-Change Reranker (V4)",0.0156,0.0554,0.0000,0.0000,-0.0046
+"Spring PetClinic REST","64b36a2",9,"Continuous Score Fusion (CSF Frozen Baseline)",0.0156,0.0554,0.0000,0.0000,-0.0046
+"Spring PetClinic REST","64b36a2",9,"Original EGCP-Evo (v1, alpha=0.0)",0.0156,0.0554,0.0000,0.0000,-0.0046
+"Spring PetClinic REST","64b36a2",9,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0202,0.0807,0.0046,0.0046,0.0000
+"Spring PetClinic REST","64b36a2",9,"EGCP v3 Base (Parity Baseline)",0.0202,0.0807,0.0046,0.0046,0.0000
+"Spring PetClinic REST","64b36a2",9,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0202,0.0807,0.0046,0.0046,0.0000
+"Spring PetClinic REST","64b36a2",9,"EGCP v3 Ablation 2: Operation-Aware Only",0.0213,0.0899,0.0058,0.0058,0.0012
+"Spring PetClinic REST","64b36a2",9,"EGCP v3 Ablation 3: Entity Dampening Only",0.0187,0.0784,0.0031,0.0031,-0.0015
+"Spring PetClinic REST","64b36a2",9,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0199,0.0872,0.0043,0.0043,-0.0003
+"Spring PetClinic REST","abd2bd4",8,"Canonical Structural Baseline",0.0632,0.1560,0.0000,0.0000,-0.0064
+"Spring PetClinic REST","abd2bd4",8,"Historical Co-Change Reranker (V4)",0.0632,0.1560,0.0000,0.0000,-0.0064
+"Spring PetClinic REST","abd2bd4",8,"Continuous Score Fusion (CSF Frozen Baseline)",0.0632,0.1560,0.0000,0.0000,-0.0064
+"Spring PetClinic REST","abd2bd4",8,"Original EGCP-Evo (v1, alpha=0.0)",0.0632,0.1560,0.0000,0.0000,-0.0064
+"Spring PetClinic REST","abd2bd4",8,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0697,0.1478,0.0064,0.0064,0.0000
+"Spring PetClinic REST","abd2bd4",8,"EGCP v3 Base (Parity Baseline)",0.0697,0.1478,0.0064,0.0064,0.0000
+"Spring PetClinic REST","abd2bd4",8,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0697,0.1478,0.0064,0.0064,0.0000
+"Spring PetClinic REST","abd2bd4",8,"EGCP v3 Ablation 2: Operation-Aware Only",0.0697,0.1478,0.0064,0.0064,0.0000
+"Spring PetClinic REST","abd2bd4",8,"EGCP v3 Ablation 3: Entity Dampening Only",0.0802,0.1545,0.0170,0.0170,0.0105
+"Spring PetClinic REST","abd2bd4",8,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0802,0.1545,0.0170,0.0170,0.0105
+"Shopizer","a59820c",16,"Canonical Structural Baseline",0.0644,0.4071,0.0000,-0.0748,-0.0124
+"Shopizer","a59820c",16,"Historical Co-Change Reranker (V4)",0.1217,0.6105,0.0573,-0.0175,0.0449
+"Shopizer","a59820c",16,"Continuous Score Fusion (CSF Frozen Baseline)",0.1392,0.6221,0.0748,0.0000,0.0623
+"Shopizer","a59820c",16,"Original EGCP-Evo (v1, alpha=0.0)",0.1961,0.8958,0.1317,0.0569,0.1192
+"Shopizer","a59820c",16,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0769,0.3337,0.0124,-0.0623,0.0000
+"Shopizer","a59820c",16,"EGCP v3 Base (Parity Baseline)",0.0774,0.3369,0.0130,-0.0618,0.0005
+"Shopizer","a59820c",16,"EGCP v3 Ablation 1: Adaptive Beta Only",0.1304,0.6021,0.0660,-0.0088,0.0535
+"Shopizer","a59820c",16,"EGCP v3 Ablation 2: Operation-Aware Only",0.0800,0.3661,0.0155,-0.0592,0.0031
+"Shopizer","a59820c",16,"EGCP v3 Ablation 3: Entity Dampening Only",0.1028,0.4621,0.0383,-0.0364,0.0259
+"Shopizer","a59820c",16,"EGCP v3 Combined (Adaptive + Op + Damp)",0.1418,0.6334,0.0773,0.0025,0.0649
+"Shopizer","60f0fac",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"Continuous Score Fusion (CSF Frozen Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"Original EGCP-Evo (v1, alpha=0.0)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"EGCP v3 Base (Parity Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"EGCP v3 Ablation 2: Operation-Aware Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"EGCP v3 Ablation 3: Entity Dampening Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"Continuous Score Fusion (CSF Frozen Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"Original EGCP-Evo (v1, alpha=0.0)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"EGCP v3 Base (Parity Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"EGCP v3 Ablation 2: Operation-Aware Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"EGCP v3 Ablation 3: Entity Dampening Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","81b0ade",6,"Canonical Structural Baseline",0.2272,0.5906,0.0000,-0.4150,-0.0543
+"Shopizer","81b0ade",6,"Historical Co-Change Reranker (V4)",0.6667,1.0000,0.4395,0.0244,0.3852
+"Shopizer","81b0ade",6,"Continuous Score Fusion (CSF Frozen Baseline)",0.6422,1.0000,0.4150,0.0000,0.3608
+"Shopizer","81b0ade",6,"Original EGCP-Evo (v1, alpha=0.0)",0.6667,1.0000,0.4395,0.0244,0.3852
+"Shopizer","81b0ade",6,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.2815,0.4738,0.0543,-0.3608,0.0000
+"Shopizer","81b0ade",6,"EGCP v3 Base (Parity Baseline)",0.2815,0.4738,0.0543,-0.3608,0.0000
+"Shopizer","81b0ade",6,"EGCP v3 Ablation 1: Adaptive Beta Only",0.6667,1.0000,0.4395,0.0244,0.3852
+"Shopizer","81b0ade",6,"EGCP v3 Ablation 2: Operation-Aware Only",0.3029,0.5571,0.0757,-0.3393,0.0214
+"Shopizer","81b0ade",6,"EGCP v3 Ablation 3: Entity Dampening Only",0.3525,0.5889,0.1254,-0.2897,0.0711
+"Shopizer","81b0ade",6,"EGCP v3 Combined (Adaptive + Op + Damp)",0.6667,1.0000,0.4395,0.0244,0.3852
+"Shopizer","3f237ee",6,"Canonical Structural Baseline",0.2272,0.5906,0.0000,-0.0604,0.0761
+"Shopizer","3f237ee",6,"Historical Co-Change Reranker (V4)",0.2876,0.7500,0.0604,0.0000,0.1365
+"Shopizer","3f237ee",6,"Continuous Score Fusion (CSF Frozen Baseline)",0.2876,0.7500,0.0604,0.0000,0.1365
+"Shopizer","3f237ee",6,"Original EGCP-Evo (v1, alpha=0.0)",0.3630,0.9167,0.1358,0.0754,0.2119
+"Shopizer","3f237ee",6,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.1511,0.2347,-0.0761,-0.1365,0.0000
+"Shopizer","3f237ee",6,"EGCP v3 Base (Parity Baseline)",0.1529,0.2347,-0.0743,-0.1347,0.0018
+"Shopizer","3f237ee",6,"EGCP v3 Ablation 1: Adaptive Beta Only",0.2164,0.5194,-0.0107,-0.0711,0.0653
+"Shopizer","3f237ee",6,"EGCP v3 Ablation 2: Operation-Aware Only",0.1581,0.2625,-0.0691,-0.1295,0.0070
+"Shopizer","3f237ee",6,"EGCP v3 Ablation 3: Entity Dampening Only",0.2297,0.4222,0.0025,-0.0579,0.0786
+"Shopizer","3f237ee",6,"EGCP v3 Combined (Adaptive + Op + Damp)",0.2905,0.6667,0.0634,0.0030,0.1394
+"Shopizer","a2316b7",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"Continuous Score Fusion (CSF Frozen Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"Original EGCP-Evo (v1, alpha=0.0)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"EGCP v3 Base (Parity Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"EGCP v3 Ablation 2: Operation-Aware Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"EGCP v3 Ablation 3: Entity Dampening Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"Continuous Score Fusion (CSF Frozen Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"Original EGCP-Evo (v1, alpha=0.0)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"EGCP v3 Base (Parity Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"EGCP v3 Ablation 2: Operation-Aware Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"EGCP v3 Ablation 3: Entity Dampening Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"Continuous Score Fusion (CSF Frozen Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"Original EGCP-Evo (v1, alpha=0.0)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"EGCP v3 Base (Parity Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"EGCP v3 Ablation 2: Operation-Aware Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"EGCP v3 Ablation 3: Entity Dampening Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"Continuous Score Fusion (CSF Frozen Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"Original EGCP-Evo (v1, alpha=0.0)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"EGCP v3 Base (Parity Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"EGCP v3 Ablation 2: Operation-Aware Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"EGCP v3 Ablation 3: Entity Dampening Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"Continuous Score Fusion (CSF Frozen Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"Original EGCP-Evo (v1, alpha=0.0)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"EGCP v3 Base (Parity Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"EGCP v3 Ablation 2: Operation-Aware Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"EGCP v3 Ablation 3: Entity Dampening Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"Continuous Score Fusion (CSF Frozen Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"Original EGCP-Evo (v1, alpha=0.0)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"EGCP v3 Base (Parity Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"EGCP v3 Ablation 2: Operation-Aware Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"EGCP v3 Ablation 3: Entity Dampening Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"Continuous Score Fusion (CSF Frozen Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"Original EGCP-Evo (v1, alpha=0.0)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"EGCP v3 Base (Parity Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"EGCP v3 Ablation 2: Operation-Aware Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"EGCP v3 Ablation 3: Entity Dampening Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","72dc555",3,"Canonical Structural Baseline",0.1182,0.0944,0.0000,-0.5484,-0.7706
+"Apache Commons Lang","72dc555",3,"Historical Co-Change Reranker (V4)",0.4556,0.4444,0.3373,-0.2111,-0.4333
+"Apache Commons Lang","72dc555",3,"Continuous Score Fusion (CSF Frozen Baseline)",0.6667,0.6667,0.5484,0.0000,-0.2222
+"Apache Commons Lang","72dc555",3,"Original EGCP-Evo (v1, alpha=0.0)",0.4556,0.4444,0.3373,-0.2111,-0.4333
+"Apache Commons Lang","72dc555",3,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.8889,1.0000,0.7706,0.2222,0.0000
+"Apache Commons Lang","72dc555",3,"EGCP v3 Base (Parity Baseline)",0.8889,1.0000,0.7706,0.2222,0.0000
+"Apache Commons Lang","72dc555",3,"EGCP v3 Ablation 1: Adaptive Beta Only",0.8889,1.0000,0.7706,0.2222,0.0000
+"Apache Commons Lang","72dc555",3,"EGCP v3 Ablation 2: Operation-Aware Only",0.8889,1.0000,0.7706,0.2222,0.0000
+"Apache Commons Lang","72dc555",3,"EGCP v3 Ablation 3: Entity Dampening Only",0.8889,1.0000,0.7706,0.2222,0.0000
+"Apache Commons Lang","72dc555",3,"EGCP v3 Combined (Adaptive + Op + Damp)",0.8889,1.0000,0.7706,0.2222,0.0000
+"Apache Commons Lang","4c87656",3,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"Continuous Score Fusion (CSF Frozen Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"Original EGCP-Evo (v1, alpha=0.0)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"EGCP v3 Base (Parity Baseline)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"EGCP v3 Ablation 2: Operation-Aware Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"EGCP v3 Ablation 3: Entity Dampening Only",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","ed31115",56,"Canonical Structural Baseline",0.0060,0.1156,0.0000,-0.0045,-0.0055
+"Apache Commons Lang","ed31115",56,"Historical Co-Change Reranker (V4)",0.0060,0.1126,-0.0001,-0.0045,-0.0055
+"Apache Commons Lang","ed31115",56,"Continuous Score Fusion (CSF Frozen Baseline)",0.0105,0.2168,0.0045,0.0000,-0.0010
+"Apache Commons Lang","ed31115",56,"Original EGCP-Evo (v1, alpha=0.0)",0.0060,0.1126,-0.0001,-0.0045,-0.0055
+"Apache Commons Lang","ed31115",56,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.0115,0.2569,0.0055,0.0010,0.0000
+"Apache Commons Lang","ed31115",56,"EGCP v3 Base (Parity Baseline)",0.0115,0.2569,0.0055,0.0010,0.0000
+"Apache Commons Lang","ed31115",56,"EGCP v3 Ablation 1: Adaptive Beta Only",0.0117,0.2658,0.0056,0.0012,0.0002
+"Apache Commons Lang","ed31115",56,"EGCP v3 Ablation 2: Operation-Aware Only",0.0114,0.2554,0.0053,0.0009,-0.0001
+"Apache Commons Lang","ed31115",56,"EGCP v3 Ablation 3: Entity Dampening Only",0.0115,0.2569,0.0055,0.0010,0.0000
+"Apache Commons Lang","ed31115",56,"EGCP v3 Combined (Adaptive + Op + Damp)",0.0116,0.2644,0.0055,0.0010,0.0000
+"Apache Commons Lang","8065c45",2,"Canonical Structural Baseline",0.0389,0.0389,0.0000,-0.0004,-0.3778
+"Apache Commons Lang","8065c45",2,"Historical Co-Change Reranker (V4)",0.0389,0.0389,0.0000,-0.0004,-0.3778
+"Apache Commons Lang","8065c45",2,"Continuous Score Fusion (CSF Frozen Baseline)",0.0393,0.0393,0.0004,0.0000,-0.3774
+"Apache Commons Lang","8065c45",2,"Original EGCP-Evo (v1, alpha=0.0)",0.0389,0.0389,0.0000,-0.0004,-0.3778
+"Apache Commons Lang","8065c45",2,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.4167,0.4167,0.3778,0.3774,0.0000
+"Apache Commons Lang","8065c45",2,"EGCP v3 Base (Parity Baseline)",0.4167,0.4167,0.3778,0.3774,0.0000
+"Apache Commons Lang","8065c45",2,"EGCP v3 Ablation 1: Adaptive Beta Only",0.4167,0.4167,0.3778,0.3774,0.0000
+"Apache Commons Lang","8065c45",2,"EGCP v3 Ablation 2: Operation-Aware Only",0.3214,0.3214,0.2825,0.2821,-0.0952
+"Apache Commons Lang","8065c45",2,"EGCP v3 Ablation 3: Entity Dampening Only",0.4167,0.4167,0.3778,0.3774,0.0000
+"Apache Commons Lang","8065c45",2,"EGCP v3 Combined (Adaptive + Op + Damp)",0.3214,0.3214,0.2825,0.2821,-0.0952
+"Apache Commons Lang","117a9ea",3,"Canonical Structural Baseline",0.0730,0.1127,0.0000,0.0000,-0.2325
+"Apache Commons Lang","117a9ea",3,"Historical Co-Change Reranker (V4)",0.0730,0.1127,0.0000,0.0000,-0.2325
+"Apache Commons Lang","117a9ea",3,"Continuous Score Fusion (CSF Frozen Baseline)",0.0730,0.1127,0.0000,0.0000,-0.2325
+"Apache Commons Lang","117a9ea",3,"Original EGCP-Evo (v1, alpha=0.0)",0.0730,0.1127,0.0000,0.0000,-0.2325
+"Apache Commons Lang","117a9ea",3,"EGCP v2 Main (beta=0.60, gamma=0.75)",0.3056,0.4444,0.2325,0.2325,0.0000
+"Apache Commons Lang","117a9ea",3,"EGCP v3 Base (Parity Baseline)",0.3056,0.4444,0.2325,0.2325,0.0000
+"Apache Commons Lang","117a9ea",3,"EGCP v3 Ablation 1: Adaptive Beta Only",0.3056,0.4444,0.2325,0.2325,0.0000
+"Apache Commons Lang","117a9ea",3,"EGCP v3 Ablation 2: Operation-Aware Only",0.2639,0.3611,0.1909,0.1909,-0.0417
+"Apache Commons Lang","117a9ea",3,"EGCP v3 Ablation 3: Entity Dampening Only",0.3056,0.4444,0.2325,0.2325,0.0000
+"Apache Commons Lang","117a9ea",3,"EGCP v3 Combined (Adaptive + Op + Damp)",0.2639,0.3611,0.1909,0.1909,-0.0417

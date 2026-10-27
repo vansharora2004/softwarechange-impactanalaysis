@@ -1,0 +1,111 @@
+{
+  "metadata": {
+    "title": "Apache Maven Dataset Suitability & Technical Blocker Report",
+    "targetRepository": "Apache Maven",
+    "repoPath": "C:/yashika/STUDY/clg_project/maven",
+    "evaluationDate": "2026-10-19T18:09:01.443Z",
+    "evaluator": "Antigravity Research Auditor",
+    "status": "EVALUATION_HALTED_ON_BLOCKERS"
+  },
+  "gitHistory": {
+    "totalCommits": 16582,
+    "dateRange": {
+      "firstCommit": "2008-03-11 21:30:44 +0000",
+      "latestCommit": "2026-10-19 18:46:20 +0200",
+      "durationYears": 18.6
+    },
+    "mergeCommits": {
+      "total": 59,
+      "percentage": "0.36%",
+      "recent100": 0,
+      "recent200": 0
+    },
+    "nonMergeCommits": 16523,
+    "recent100Breakdown": {
+      "inspected": 100,
+      "noJavaChanges": 45,
+      "testOnlyJava": 10,
+      "singleNonTestJava": 19,
+      "potentiallyEligible": 26
+    },
+    "recent200Breakdown": {
+      "inspected": 200,
+      "noJavaChanges": 89,
+      "testOnlyJava": 14,
+      "singleNonTestJava": 46,
+      "potentiallyEligible": 51
+    },
+    "changedFilesDistribution": {
+      "min": 2,
+      "max": 45,
+      "median": 4,
+      "mean": 5.44
+    },
+    "priorHistoryDepth": "16,482 commits precede commit index 100",
+    "bulkRefactorsAndFormatting": {
+      "recent200Count": 1,
+      "dependencyUpdatesRecent200": 5
+    }
+  },
+  "sourceStructure": {
+    "totalJavaFiles": 3280,
+    "moduleBreakdown": {
+      "impl": 1034,
+      "its": 1242,
+      "compat": 697,
+      "api": 299,
+      "src": 7,
+      "apache-maven": 1,
+      ".github": 0,
+      ".idea": 0,
+      ".mvn": 0
+    },
+    "astAnalyzerExecutionTimeSec": 387.89,
+    "componentsFound": 3101,
+    "overwrittenDuplicateComponents": 179,
+    "relationshipsFound": 8844,
+    "componentTypeDistribution": {
+      "Other": 1210,
+      "Test": 1488,
+      "Repository": 171,
+      "Service": 45,
+      "Entity/Model": 187
+    },
+    "relationshipTypeDistribution": {
+      "REFERENCES": 2969,
+      "TESTS": 3547,
+      "USES": 960,
+      "IMPLEMENTS": 563,
+      "EXTENDS": 530,
+      "ASSOCIATED_WITH": 235,
+      "DEPENDS_ON": 40
+    }
+  },
+  "identifiedBlockers": [
+    {
+      "id": "BLOCKER_1_WINDOWS_MAX_PATH",
+      "name": "Windows MAX_PATH File Creation Failure in Worktree",
+      "impact": "100% of parent revisions fail checkout during getOrBuildHistoricalGraph",
+      "detail": "Git worktree checkout fails with 'fatal: cannot create directory at its/core-it-suite/src/test/resources/mng-6759-...: Filename too long'. The harness caught this and logs E_HISTORICAL_GRAPH_FAILED, resulting in 0 valid evaluation cases unless core git configuration is modified."
+    },
+    {
+      "id": "BLOCKER_2_FQN_NAMESPACE_COLLISION",
+      "name": "Duplicate FQN Overwriting Across Multi-Module Subdirectories",
+      "impact": "179 components silently overwritten; ground truth corrupted",
+      "detail": "javaAnalyzer uses packageName.ClassName as component ID. In Maven, test mocks in its/core-it-suite/ share identical package and class names with production classes (e.g. CoreItMojo, TouchMojo), overwriting production components in componentsMap and pointing filePaths to dummy test resources."
+    },
+    {
+      "id": "BLOCKER_3_INJECTION_FRAMEWORK_MISMATCH",
+      "name": "Plexus / Guice / Sisu Architecture vs Spring Regex Analyzer",
+      "impact": "39.0% of components classified as 'Other'; inter-module dependencies missed",
+      "detail": "Maven uses Plexus (@Component, @Requirement) and JSR-330 / Sisu (@Named, @Inject) instead of Spring. The AST analyzer is optimized for Spring annotations, leaving architectural relationships largely unextracted."
+    },
+    {
+      "id": "BLOCKER_4_COMPUTATIONAL_TRACTABILITY",
+      "name": "Uncached Graph Construction Scaling",
+      "impact": "387.89s per commit (~2.8 hours for 26 commits)",
+      "detail": "Because Maven contains 3,280 Java files, relationship extraction requires hundreds of thousands of dynamic regex matches per class, making sequential parent graph reconstruction computationally prohibitive without architectural pruning."
+    }
+  ],
+  "verdict": "NO_GO_ON_MAVEN_WITHOUT_CORE_REFACTORING"
+}

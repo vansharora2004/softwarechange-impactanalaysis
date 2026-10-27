@@ -1,0 +1,211 @@
+{
+  "metadata": {
+    "generatedAt": "2026-10-14T20:57:32.837Z",
+    "analysisType": "Hop-Depth Sensitivity (1-hop vs 2-hop vs 3-hop)",
+    "primaryFinding": "2-hop provides optimal trade-off: capturing indirect architectural callers and tests without exponential candidate explosion of 3-hop"
+  },
+  "petClinic": {
+    "structural": {
+      "hop1": {
+        "commitCount": 7,
+        "candidateCount": 2.8038,
+        "precision": 0.1642,
+        "recall": 0.0954,
+        "f1": 0.1051,
+        "P@3": 0.1944,
+        "R@3": 0.0718,
+        "P@5": 0.1731,
+        "R@5": 0.0821,
+        "P@10": 0.1675,
+        "R@10": 0.0954,
+        "map": 0.0768,
+        "mrr": 0.2653,
+        "testRecall": 0.1113
+      },
+      "hop2": {
+        "commitCount": 7,
+        "candidateCount": 12.9738,
+        "precision": 0.2008,
+        "recall": 0.3926,
+        "f1": 0.2441,
+        "P@3": 0.1735,
+        "R@3": 0.0856,
+        "P@5": 0.1738,
+        "R@5": 0.1382,
+        "P@10": 0.1761,
+        "R@10": 0.2245,
+        "map": 0.1691,
+        "mrr": 0.3244,
+        "testRecall": 0.2208
+      },
+      "hop3": {
+        "commitCount": 7,
+        "candidateCount": 31.5398,
+        "precision": 0.0935,
+        "recall": 0.5242,
+        "f1": 0.154,
+        "P@3": 0.1735,
+        "R@3": 0.0856,
+        "P@5": 0.1738,
+        "R@5": 0.1382,
+        "P@10": 0.1562,
+        "R@10": 0.2367,
+        "map": 0.1941,
+        "mrr": 0.33,
+        "testRecall": 0.3429
+      }
+    },
+    "proposed": {
+      "hop1": {
+        "commitCount": 7,
+        "candidateCount": 2.8038,
+        "precision": 0.1642,
+        "recall": 0.0954,
+        "f1": 0.1051,
+        "P@3": 0.1973,
+        "R@3": 0.0741,
+        "P@5": 0.1772,
+        "R@5": 0.0855,
+        "P@10": 0.1675,
+        "R@10": 0.0954,
+        "map": 0.0776,
+        "mrr": 0.2633,
+        "testRecall": 0.1113
+      },
+      "hop2": {
+        "commitCount": 7,
+        "candidateCount": 12.9738,
+        "precision": 0.2008,
+        "recall": 0.3926,
+        "f1": 0.2441,
+        "P@3": 0.1627,
+        "R@3": 0.076,
+        "P@5": 0.1778,
+        "R@5": 0.1416,
+        "P@10": 0.172,
+        "R@10": 0.2177,
+        "map": 0.1642,
+        "mrr": 0.311,
+        "testRecall": 0.2208
+      },
+      "hop3": {
+        "commitCount": 7,
+        "candidateCount": 31.5398,
+        "precision": 0.0935,
+        "recall": 0.5242,
+        "f1": 0.154,
+        "P@3": 0.1746,
+        "R@3": 0.0792,
+        "P@5": 0.1802,
+        "R@5": 0.1349,
+        "P@10": 0.1524,
+        "R@10": 0.2261,
+        "map": 0.1877,
+        "mrr": 0.323,
+        "testRecall": 0.3429
+      }
+    }
+  },
+  "shopizerNormal": {
+    "structural": {
+      "hop1": {
+        "commitCount": 12,
+        "candidateCount": 3.6528,
+        "precision": 0.0792,
+        "recall": 0.1319,
+        "f1": 0.0752,
+        "P@3": 0.0801,
+        "R@3": 0.0365,
+        "P@5": 0.09,
+        "R@5": 0.1319,
+        "P@10": 0.0801,
+        "R@10": 0.1319,
+        "map": 0.0512,
+        "mrr": 0.1601,
+        "testRecall": 0.0052
+      },
+      "hop2": {
+        "commitCount": 12,
+        "candidateCount": 42.4219,
+        "precision": 0.029,
+        "recall": 0.3795,
+        "f1": 0.0471,
+        "P@3": 0.0729,
+        "R@3": 0.0368,
+        "P@5": 0.0799,
+        "R@5": 0.134,
+        "P@10": 0.0471,
+        "R@10": 0.1462,
+        "map": 0.0741,
+        "mrr": 0.1755,
+        "testRecall": 0.0052
+      },
+      "hop3": {
+        "commitCount": 12,
+        "candidateCount": 360.526,
+        "precision": 0.0066,
+        "recall": 0.7726,
+        "f1": 0.0128,
+        "P@3": 0.0729,
+        "R@3": 0.0368,
+        "P@5": 0.0799,
+        "R@5": 0.134,
+        "P@10": 0.0471,
+        "R@10": 0.1462,
+        "map": 0.0816,
+        "mrr": 0.1781,
+        "testRecall": 0.3594
+      }
+    },
+    "proposed": {
+      "hop1": {
+        "commitCount": 12,
+        "candidateCount": 3.6528,
+        "precision": 0.0792,
+        "recall": 0.1319,
+        "f1": 0.0752,
+        "P@3": 0.1068,
+        "R@3": 0.0844,
+        "P@5": 0.09,
+        "R@5": 0.1319,
+        "P@10": 0.0801,
+        "R@10": 0.1319,
+        "map": 0.0921,
+        "mrr": 0.2167,
+        "testRecall": 0.0052
+      },
+      "hop2": {
+        "commitCount": 12,
+        "candidateCount": 42.4219,
+        "precision": 0.029,
+        "recall": 0.3795,
+        "f1": 0.0471,
+        "P@3": 0.1875,
+        "R@3": 0.1986,
+        "P@5": 0.1458,
+        "R@5": 0.2597,
+        "P@10": 0.0773,
+        "R@10": 0.2663,
+        "map": 0.23,
+        "mrr": 0.3422,
+        "testRecall": 0.0052
+      },
+      "hop3": {
+        "commitCount": 12,
+        "candidateCount": 360.526,
+        "precision": 0.0066,
+        "recall": 0.7726,
+        "f1": 0.0128,
+        "P@3": 0.2193,
+        "R@3": 0.2476,
+        "P@5": 0.1965,
+        "R@5": 0.334,
+        "P@10": 0.1073,
+        "R@10": 0.3826,
+        "map": 0.2968,
+        "mrr": 0.3773,
+        "testRecall": 0.3594
+      }
+    }
+  }
+}

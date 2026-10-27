@@ -1,0 +1,22 @@
+Project,Category,Count,Percentage
+"Spring PetClinic REST","METHOD_SIGNATURE_OR_DECLARATION",0,0.00%
+"Spring PetClinic REST","METHOD_BODY_OR_IMPLEMENTATION",25,43.86%
+"Spring PetClinic REST","FIELD_OR_DATA_SHAPE",0,0.00%
+"Spring PetClinic REST","TYPE_OR_INHERITANCE",0,0.00%
+"Spring PetClinic REST","ADD_DELETE_OR_RENAME",0,0.00%
+"Spring PetClinic REST","UNKNOWN_OR_MIXED",32,56.14%
+"Spring PetClinic REST","[Dominant Operation Resolved]",22,38.60%
+"Shopizer","METHOD_SIGNATURE_OR_DECLARATION",11,23.91%
+"Shopizer","METHOD_BODY_OR_IMPLEMENTATION",10,21.74%
+"Shopizer","FIELD_OR_DATA_SHAPE",0,0.00%
+"Shopizer","TYPE_OR_INHERITANCE",0,0.00%
+"Shopizer","ADD_DELETE_OR_RENAME",0,0.00%
+"Shopizer","UNKNOWN_OR_MIXED",25,54.35%
+"Shopizer","[Dominant Operation Resolved]",12,26.09%
+"Apache Commons Lang","METHOD_SIGNATURE_OR_DECLARATION",1,1.49%
+"Apache Commons Lang","METHOD_BODY_OR_IMPLEMENTATION",10,14.93%
+"Apache Commons Lang","FIELD_OR_DATA_SHAPE",0,0.00%
+"Apache Commons Lang","TYPE_OR_INHERITANCE",0,0.00%
+"Apache Commons Lang","ADD_DELETE_OR_RENAME",0,0.00%
+"Apache Commons Lang","UNKNOWN_OR_MIXED",56,83.58%
+"Apache Commons Lang","[Dominant Operation Resolved]",0,0.00%

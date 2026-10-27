@@ -1,0 +1,4 @@
+Configuration,Alpha,Description,MAP,MRR,P@5,R@5,F1@5,Hit@5
+"EGCP-Dual",0.5,"Full Dual Evolutionary-Structural Diffusion",0.0861,0.1409,0.0846,0.1401,0.0861,0.2988
+"EGCP-Struct",1.0,"Pure Structural Diffusion (zero evolutionary weights)",0.0855,0.1349,0.0827,0.1393,0.0849,0.2956
+"EGCP-Evo",0.0,"Pure Evolutionary Diffusion (zero structural weights)",0.1233,0.2382,0.1356,0.1478,0.1238,0.3289

@@ -1,0 +1,3771 @@
+{
+  "metadata": {
+    "timestamp": "2026-10-18T09:46:35.583Z",
+    "evaluationProtocol": "Strict Chronological Lookback (j < c) with Pre-Change Historical Knowledge Graph Reconstruction",
+    "operatingHorizon": "2 Hops",
+    "models": [
+      "structural_baseline",
+      "historical_reranker",
+      "modelA_context_free",
+      "modelB_occp",
+      "rrf_fusion",
+      "rrf_composite"
+    ],
+    "rrf_constant_k": 60
+  },
+  "auditTimestamp": "2026-10-18T10:09:52.816Z",
+  "repositories": {
+    "springPetClinic": {
+      "repoName": "Spring PetClinic REST",
+      "commitCount": 8,
+      "caseCount": 57,
+      "pairedStats": {
+        "OCCP_vs_ModelA": {
+          "model1": "modelB_occp",
+          "model2": "modelA_context_free",
+          "commitSampleCount": 8,
+          "metrics": {
+            "map": {
+              "meanDiff": 0.007854064131965913,
+              "stdDev": 0.019583676276299405,
+              "standardError": 0.006923875147766712,
+              "ci95": [
+                -0.008520900592502363,
+                0.024229028856434187
+              ],
+              "tStatistic": 1.1343451411741923,
+              "tPValue": 0.2304657216727085,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 6,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.25,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0.08685657522161144,
+                  "val2": 0.08635528253281875,
+                  "diff": 0.00050129268879269
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.42007871961916077,
+                  "val2": 0.3640606305653575,
+                  "diff": 0.05601808905380329
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.3,
+                  "val2": 0.3,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.3058595196963176,
+                  "val2": 0.3058595196963176,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.1625,
+                  "val2": 0.1625,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.13745757609393974,
+                  "val2": 0.13114444478080842,
+                  "diff": 0.006313131313131326
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.015553562949396284,
+                  "val2": 0.015553562949396284,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.06322642476578398,
+                  "val2": 0.06322642476578398,
+                  "diff": 0
+                }
+              ]
+            },
+            "mrr": {
+              "meanDiff": 0.017428376022126026,
+              "stdDev": 0.034040459380801004,
+              "standardError": 0.012035119831434807,
+              "ci95": [
+                -0.011034682379217294,
+                0.045891434423469345
+              ],
+              "tStatistic": 1.4481265052803587,
+              "tPValue": 0.13500206286898742,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 6,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.25,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0.04212962962962963,
+                  "val2": 0.038119288119288115,
+                  "diff": 0.004010341510341513
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.9375,
+                  "val2": 0.84375,
+                  "diff": 0.09375
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.3,
+                  "val2": 0.3,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.49313186813186816,
+                  "val2": 0.49313186813186816,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.1625,
+                  "val2": 0.1625,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.5277777777777778,
+                  "val2": 0.4861111111111111,
+                  "diff": 0.041666666666666685
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.055401234567901234,
+                  "val2": 0.055401234567901234,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.1560185185185185,
+                  "val2": 0.1560185185185185,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt3": {
+              "meanDiff": 0.02083333333333333,
+              "stdDev": 0.05892556509887894,
+              "standardError": 0.020833333333333325,
+              "ci95": [
+                -0.02843749999999999,
+                0.07010416666666665
+              ],
+              "tStatistic": 1.0000000000000002,
+              "tPValue": 0.2861381141700766,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 1,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.7083333333333333,
+                  "val2": 0.5416666666666666,
+                  "diff": 0.16666666666666663
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.16666666666666666,
+                  "val2": 0.16666666666666666,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.33333333333333337,
+                  "val2": 0.33333333333333337,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.3333333333333333,
+                  "val2": 0.3333333333333333,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt3": {
+              "meanDiff": 0.008928571428571432,
+              "stdDev": 0.02525381361380528,
+              "standardError": 0.008928571428571432,
+              "ci95": [
+                -0.012187500000000007,
+                0.03004464285714287
+              ],
+              "tStatistic": 1,
+              "tPValue": 0.28613811417007684,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 1,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.30357142857142855,
+                  "val2": 0.2321428571428571,
+                  "diff": 0.07142857142857145
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.5,
+                  "val2": 0.5,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.16666666666666669,
+                  "val2": 0.16666666666666669,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.0909090909090909,
+                  "val2": 0.0909090909090909,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt5": {
+              "meanDiff": 0.009375000000000001,
+              "stdDev": 0.026516504294495535,
+              "standardError": 0.009375,
+              "ci95": [
+                -0.012796875,
+                0.031546875
+              ],
+              "tStatistic": 1.0000000000000002,
+              "tPValue": 0.2861381141700766,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 1,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.55,
+                  "val2": 0.47500000000000003,
+                  "diff": 0.07500000000000001
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.1,
+                  "val2": 0.1,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.3428571428571429,
+                  "val2": 0.3428571428571429,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.1,
+                  "val2": 0.1,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.2833333333333334,
+                  "val2": 0.2833333333333334,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.022222222222222223,
+                  "val2": 0.022222222222222223,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.125,
+                  "val2": 0.125,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt5": {
+              "meanDiff": 0.0066964285714285685,
+              "stdDev": 0.01894036021035394,
+              "standardError": 0.006696428571428567,
+              "ci95": [
+                -0.009140624999999993,
+                0.02253348214285713
+              ],
+              "tStatistic": 1.0000000000000002,
+              "tPValue": 0.2861381141700766,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 1,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.3928571428571428,
+                  "val2": 0.33928571428571425,
+                  "diff": 0.05357142857142855
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.5,
+                  "val2": 0.5,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.2857142857142857,
+                  "val2": 0.2857142857142857,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.5,
+                  "val2": 0.5,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.12878787878787878,
+                  "val2": 0.12878787878787878,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.013888888888888888,
+                  "val2": 0.013888888888888888,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.08928571428571427,
+                  "val2": 0.08928571428571427,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt10": {
+              "meanDiff": -0.0015624999999999944,
+              "stdDev": 0.0044194173824159055,
+              "standardError": 0.001562499999999994,
+              "ci95": [
+                -0.005257812499999981,
+                0.002132812499999992
+              ],
+              "tStatistic": -1.0000000000000002,
+              "tPValue": 0.2861381141700766,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 0,
+              "wilcoxonWMinus": 1,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.37083333333333335,
+                  "val2": 0.3833333333333333,
+                  "diff": -0.012499999999999956
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.1,
+                  "val2": 0.1,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.3682539682539683,
+                  "val2": 0.3682539682539683,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.1,
+                  "val2": 0.1,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.22407407407407406,
+                  "val2": 0.22407407407407406,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.036111111111111115,
+                  "val2": 0.036111111111111115,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.1708333333333333,
+                  "val2": 0.1708333333333333,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt10": {
+              "meanDiff": -0.002232142857142856,
+              "stdDev": 0.006313453403451315,
+              "standardError": 0.002232142857142856,
+              "ci95": [
+                -0.0075111607142857115,
+                0.0030468749999999992
+              ],
+              "tStatistic": -1,
+              "tPValue": 0.28613811417007684,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 0,
+              "wilcoxonWMinus": 1,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.46428571428571425,
+                  "val2": 0.4821428571428571,
+                  "diff": -0.01785714285714285
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 1,
+                  "val2": 1,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.4761904761904762,
+                  "val2": 0.4761904761904762,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 1,
+                  "val2": 1,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.17424242424242423,
+                  "val2": 0.17424242424242423,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.041666666666666664,
+                  "val2": 0.041666666666666664,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.17857142857142855,
+                  "val2": 0.17857142857142855,
+                  "diff": 0
+                }
+              ]
+            }
+          }
+        },
+        "OCCP_vs_HistV4": {
+          "model1": "modelB_occp",
+          "model2": "historical_reranker",
+          "commitSampleCount": 8,
+          "metrics": {
+            "map": {
+              "meanDiff": 0.02138936838750903,
+              "stdDev": 0.06075272718889784,
+              "standardError": 0.021479332685423,
+              "ci95": [
+                -0.02940925341351637,
+                0.07218799018853443
+              ],
+              "tStatistic": 0.9958115878537035,
+              "tPValue": 0.28803350547685636,
+              "wilcoxonW": 7,
+              "wilcoxonWPlus": 14,
+              "wilcoxonWMinus": 7,
+              "wilcoxonPValue": 0.5625,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0.08685657522161144,
+                  "val2": 0.111625392354559,
+                  "diff": -0.024768817132947554
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.42007871961916077,
+                  "val2": 0.2729023427552839,
+                  "diff": 0.14717637686387686
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.3,
+                  "val2": 0.3333333333333333,
+                  "diff": -0.033333333333333326
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.3058595196963176,
+                  "val2": 0.32423471175572016,
+                  "diff": -0.01837519205940258
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.1625,
+                  "val2": 0.09316770186335403,
+                  "diff": 0.06933229813664597
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.13745757609393974,
+                  "val2": 0.10637396146870688,
+                  "diff": 0.03108361462523286
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.015553562949396284,
+                  "val2": 0.015553562949396284,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.06322642476578398,
+                  "val2": 0.06322642476578398,
+                  "diff": 0
+                }
+              ]
+            },
+            "mrr": {
+              "meanDiff": 0.051855639831183326,
+              "stdDev": 0.14784337468361497,
+              "standardError": 0.052270526396143845,
+              "ci95": [
+                -0.07176415509569688,
+                0.17547543475806354
+              ],
+              "tStatistic": 0.9920627054371672,
+              "tPValue": 0.28973840622187286,
+              "wilcoxonW": 7,
+              "wilcoxonWPlus": 14,
+              "wilcoxonWMinus": 7,
+              "wilcoxonPValue": 0.5625,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0.04212962962962963,
+                  "val2": 0.08994708994708994,
+                  "diff": -0.047817460317460314
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.9375,
+                  "val2": 0.5937499999999999,
+                  "diff": 0.3437500000000001
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.3,
+                  "val2": 0.3333333333333333,
+                  "diff": -0.033333333333333326
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.49313186813186816,
+                  "val2": 0.6011904761904763,
+                  "diff": -0.10805860805860812
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.1625,
+                  "val2": 0.09316770186335403,
+                  "diff": 0.06933229813664597
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.5277777777777778,
+                  "val2": 0.3368055555555555,
+                  "diff": 0.19097222222222227
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.055401234567901234,
+                  "val2": 0.055401234567901234,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.1560185185185185,
+                  "val2": 0.1560185185185185,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt3": {
+              "meanDiff": 0.04265873015873015,
+              "stdDev": 0.12065710948818067,
+              "standardError": 0.04265873015873014,
+              "ci95": [
+                -0.05822916666666663,
+                0.14354662698412693
+              ],
+              "tStatistic": 1.0000000000000002,
+              "tPValue": 0.2861381141700766,
+              "wilcoxonW": 1,
+              "wilcoxonWPlus": 5,
+              "wilcoxonWMinus": 1,
+              "wilcoxonPValue": 0.5,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.7083333333333333,
+                  "val2": 0.375,
+                  "diff": 0.33333333333333326
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.16666666666666666,
+                  "val2": 0.16666666666666666,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.33333333333333337,
+                  "val2": 0.380952380952381,
+                  "diff": -0.047619047619047616
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.3333333333333333,
+                  "val2": 0.27777777777777773,
+                  "diff": 0.05555555555555558
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt3": {
+              "meanDiff": 0.016774891774891776,
+              "stdDev": 0.05203494587878192,
+              "standardError": 0.018397131544780843,
+              "ci95": [
+                -0.02673432432851492,
+                0.06028410787829847
+              ],
+              "tStatistic": 0.9118210485183335,
+              "tPValue": 0.32816051698488147,
+              "wilcoxonW": 2,
+              "wilcoxonWPlus": 4,
+              "wilcoxonWMinus": 2,
+              "wilcoxonPValue": 0.75,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.30357142857142855,
+                  "val2": 0.16071428571428567,
+                  "diff": 0.14285714285714288
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.5,
+                  "val2": 0.5,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.16666666666666669,
+                  "val2": 0.1904761904761905,
+                  "diff": -0.023809523809523808
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.0909090909090909,
+                  "val2": 0.07575757575757576,
+                  "diff": 0.015151515151515138
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt5": {
+              "meanDiff": 0.029662698412698425,
+              "stdDev": 0.06934857327856311,
+              "standardError": 0.02451842321544209,
+              "ci95": [
+                -0.028323372491822117,
+                0.08764876931721896
+              ],
+              "tStatistic": 1.2098126438251702,
+              "tPValue": 0.20334898097006004,
+              "wilcoxonW": 3,
+              "wilcoxonWPlus": 12,
+              "wilcoxonWMinus": 3,
+              "wilcoxonPValue": 0.3125,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0.022222222222222223,
+                  "diff": -0.022222222222222223
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.55,
+                  "val2": 0.39999999999999997,
+                  "diff": 0.15000000000000008
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.1,
+                  "val2": 0.1,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.3428571428571429,
+                  "val2": 0.4000000000000001,
+                  "diff": -0.05714285714285716
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.1,
+                  "val2": 0,
+                  "diff": 0.1
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.2833333333333334,
+                  "val2": 0.21666666666666667,
+                  "diff": 0.06666666666666671
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.022222222222222223,
+                  "val2": 0.022222222222222223,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.125,
+                  "val2": 0.125,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt5": {
+              "meanDiff": 0.07199224386724387,
+              "stdDev": 0.1786438096151383,
+              "standardError": 0.06316012459793142,
+              "ci95": [
+                -0.07738145080686396,
+                0.2213659385413517
+              ],
+              "tStatistic": 1.1398369513286506,
+              "tPValue": 0.22839497361731598,
+              "wilcoxonW": 4,
+              "wilcoxonWPlus": 11,
+              "wilcoxonWMinus": 4,
+              "wilcoxonPValue": 0.4375,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0.013888888888888888,
+                  "diff": -0.013888888888888888
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.3928571428571428,
+                  "val2": 0.28571428571428564,
+                  "diff": 0.10714285714285715
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.5,
+                  "val2": 0.5,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.2857142857142857,
+                  "val2": 0.3333333333333333,
+                  "diff": -0.047619047619047616
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.5,
+                  "val2": 0,
+                  "diff": 0.5
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.12878787878787878,
+                  "val2": 0.0984848484848485,
+                  "diff": 0.03030303030303029
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.013888888888888888,
+                  "val2": 0.013888888888888888,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.08928571428571427,
+                  "val2": 0.08928571428571427,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt10": {
+              "meanDiff": 0.004811507936507935,
+              "stdDev": 0.02279631525413783,
+              "standardError": 0.008059714551133596,
+              "ci95": [
+                -0.014249716976923022,
+                0.02387273284993889
+              ],
+              "tStatistic": 0.5969824248715109,
+              "tPValue": 0.5154798565553316,
+              "wilcoxonW": 3,
+              "wilcoxonWPlus": 7,
+              "wilcoxonWMinus": 3,
+              "wilcoxonPValue": 0.625,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0.022222222222222223,
+                  "diff": -0.022222222222222223
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.37083333333333335,
+                  "val2": 0.3458333333333333,
+                  "diff": 0.025000000000000022
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.1,
+                  "val2": 0.1,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.3682539682539683,
+                  "val2": 0.38253968253968257,
+                  "diff": -0.01428571428571429
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.1,
+                  "val2": 0.05,
+                  "diff": 0.05
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.22407407407407406,
+                  "val2": 0.2240740740740741,
+                  "diff": -2.7755575615628914e-17
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.036111111111111115,
+                  "val2": 0.036111111111111115,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.1708333333333333,
+                  "val2": 0.1708333333333333,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt10": {
+              "meanDiff": 0.06051587301587302,
+              "stdDev": 0.17861236618178938,
+              "standardError": 0.06314900766545901,
+              "ci95": [
+                -0.08883153011293757,
+                0.2098632761446836
+              ],
+              "tStatistic": 0.958302834091465,
+              "tPValue": 0.30545185819353415,
+              "wilcoxonW": 3,
+              "wilcoxonWPlus": 7,
+              "wilcoxonWMinus": 3,
+              "wilcoxonPValue": 0.625,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0.027777777777777776,
+                  "diff": -0.027777777777777776
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.46428571428571425,
+                  "val2": 0.4285714285714285,
+                  "diff": 0.035714285714285754
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 1,
+                  "val2": 1,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.4761904761904762,
+                  "val2": 0.5,
+                  "diff": -0.02380952380952378
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 1,
+                  "val2": 0.5,
+                  "diff": 0.5
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.17424242424242423,
+                  "val2": 0.17424242424242423,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.041666666666666664,
+                  "val2": 0.041666666666666664,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.17857142857142855,
+                  "val2": 0.17857142857142855,
+                  "diff": 0
+                }
+              ]
+            }
+          }
+        },
+        "OCCP_vs_Structural": {
+          "model1": "modelB_occp",
+          "model2": "structural_baseline",
+          "commitSampleCount": 8,
+          "metrics": {
+            "map": {
+              "meanDiff": 0.010630842022496482,
+              "stdDev": 0.0819899597781123,
+              "standardError": 0.028987828274157742,
+              "ci95": [
+                -0.057925371845886586,
+                0.07918705589087954
+              ],
+              "tStatistic": 0.3667346833282345,
+              "tPValue": 0.6872686216812467,
+              "wilcoxonW": 8,
+              "wilcoxonWPlus": 13,
+              "wilcoxonWMinus": 8,
+              "wilcoxonPValue": 0.6875,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0.08685657522161144,
+                  "val2": 0.11013591581474483,
+                  "diff": -0.023279340593133385
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.42007871961916077,
+                  "val2": 0.2639632102841136,
+                  "diff": 0.15611550933504714
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.3,
+                  "val2": 0.41666666666666663,
+                  "diff": -0.11666666666666664
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.3058595196963176,
+                  "val2": 0.35440095204100797,
+                  "diff": -0.04854143234469038
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.1625,
+                  "val2": 0.09415584415584416,
+                  "diff": 0.06834415584415585
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.13745757609393974,
+                  "val2": 0.08838306548868047,
+                  "diff": 0.049074510605259275
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.015553562949396284,
+                  "val2": 0.015553562949396284,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.06322642476578398,
+                  "val2": 0.06322642476578398,
+                  "diff": 0
+                }
+              ]
+            },
+            "mrr": {
+              "meanDiff": 0.0430558590714841,
+              "stdDev": 0.1978964217952651,
+              "standardError": 0.0699669509119926,
+              "ci95": [
+                -0.12241597983537844,
+                0.20852769797834664
+              ],
+              "tStatistic": 0.6153742375545503,
+              "tPValue": 0.502948508212069,
+              "wilcoxonW": 8,
+              "wilcoxonWPlus": 13,
+              "wilcoxonWMinus": 8,
+              "wilcoxonPValue": 0.6875,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0.04212962962962963,
+                  "val2": 0.06277981277981277,
+                  "diff": -0.020650183150183146
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.9375,
+                  "val2": 0.5989583333333333,
+                  "diff": 0.33854166666666674
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.3,
+                  "val2": 0.41666666666666663,
+                  "diff": -0.11666666666666664
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.49313186813186816,
+                  "val2": 0.7321428571428571,
+                  "diff": -0.23901098901098894
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.1625,
+                  "val2": 0.09415584415584416,
+                  "diff": 0.06834415584415585
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.5277777777777778,
+                  "val2": 0.21388888888888888,
+                  "diff": 0.3138888888888889
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.055401234567901234,
+                  "val2": 0.055401234567901234,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.1560185185185185,
+                  "val2": 0.1560185185185185,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt3": {
+              "meanDiff": 0.027281746031746025,
+              "stdDev": 0.16524931155991374,
+              "standardError": 0.05842445439521177,
+              "ci95": [
+                -0.11089208861292982,
+                0.16545558067642185
+              ],
+              "tStatistic": 0.46695765179421045,
+              "tPValue": 0.6092826751288668,
+              "wilcoxonW": 3,
+              "wilcoxonWPlus": 7,
+              "wilcoxonWMinus": 3,
+              "wilcoxonPValue": 0.625,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.7083333333333333,
+                  "val2": 0.375,
+                  "diff": 0.33333333333333326
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.16666666666666666,
+                  "val2": 0.3333333333333333,
+                  "diff": -0.16666666666666666
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.33333333333333337,
+                  "val2": 0.4761904761904762,
+                  "diff": -0.14285714285714285
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.3333333333333333,
+                  "val2": 0.13888888888888887,
+                  "diff": 0.19444444444444445
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt3": {
+              "meanDiff": -0.04694264069264068,
+              "stdDev": 0.1929816886204238,
+              "standardError": 0.06822933033416623,
+              "ci95": [
+                -0.20830500693294382,
+                0.11441972554766247
+              ],
+              "tStatistic": -0.6880126254021562,
+              "tPValue": 0.45533904713759255,
+              "wilcoxonW": 4,
+              "wilcoxonWPlus": 4,
+              "wilcoxonWMinus": 6,
+              "wilcoxonPValue": 0.875,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.30357142857142855,
+                  "val2": 0.16071428571428567,
+                  "diff": 0.14285714285714288
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.5,
+                  "val2": 1,
+                  "diff": -0.5
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.16666666666666669,
+                  "val2": 0.2380952380952381,
+                  "diff": -0.07142857142857142
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.0909090909090909,
+                  "val2": 0.03787878787878788,
+                  "diff": 0.05303030303030302
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt5": {
+              "meanDiff": 0.026190476190476205,
+              "stdDev": 0.09428090415820635,
+              "standardError": 0.03333333333333333,
+              "ci95": [
+                -0.05264285714285713,
+                0.10502380952380955
+              ],
+              "tStatistic": 0.7857142857142861,
+              "tPValue": 0.3961661757019692,
+              "wilcoxonW": 4.5,
+              "wilcoxonWPlus": 10.5,
+              "wilcoxonWMinus": 4.5,
+              "wilcoxonPValue": 0.5,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.55,
+                  "val2": 0.35,
+                  "diff": 0.20000000000000007
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.1,
+                  "val2": 0.2,
+                  "diff": -0.1
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.3428571428571429,
+                  "val2": 0.4000000000000001,
+                  "diff": -0.05714285714285716
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.1,
+                  "val2": 0,
+                  "diff": 0.1
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.2833333333333334,
+                  "val2": 0.21666666666666665,
+                  "diff": 0.06666666666666674
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.022222222222222223,
+                  "val2": 0.022222222222222223,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.125,
+                  "val2": 0.125,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt5": {
+              "meanDiff": 0.01569264069264069,
+              "stdDev": 0.27297931340559517,
+              "standardError": 0.09651276181637207,
+              "ci95": [
+                -0.2125600410030793,
+                0.24394532238836064
+              ],
+              "tStatistic": 0.16259653539391977,
+              "tPValue": 0.8578127948044623,
+              "wilcoxonW": 6.5,
+              "wilcoxonWPlus": 8.5,
+              "wilcoxonWMinus": 6.5,
+              "wilcoxonPValue": 0.875,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.3928571428571428,
+                  "val2": 0.24999999999999994,
+                  "diff": 0.14285714285714285
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.5,
+                  "val2": 1,
+                  "diff": -0.5
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.2857142857142857,
+                  "val2": 0.3333333333333333,
+                  "diff": -0.047619047619047616
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.5,
+                  "val2": 0,
+                  "diff": 0.5
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.12878787878787878,
+                  "val2": 0.0984848484848485,
+                  "diff": 0.03030303030303029
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.013888888888888888,
+                  "val2": 0.013888888888888888,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.08928571428571427,
+                  "val2": 0.08928571428571427,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt10": {
+              "meanDiff": 0.008630952380952373,
+              "stdDev": 0.02000920989758525,
+              "standardError": 0.007074324002383756,
+              "ci95": [
+                -0.008099823884685211,
+                0.025361728646589955
+              ],
+              "tStatistic": 1.2200391695438457,
+              "tPValue": 0.19989175697907124,
+              "wilcoxonW": 2,
+              "wilcoxonWPlus": 8,
+              "wilcoxonWMinus": 2,
+              "wilcoxonPValue": 0.375,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.37083333333333335,
+                  "val2": 0.3458333333333334,
+                  "diff": 0.024999999999999967
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 0.1,
+                  "val2": 0.1,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.3682539682539683,
+                  "val2": 0.38253968253968257,
+                  "diff": -0.01428571428571429
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 0.1,
+                  "val2": 0.05,
+                  "diff": 0.05
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.22407407407407406,
+                  "val2": 0.21574074074074076,
+                  "diff": 0.008333333333333304
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.036111111111111115,
+                  "val2": 0.036111111111111115,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.1708333333333333,
+                  "val2": 0.1708333333333333,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt10": {
+              "meanDiff": 0.06493506493506494,
+              "stdDev": 0.1765410896994949,
+              "standardError": 0.06241670084228769,
+              "ci95": [
+                -0.08268043255694545,
+                0.21255056242707532
+              ],
+              "tStatistic": 1.0403476002222638,
+              "tPValue": 0.2683832577057701,
+              "wilcoxonW": 2,
+              "wilcoxonWPlus": 8,
+              "wilcoxonWMinus": 2,
+              "wilcoxonPValue": 0.375,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "28a1c2c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a3884f7",
+                  "val1": 0.46428571428571425,
+                  "val2": 0.4285714285714285,
+                  "diff": 0.035714285714285754
+                },
+                {
+                  "commitHash": "f2670f9",
+                  "val1": 1,
+                  "val2": 1,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "0b02b04",
+                  "val1": 0.4761904761904762,
+                  "val2": 0.5,
+                  "diff": -0.02380952380952378
+                },
+                {
+                  "commitHash": "f957c77",
+                  "val1": 1,
+                  "val2": 0.5,
+                  "diff": 0.5
+                },
+                {
+                  "commitHash": "a66fd63",
+                  "val1": 0.17424242424242423,
+                  "val2": 0.16666666666666666,
+                  "diff": 0.007575757575757569
+                },
+                {
+                  "commitHash": "64b36a2",
+                  "val1": 0.041666666666666664,
+                  "val2": 0.041666666666666664,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "abd2bd4",
+                  "val1": 0.17857142857142855,
+                  "val2": 0.17857142857142855,
+                  "diff": 0
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "shopizer": {
+      "repoName": "Shopizer",
+      "commitCount": 12,
+      "caseCount": 46,
+      "pairedStats": {
+        "OCCP_vs_ModelA": {
+          "model1": "modelB_occp",
+          "model2": "modelA_context_free",
+          "commitSampleCount": 12,
+          "metrics": {
+            "map": {
+              "meanDiff": 0.007022849449210794,
+              "stdDev": 0.017531328526446108,
+              "standardError": 0.005060858621997713,
+              "ci95": [
+                -0.004116100377806174,
+                0.018161799276227762
+              ],
+              "tStatistic": 1.3876794381658912,
+              "tPValue": 0.15532378751071785,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 6,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.25,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.1312257193460202,
+                  "val2": 0.1237445086599914,
+                  "diff": 0.007481210686028805
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.49174603174603176,
+                  "val2": 0.4753508771929824,
+                  "diff": 0.01639515455304935
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.28757786626663423,
+                  "val2": 0.22718003811518286,
+                  "diff": 0.060397828151451366
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "mrr": {
+              "meanDiff": 0.02895342693236715,
+              "stdDev": 0.05498688665543539,
+              "standardError": 0.015873346906207533,
+              "ci95": [
+                -0.005983809608195629,
+                0.06389066347292993
+              ],
+              "tStatistic": 1.8240278564720611,
+              "tPValue": 0.06891273968933564,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 6,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.25,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.6689520474137932,
+                  "val2": 0.5642645474137931,
+                  "diff": 0.10468750000000016
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.9166666666666666,
+                  "val2": 0.8333333333333334,
+                  "diff": 0.08333333333333326
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.75,
+                  "val2": 0.5905797101449276,
+                  "diff": 0.1594202898550724
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt3": {
+              "meanDiff": 0.012731481481481483,
+              "stdDev": 0.033216511057135856,
+              "standardError": 0.009588780800188785,
+              "ci95": [
+                -0.008373425059734034,
+                0.033836388022697
+              ],
+              "tStatistic": 1.3277476820860086,
+              "tPValue": 0.1725667787043601,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 3,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.5,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.4166666666666667,
+                  "val2": 0.375,
+                  "diff": 0.041666666666666685
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.611111111111111,
+                  "val2": 0.611111111111111,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.38888888888888884,
+                  "val2": 0.27777777777777773,
+                  "diff": 0.1111111111111111
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt3": {
+              "meanDiff": 0.006249999999999999,
+              "stdDev": 0.019176545543707783,
+              "standardError": 0.005535791865893404,
+              "ci95": [
+                -0.005934277896831383,
+                0.01843427789683138
+              ],
+              "tStatistic": 1.1290164354817793,
+              "tPValue": 0.24144600442760367,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 3,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.5,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.08333333333333333,
+                  "val2": 0.075,
+                  "diff": 0.008333333333333331
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.36666666666666664,
+                  "val2": 0.36666666666666664,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.2333333333333333,
+                  "val2": 0.16666666666666666,
+                  "diff": 0.06666666666666665
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt5": {
+              "meanDiff": 0.006597222222222224,
+              "stdDev": 0.019255257491849885,
+              "standardError": 0.005558514048117545,
+              "ci95": [
+                -0.005637067197684494,
+                0.018831511642128942
+              ],
+              "tStatistic": 1.1868679587949318,
+              "tPValue": 0.21943826460406157,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 3,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.5,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.33749999999999997,
+                  "val2": 0.32499999999999996,
+                  "diff": 0.012500000000000011
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.46666666666666673,
+                  "val2": 0.46666666666666673,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.3,
+                  "val2": 0.2333333333333333,
+                  "diff": 0.06666666666666668
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt5": {
+              "meanDiff": 0.0059027777777777785,
+              "stdDev": 0.019173115954921768,
+              "standardError": 0.005534801828888996,
+              "ci95": [
+                -0.006279321047606903,
+                0.01808487660316246
+              ],
+              "tStatistic": 1.0664840332617014,
+              "tPValue": 0.2671496289021178,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 3,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.5,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.11249999999999999,
+                  "val2": 0.10833333333333332,
+                  "diff": 0.004166666666666666
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.46666666666666673,
+                  "val2": 0.46666666666666673,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.3,
+                  "val2": 0.2333333333333333,
+                  "diff": 0.06666666666666668
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt10": {
+              "meanDiff": 0.003298611111111111,
+              "stdDev": 0.00962762874592494,
+              "standardError": 0.002779257024058772,
+              "ci95": [
+                -0.002818533598842247,
+                0.00941575582106447
+              ],
+              "tStatistic": 1.1868679587949316,
+              "tPValue": 0.2194382646040618,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 3,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.5,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.23125,
+                  "val2": 0.225,
+                  "diff": 0.0062500000000000056
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.31666666666666665,
+                  "val2": 0.31666666666666665,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.19999999999999998,
+                  "val2": 0.16666666666666666,
+                  "diff": 0.033333333333333326
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt10": {
+              "meanDiff": 0.005902777777777778,
+              "stdDev": 0.01917311595492176,
+              "standardError": 0.005534801828888994,
+              "ci95": [
+                -0.0062793210476068985,
+                0.018084876603162454
+              ],
+              "tStatistic": 1.0664840332617018,
+              "tPValue": 0.2671496289021176,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 3,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.5,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.15416666666666667,
+                  "val2": 0.15,
+                  "diff": 0.00416666666666668
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.6333333333333333,
+                  "val2": 0.6333333333333333,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.39999999999999997,
+                  "val2": 0.3333333333333333,
+                  "diff": 0.06666666666666665
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            }
+          }
+        },
+        "OCCP_vs_HistV4": {
+          "model1": "modelB_occp",
+          "model2": "historical_reranker",
+          "commitSampleCount": 12,
+          "metrics": {
+            "map": {
+              "meanDiff": -0.013786481483748884,
+              "stdDev": 0.05081727358406321,
+              "standardError": 0.014669683291620878,
+              "ci95": [
+                -0.046074454408606434,
+                0.018501491441108665
+              ],
+              "tStatistic": -0.9397940780100913,
+              "tPValue": 0.32557703485132206,
+              "wilcoxonW": 1,
+              "wilcoxonWPlus": 1,
+              "wilcoxonWMinus": 2,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.1312257193460202,
+                  "val2": 0.12174286223037195,
+                  "diff": 0.009482857115648252
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.49174603174603176,
+                  "val2": 0.6666666666666666,
+                  "diff": -0.17492063492063487
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.28757786626663423,
+                  "val2": 0.28757786626663423,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "mrr": {
+              "meanDiff": -0.0020773467432950166,
+              "stdDev": 0.030605739472474486,
+              "standardError": 0.00883511596159035,
+              "ci95": [
+                -0.021523436974755377,
+                0.017368743488165344
+              ],
+              "tStatistic": -0.23512387979128316,
+              "tPValue": 0.8022543090526826,
+              "wilcoxonW": 1,
+              "wilcoxonWPlus": 1,
+              "wilcoxonWMinus": 2,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.6689520474137932,
+                  "val2": 0.610546875,
+                  "diff": 0.05840517241379317
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.9166666666666666,
+                  "val2": 1,
+                  "diff": -0.08333333333333337
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.75,
+                  "val2": 0.75,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt3": {
+              "meanDiff": -0.02314814814814815,
+              "stdDev": 0.08018753738744805,
+              "standardError": 0.023148148148148157,
+              "ci95": [
+                -0.07409722222222224,
+                0.027800925925925948
+              ],
+              "tStatistic": -0.9999999999999997,
+              "tPValue": 0.2967319909628606,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 0,
+              "wilcoxonWMinus": 1,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.4166666666666667,
+                  "val2": 0.4166666666666667,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.611111111111111,
+                  "val2": 0.8888888888888888,
+                  "diff": -0.2777777777777778
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.38888888888888884,
+                  "val2": 0.38888888888888884,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt3": {
+              "meanDiff": -0.01388888888888889,
+              "stdDev": 0.04811252243246882,
+              "standardError": 0.013888888888888892,
+              "ci95": [
+                -0.04445833333333334,
+                0.01668055555555556
+              ],
+              "tStatistic": -0.9999999999999999,
+              "tPValue": 0.2967319909628605,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 0,
+              "wilcoxonWMinus": 1,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.08333333333333333,
+                  "val2": 0.08333333333333333,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.36666666666666664,
+                  "val2": 0.5333333333333333,
+                  "diff": -0.16666666666666669
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.2333333333333333,
+                  "val2": 0.2333333333333333,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt5": {
+              "meanDiff": -0.016666666666666663,
+              "stdDev": 0.05773502691896256,
+              "standardError": 0.016666666666666663,
+              "ci95": [
+                -0.05334999999999999,
+                0.020016666666666662
+              ],
+              "tStatistic": -1,
+              "tPValue": 0.2967319909628604,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 0,
+              "wilcoxonWMinus": 1,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.33749999999999997,
+                  "val2": 0.3375,
+                  "diff": -5.551115123125783e-17
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.46666666666666673,
+                  "val2": 0.6666666666666666,
+                  "diff": -0.1999999999999999
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.3,
+                  "val2": 0.3,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt5": {
+              "meanDiff": -0.01666666666666666,
+              "stdDev": 0.05773502691896256,
+              "standardError": 0.016666666666666663,
+              "ci95": [
+                -0.05334999999999998,
+                0.020016666666666665
+              ],
+              "tStatistic": -0.9999999999999998,
+              "tPValue": 0.2967319909628605,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 0,
+              "wilcoxonWMinus": 1,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.11249999999999999,
+                  "val2": 0.11249999999999999,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.46666666666666673,
+                  "val2": 0.6666666666666666,
+                  "diff": -0.1999999999999999
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.3,
+                  "val2": 0.3,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt10": {
+              "meanDiff": 0.0017361111111111095,
+              "stdDev": 0.012239499381831144,
+              "standardError": 0.003533239131423235,
+              "ci95": [
+                -0.006040548217151431,
+                0.00951277043937365
+              ],
+              "tStatistic": 0.49136530150784935,
+              "tPValue": 0.6022392810233348,
+              "wilcoxonW": 1,
+              "wilcoxonWPlus": 2,
+              "wilcoxonWMinus": 1,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.23125,
+                  "val2": 0.19375000000000003,
+                  "diff": 0.03749999999999998
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.31666666666666665,
+                  "val2": 0.3333333333333333,
+                  "diff": -0.016666666666666663
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.19999999999999998,
+                  "val2": 0.19999999999999998,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt10": {
+              "meanDiff": -0.000694444444444442,
+              "stdDev": 0.012542016925207388,
+              "standardError": 0.003620568423974664,
+              "ci95": [
+                -0.008663315545612678,
+                0.007274426656723794
+              ],
+              "tStatistic": -0.19180536399919218,
+              "tPValue": 0.8380588232129169,
+              "wilcoxonW": 1,
+              "wilcoxonWPlus": 1,
+              "wilcoxonWMinus": 2,
+              "wilcoxonPValue": 1,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.15416666666666667,
+                  "val2": 0.12916666666666665,
+                  "diff": 0.025000000000000022
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.6333333333333333,
+                  "val2": 0.6666666666666666,
+                  "diff": -0.033333333333333326
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.39999999999999997,
+                  "val2": 0.39999999999999997,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            }
+          }
+        },
+        "OCCP_vs_Structural": {
+          "model1": "modelB_occp",
+          "model2": "structural_baseline",
+          "commitSampleCount": 12,
+          "metrics": {
+            "map": {
+              "meanDiff": 0.032645127551506115,
+              "stdDev": 0.07705598483888584,
+              "standardError": 0.022244146794701235,
+              "ci95": [
+                -0.016314239543631308,
+                0.08160449464664354
+              ],
+              "tStatistic": 1.4675828141577671,
+              "tPValue": 0.13462883147575955,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 6,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.25,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.1312257193460202,
+                  "val2": 0.0644480105102471,
+                  "diff": 0.06677770883577311
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.49174603174603176,
+                  "val2": 0.22718003811518286,
+                  "diff": 0.2645659936308489
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.28757786626663423,
+                  "val2": 0.22718003811518286,
+                  "diff": 0.060397828151451366
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "mrr": {
+              "meanDiff": 0.06227679247497462,
+              "stdDev": 0.1182268443362311,
+              "standardError": 0.0341291502014815,
+              "ci95": [
+                -0.012841467118486168,
+                0.1373950520684354
+              ],
+              "tStatistic": 1.824739031218869,
+              "tPValue": 0.06881763140664043,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 6,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.25,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.6689520474137932,
+                  "val2": 0.40713778409090917,
+                  "diff": 0.26181426332288404
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.9166666666666666,
+                  "val2": 0.5905797101449276,
+                  "diff": 0.326086956521739
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.75,
+                  "val2": 0.5905797101449276,
+                  "diff": 0.1594202898550724
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt3": {
+              "meanDiff": 0.056134259259259266,
+              "stdDev": 0.11207201032596655,
+              "standardError": 0.03235240266515965,
+              "ci95": [
+                -0.015073379006757127,
+                0.12734189752527567
+              ],
+              "tStatistic": 1.7350878029133314,
+              "tPValue": 0.08180040598212845,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 6,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.25,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.4166666666666667,
+                  "val2": 0.18750000000000003,
+                  "diff": 0.22916666666666666
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.611111111111111,
+                  "val2": 0.27777777777777773,
+                  "diff": 0.3333333333333333
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.38888888888888884,
+                  "val2": 0.27777777777777773,
+                  "diff": 0.1111111111111111
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt3": {
+              "meanDiff": 0.026041666666666668,
+              "stdDev": 0.05908939149177867,
+              "standardError": 0.0170576380420148,
+              "ci95": [
+                -0.011502194663807908,
+                0.06358552799714125
+              ],
+              "tStatistic": 1.5266865554611508,
+              "tPValue": 0.12089443692740576,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 6,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.25,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.08333333333333333,
+                  "val2": 0.0375,
+                  "diff": 0.04583333333333333
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.36666666666666664,
+                  "val2": 0.16666666666666666,
+                  "diff": 0.19999999999999998
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.2333333333333333,
+                  "val2": 0.16666666666666666,
+                  "diff": 0.06666666666666665
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt5": {
+              "meanDiff": 0.036458333333333336,
+              "stdDev": 0.07498158443945091,
+              "standardError": 0.02164531898019082,
+              "ci95": [
+                -0.011183013742066664,
+                0.08409968040873333
+              ],
+              "tStatistic": 1.684351862252479,
+              "tPValue": 0.09009673564602938,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 6,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.25,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.33749999999999997,
+                  "val2": 0.20000000000000007,
+                  "diff": 0.1374999999999999
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.46666666666666673,
+                  "val2": 0.2333333333333333,
+                  "diff": 0.23333333333333342
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.3,
+                  "val2": 0.2333333333333333,
+                  "diff": 0.06666666666666668
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt5": {
+              "meanDiff": 0.028819444444444453,
+              "stdDev": 0.06810610625159987,
+              "standardError": 0.01966053938890922,
+              "ci95": [
+                -0.014453402750544742,
+                0.07209229163943365
+              ],
+              "tStatistic": 1.465852175993803,
+              "tPValue": 0.13505058170525164,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 6,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.25,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.11249999999999999,
+                  "val2": 0.06666666666666667,
+                  "diff": 0.04583333333333332
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.46666666666666673,
+                  "val2": 0.2333333333333333,
+                  "diff": 0.23333333333333342
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.3,
+                  "val2": 0.2333333333333333,
+                  "diff": 0.06666666666666668
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "pAt10": {
+              "meanDiff": 0.02361111111111111,
+              "stdDev": 0.04947110846130872,
+              "standardError": 0.014281078893622881,
+              "ci95": [
+                -0.007821543533752855,
+                0.055043765755975076
+              ],
+              "tStatistic": 1.6533142409607786,
+              "tPValue": 0.0955380057323747,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 6,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.25,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.23125,
+                  "val2": 0.13125,
+                  "diff": 0.1
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.31666666666666665,
+                  "val2": 0.16666666666666666,
+                  "diff": 0.15
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.19999999999999998,
+                  "val2": 0.16666666666666666,
+                  "diff": 0.033333333333333326
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            },
+            "rAt10": {
+              "meanDiff": 0.036111111111111115,
+              "stdDev": 0.0869904596340315,
+              "standardError": 0.02511198264331868,
+              "ci95": [
+                -0.019160362686833306,
+                0.09138258490905554
+              ],
+              "tStatistic": 1.4380031885184053,
+              "tPValue": 0.1419956530889197,
+              "wilcoxonW": 0,
+              "wilcoxonWPlus": 6,
+              "wilcoxonWMinus": 0,
+              "wilcoxonPValue": 0.25,
+              "perCommitDiffs": [
+                {
+                  "commitHash": "a59820c",
+                  "val1": 0.15416666666666667,
+                  "val2": 0.0875,
+                  "diff": 0.06666666666666668
+                },
+                {
+                  "commitHash": "60f0fac",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "a158815",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "81b0ade",
+                  "val1": 0.6333333333333333,
+                  "val2": 0.3333333333333333,
+                  "diff": 0.3
+                },
+                {
+                  "commitHash": "3f237ee",
+                  "val1": 0.39999999999999997,
+                  "val2": 0.3333333333333333,
+                  "diff": 0.06666666666666665
+                },
+                {
+                  "commitHash": "a2316b7",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "9f6fc62",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "2a0c246",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "380429c",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "6b822cb",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "b66de14",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                },
+                {
+                  "commitHash": "22e94f3",
+                  "val1": 0,
+                  "val2": 0,
+                  "diff": 0
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

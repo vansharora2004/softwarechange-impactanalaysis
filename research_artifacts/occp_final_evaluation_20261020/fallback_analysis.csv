@@ -1,0 +1,10 @@
+Project,Model,Tier1_Conditioned,Tier2_Generic,Tier3_CoChange,Tier4_Structural,TotalDecisions,Tier1_Pct,Tier2_Pct,Tier3_Pct,Tier4_Pct
+"Spring PetClinic REST","Original OCCP (Unregularized MLE)",356,0,2,673,1031,34.53%,0.00%,0.19%,65.28%
+"Spring PetClinic REST","Smoothed OCCP (lambda = 0.5)",356,0,2,673,1031,34.53%,0.00%,0.19%,65.28%
+"Spring PetClinic REST","Thresholded OCCP (M = 2)",349,0,3,679,1031,33.85%,0.00%,0.29%,65.86%
+"Shopizer","Original OCCP (Unregularized MLE)",272,34,1775,0,2081,13.07%,1.63%,85.30%,0.00%
+"Shopizer","Smoothed OCCP (lambda = 0.5)",272,34,1775,0,2081,13.07%,1.63%,85.30%,0.00%
+"Shopizer","Thresholded OCCP (M = 2)",269,34,1778,0,2081,12.93%,1.63%,85.44%,0.00%
+"Apache Commons Lang","Original OCCP (Unregularized MLE)",532,67,0,244,843,63.11%,7.95%,0.00%,28.94%
+"Apache Commons Lang","Smoothed OCCP (lambda = 0.5)",532,67,0,244,843,63.11%,7.95%,0.00%,28.94%
+"Apache Commons Lang","Thresholded OCCP (M = 2)",532,67,0,244,843,63.11%,7.95%,0.00%,28.94%

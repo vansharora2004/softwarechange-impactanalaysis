@@ -1,0 +1,28 @@
+{
+  "selectedModel": "Enhanced OCCP (Dominant Operation + Support Shrinkage + Continuous Multi-Channel Fusion)",
+  "parameters": {
+    "lambda": 0.5,
+    "kappa": 2,
+    "dominanceRatio": 0.7,
+    "weights": {
+      "w_cond": 0.35,
+      "w_gen": 0.15,
+      "w_hist": 0.35,
+      "w_struct": 0.15
+    }
+  },
+  "scoringFormula": "S(u) = 0.35 * S_cond(u) + 0.15 * S_gen(u) + 0.35 * S_hist(u) + 0.15 * S_struct(u)",
+  "subcomponents": {
+    "S_cond": "computeSmoothedProbability(pos, tot, lambda=0.5) * (tot / (tot + kappa=2.0))",
+    "S_gen": "computeSmoothedProbability(pos, tot, lambda=0.5) * (tot / (tot + kappa=2.0))",
+    "S_hist": "coChange(source, u) / max(coChange)",
+    "S_struct": "1.0 / structuralBaselineRank(u)"
+  },
+  "tieBreakingRules": [
+    "1. Highest composite fusion score",
+    "2. Higher historical co-change score",
+    "3. Shorter minimum hop distance",
+    "4. Better canonical structural baseline rank",
+    "5. Alphabetical component ID"
+  ]
+}

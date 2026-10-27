@@ -1,0 +1,178 @@
+{
+  "timestamp": "2026-10-26T10:18:02.218Z",
+  "dataset": {
+    "projects": [
+      "Spring PetClinic REST",
+      "Shopizer",
+      "Apache Commons Lang"
+    ],
+    "totalCommits": 25,
+    "totalCases": 170,
+    "chronologicalSplitRatio": "70% Train / 30% Held-Out Test"
+  },
+  "metricsSummary": {
+    "canonical_baseline": {
+      "commits": 25,
+      "map": 0.08645964939664375,
+      "mrr": 0.17119700671753446,
+      "pAt3": 0.08408730158730159,
+      "rAt3": 0.07237878787878788,
+      "f1At3": 0.06339381499726328,
+      "hitAt3": 0.21107142857142855,
+      "pAt5": 0.0849484126984127,
+      "rAt5": 0.09965945165945164,
+      "f1At5": 0.07676696118674495,
+      "hitAt5": 0.2832539682539682,
+      "pAt10": 0.07928269085411946,
+      "rAt10": 0.16337012987012986,
+      "f1At10": 0.08937220805578085,
+      "hitAt10": 0.36202380952380947
+    },
+    "csf_frozen": {
+      "commits": 25,
+      "map": 0.12780117382662154,
+      "mrr": 0.2340183601203476,
+      "pAt3": 0.155515873015873,
+      "rAt3": 0.11456060606060606,
+      "f1At3": 0.1148831417624521,
+      "hitAt3": 0.2571428571428571,
+      "pAt5": 0.13051984126984126,
+      "rAt5": 0.14463347763347761,
+      "f1At5": 0.11985570577548955,
+      "hitAt5": 0.3211111111111111,
+      "pAt10": 0.09340967498110354,
+      "rAt10": 0.16908730158730162,
+      "f1At10": 0.10527952180231026,
+      "hitAt10": 0.3590079365079365
+    },
+    "egcp_v4_combined": {
+      "commits": 25,
+      "map": 0.16420305548185754,
+      "mrr": 0.2657002606598195,
+      "pAt3": 0.17134920634920636,
+      "rAt3": 0.16936796536796536,
+      "f1At3": 0.14384788774443946,
+      "hitAt3": 0.3495238095238095,
+      "pAt5": 0.15217063492063493,
+      "rAt5": 0.22556132756132757,
+      "f1At5": 0.15232384874363253,
+      "hitAt5": 0.441468253968254,
+      "pAt10": 0.11594935752078613,
+      "rAt10": 0.26445238095238094,
+      "f1At10": 0.13612370492492476,
+      "hitAt10": 0.4850396825396826
+    },
+    "held_out_test": {
+      "canonical_baseline": {
+        "commits": 10,
+        "map": 0.02790678151086226,
+        "mrr": 0.05768959435626102,
+        "pAt3": 0.013888888888888886,
+        "rAt3": 0.003787878787878788,
+        "f1At3": 0.005952380952380954,
+        "hitAt3": 0.03333333333333333,
+        "pAt5": 0.043055555555555555,
+        "rAt5": 0.03683261183261183,
+        "f1At5": 0.035191544566544566,
+        "hitAt5": 0.1736111111111111,
+        "pAt10": 0.04703042328042328,
+        "rAt10": 0.05535714285714285,
+        "f1At10": 0.04694703807448906,
+        "hitAt10": 0.20833333333333334
+      },
+      "csf_frozen": {
+        "commits": 10,
+        "map": 0.03152919816135378,
+        "mrr": 0.08405864197530864,
+        "pAt3": 0.025,
+        "rAt3": 0.006818181818181819,
+        "f1At3": 0.010714285714285714,
+        "hitAt3": 0.05,
+        "pAt5": 0.043055555555555555,
+        "rAt5": 0.03683261183261183,
+        "f1At5": 0.035191544566544566,
+        "hitAt5": 0.16527777777777777,
+        "pAt10": 0.04536375661375661,
+        "rAt10": 0.05384199134199134,
+        "f1At10": 0.04535973648718746,
+        "hitAt10": 0.20833333333333334
+      },
+      "egcp_v4_combined": {
+        "commits": 10,
+        "map": 0.09919145946900583,
+        "mrr": 0.13929942810457513,
+        "pAt3": 0.07777777777777777,
+        "rAt3": 0.15303030303030302,
+        "f1At3": 0.09476190476190478,
+        "hitAt3": 0.2333333333333333,
+        "pAt5": 0.08194444444444444,
+        "rAt5": 0.1867063492063492,
+        "f1At5": 0.09672237484737485,
+        "hitAt5": 0.33472222222222225,
+        "pAt10": 0.07203042328042328,
+        "rAt10": 0.2125,
+        "f1At10": 0.08767787586415036,
+        "hitAt10": 0.3875
+      }
+    }
+  },
+  "statisticalTests": {
+    "egcp_vs_csf": {
+      "n": 25,
+      "meanDiff": 0.0364,
+      "tStat": 1.615,
+      "pValT": 0.10637,
+      "wilcoxonW": 35,
+      "wilcoxonP": 0.15564,
+      "isSignificant_p05": false
+    },
+    "egcp_vs_baseline": {
+      "n": 25,
+      "meanDiff": 0.0777,
+      "tStat": 1.968,
+      "pValT": 0.0491,
+      "wilcoxonW": 25,
+      "wilcoxonP": 0.04683,
+      "isSignificant_p05": true
+    }
+  },
+  "projectBreakdown": [
+    {
+      "Project": "Spring PetClinic REST",
+      "Cases": 57,
+      "BaselineMAP": "0.1458",
+      "CsfMAP": "0.1537",
+      "EgcpV4MAP": "0.1502",
+      "Delta vs CSF": "-2.2%"
+    },
+    {
+      "Project": "Shopizer",
+      "Cases": 46,
+      "BaselineMAP": "0.0817",
+      "CsfMAP": "0.1697",
+      "EgcpV4MAP": "0.1740",
+      "Delta vs CSF": "2.6%"
+    },
+    {
+      "Project": "Apache Commons Lang",
+      "Cases": 67,
+      "BaselineMAP": "0.0148",
+      "CsfMAP": "0.0431",
+      "EgcpV4MAP": "0.0783",
+      "Delta vs CSF": "81.7%"
+    }
+  ],
+  "reproducibilityStatus": {
+    "overallMAP_0_1642": "VERIFIED",
+    "overallMRR_0_2657": "VERIFIED",
+    "precisionAt5_0_1522": "VERIFIED",
+    "recallAt5_0_2256": "VERIFIED",
+    "heldOutTestMAP_0_0992": "VERIFIED",
+    "improvementOverCSF_28_5pct": "VERIFIED"
+  },
+  "methodologicalNotes": {
+    "groundTruthProxy": "Leave-One-Out (LOO) same-commit co-change proxy is an empirical proxy for historical change coupling, NOT independently verified human causal dependency.",
+    "leakagePrevention": "Evaluated commit c does NOT contribute to its own historical evidence. Only commits strictly prior in time (j > c) are used. Pre-change AST graph is constructed at parent c^1.",
+    "candidateUniverseEquivalence": "All models evaluate against the exact same structural candidate universe (|C_model| = |C_canonical| = 2-hop BFS). No candidates dropped."
+  }
+}

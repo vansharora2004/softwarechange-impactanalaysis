@@ -1,0 +1,201 @@
+Project,CommitHash,CaseCount,Model,MAP,MRR,DeltaVsBaseline,DeltaVsHistorical,DeltaVsOCCP
+"Spring PetClinic REST","28a1c2c",9,"Canonical Structural Baseline",0.1101,0.0628,0.0000,-0.0015,0.0233
+"Spring PetClinic REST","28a1c2c",9,"Historical Co-Change Reranker (V4)",0.1116,0.0899,0.0015,0.0000,0.0248
+"Spring PetClinic REST","28a1c2c",9,"Context-Independent Typed Path (Model A)",0.0864,0.0381,-0.0238,-0.0253,-0.0005
+"Spring PetClinic REST","28a1c2c",9,"Original OCCP (Unregularized MLE)",0.0869,0.0421,-0.0233,-0.0248,0.0000
+"Spring PetClinic REST","28a1c2c",9,"Smoothed OCCP (lambda = 0.5)",0.0869,0.0421,-0.0233,-0.0248,0.0000
+"Spring PetClinic REST","28a1c2c",9,"Thresholded OCCP (M = 2)",0.0869,0.0421,-0.0233,-0.0248,0.0000
+"Spring PetClinic REST","28a1c2c",9,"Continuous Score Fusion",0.0889,0.0586,-0.0212,-0.0227,0.0021
+"Spring PetClinic REST","28a1c2c",9,"Enhanced OCCP (Selected Best)",0.0889,0.0586,-0.0212,-0.0227,0.0021
+"Spring PetClinic REST","a3884f7",8,"Canonical Structural Baseline",0.2640,0.5990,0.0000,-0.0089,-0.1561
+"Spring PetClinic REST","a3884f7",8,"Historical Co-Change Reranker (V4)",0.2729,0.5937,0.0089,0.0000,-0.1472
+"Spring PetClinic REST","a3884f7",8,"Context-Independent Typed Path (Model A)",0.3641,0.8438,0.1001,0.0912,-0.0560
+"Spring PetClinic REST","a3884f7",8,"Original OCCP (Unregularized MLE)",0.4201,0.9375,0.1561,0.1472,0.0000
+"Spring PetClinic REST","a3884f7",8,"Smoothed OCCP (lambda = 0.5)",0.4201,0.9375,0.1561,0.1472,0.0000
+"Spring PetClinic REST","a3884f7",8,"Thresholded OCCP (M = 2)",0.3744,0.7448,0.1105,0.1015,-0.0457
+"Spring PetClinic REST","a3884f7",8,"Continuous Score Fusion",0.3706,0.8542,0.1066,0.0977,-0.0495
+"Spring PetClinic REST","a3884f7",8,"Enhanced OCCP (Selected Best)",0.3400,0.6354,0.0760,0.0671,-0.0801
+"Spring PetClinic REST","f2670f9",2,"Canonical Structural Baseline",0.4167,0.4167,0.0000,0.0833,0.1167
+"Spring PetClinic REST","f2670f9",2,"Historical Co-Change Reranker (V4)",0.3333,0.3333,-0.0833,0.0000,0.0333
+"Spring PetClinic REST","f2670f9",2,"Context-Independent Typed Path (Model A)",0.3000,0.3000,-0.1167,-0.0333,0.0000
+"Spring PetClinic REST","f2670f9",2,"Original OCCP (Unregularized MLE)",0.3000,0.3000,-0.1167,-0.0333,0.0000
+"Spring PetClinic REST","f2670f9",2,"Smoothed OCCP (lambda = 0.5)",0.3000,0.3000,-0.1167,-0.0333,0.0000
+"Spring PetClinic REST","f2670f9",2,"Thresholded OCCP (M = 2)",0.3000,0.3000,-0.1167,-0.0333,0.0000
+"Spring PetClinic REST","f2670f9",2,"Continuous Score Fusion",0.3333,0.3333,-0.0833,0.0000,0.0333
+"Spring PetClinic REST","f2670f9",2,"Enhanced OCCP (Selected Best)",0.3333,0.3333,-0.0833,0.0000,0.0333
+"Spring PetClinic REST","0b02b04",7,"Canonical Structural Baseline",0.3544,0.7321,0.0000,0.0302,0.0485
+"Spring PetClinic REST","0b02b04",7,"Historical Co-Change Reranker (V4)",0.3242,0.6012,-0.0302,0.0000,0.0184
+"Spring PetClinic REST","0b02b04",7,"Context-Independent Typed Path (Model A)",0.3059,0.4931,-0.0485,-0.0184,0.0000
+"Spring PetClinic REST","0b02b04",7,"Original OCCP (Unregularized MLE)",0.3059,0.4931,-0.0485,-0.0184,0.0000
+"Spring PetClinic REST","0b02b04",7,"Smoothed OCCP (lambda = 0.5)",0.3059,0.4931,-0.0485,-0.0184,0.0000
+"Spring PetClinic REST","0b02b04",7,"Thresholded OCCP (M = 2)",0.3178,0.5646,-0.0366,-0.0065,0.0119
+"Spring PetClinic REST","0b02b04",7,"Continuous Score Fusion",0.3035,0.4787,-0.0509,-0.0208,-0.0024
+"Spring PetClinic REST","0b02b04",7,"Enhanced OCCP (Selected Best)",0.3154,0.5502,-0.0390,-0.0089,0.0095
+"Spring PetClinic REST","f957c77",2,"Canonical Structural Baseline",0.0942,0.0942,0.0000,0.0010,-0.0683
+"Spring PetClinic REST","f957c77",2,"Historical Co-Change Reranker (V4)",0.0932,0.0932,-0.0010,0.0000,-0.0693
+"Spring PetClinic REST","f957c77",2,"Context-Independent Typed Path (Model A)",0.1625,0.1625,0.0683,0.0693,0.0000
+"Spring PetClinic REST","f957c77",2,"Original OCCP (Unregularized MLE)",0.1625,0.1625,0.0683,0.0693,0.0000
+"Spring PetClinic REST","f957c77",2,"Smoothed OCCP (lambda = 0.5)",0.1625,0.1625,0.0683,0.0693,0.0000
+"Spring PetClinic REST","f957c77",2,"Thresholded OCCP (M = 2)",0.1625,0.1625,0.0683,0.0693,0.0000
+"Spring PetClinic REST","f957c77",2,"Continuous Score Fusion",0.1313,0.1313,0.0371,0.0381,-0.0313
+"Spring PetClinic REST","f957c77",2,"Enhanced OCCP (Selected Best)",0.1146,0.1146,0.0204,0.0214,-0.0479
+"Spring PetClinic REST","a66fd63",12,"Canonical Structural Baseline",0.0884,0.2139,0.0000,-0.0180,-0.0491
+"Spring PetClinic REST","a66fd63",12,"Historical Co-Change Reranker (V4)",0.1064,0.3368,0.0180,0.0000,-0.0311
+"Spring PetClinic REST","a66fd63",12,"Context-Independent Typed Path (Model A)",0.1311,0.4861,0.0428,0.0248,-0.0063
+"Spring PetClinic REST","a66fd63",12,"Original OCCP (Unregularized MLE)",0.1375,0.5278,0.0491,0.0311,0.0000
+"Spring PetClinic REST","a66fd63",12,"Smoothed OCCP (lambda = 0.5)",0.1375,0.5278,0.0491,0.0311,0.0000
+"Spring PetClinic REST","a66fd63",12,"Thresholded OCCP (M = 2)",0.1375,0.5278,0.0491,0.0311,0.0000
+"Spring PetClinic REST","a66fd63",12,"Continuous Score Fusion",0.1288,0.4472,0.0404,0.0224,-0.0086
+"Spring PetClinic REST","a66fd63",12,"Enhanced OCCP (Selected Best)",0.1250,0.4056,0.0366,0.0186,-0.0125
+"Spring PetClinic REST","64b36a2",9,"Canonical Structural Baseline",0.0156,0.0554,0.0000,0.0000,0.0000
+"Spring PetClinic REST","64b36a2",9,"Historical Co-Change Reranker (V4)",0.0156,0.0554,0.0000,0.0000,0.0000
+"Spring PetClinic REST","64b36a2",9,"Context-Independent Typed Path (Model A)",0.0156,0.0554,0.0000,0.0000,0.0000
+"Spring PetClinic REST","64b36a2",9,"Original OCCP (Unregularized MLE)",0.0156,0.0554,0.0000,0.0000,0.0000
+"Spring PetClinic REST","64b36a2",9,"Smoothed OCCP (lambda = 0.5)",0.0156,0.0554,0.0000,0.0000,0.0000
+"Spring PetClinic REST","64b36a2",9,"Thresholded OCCP (M = 2)",0.0156,0.0554,0.0000,0.0000,0.0000
+"Spring PetClinic REST","64b36a2",9,"Continuous Score Fusion",0.0156,0.0554,0.0000,0.0000,0.0000
+"Spring PetClinic REST","64b36a2",9,"Enhanced OCCP (Selected Best)",0.0156,0.0554,0.0000,0.0000,0.0000
+"Spring PetClinic REST","abd2bd4",8,"Canonical Structural Baseline",0.0632,0.1560,0.0000,0.0000,0.0000
+"Spring PetClinic REST","abd2bd4",8,"Historical Co-Change Reranker (V4)",0.0632,0.1560,0.0000,0.0000,0.0000
+"Spring PetClinic REST","abd2bd4",8,"Context-Independent Typed Path (Model A)",0.0632,0.1560,0.0000,0.0000,0.0000
+"Spring PetClinic REST","abd2bd4",8,"Original OCCP (Unregularized MLE)",0.0632,0.1560,0.0000,0.0000,0.0000
+"Spring PetClinic REST","abd2bd4",8,"Smoothed OCCP (lambda = 0.5)",0.0632,0.1560,0.0000,0.0000,0.0000
+"Spring PetClinic REST","abd2bd4",8,"Thresholded OCCP (M = 2)",0.0632,0.1560,0.0000,0.0000,0.0000
+"Spring PetClinic REST","abd2bd4",8,"Continuous Score Fusion",0.0632,0.1560,0.0000,0.0000,0.0000
+"Spring PetClinic REST","abd2bd4",8,"Enhanced OCCP (Selected Best)",0.0632,0.1560,0.0000,0.0000,0.0000
+"Shopizer","a59820c",16,"Canonical Structural Baseline",0.0644,0.4071,0.0000,-0.0573,-0.0668
+"Shopizer","a59820c",16,"Historical Co-Change Reranker (V4)",0.1217,0.6105,0.0573,0.0000,-0.0095
+"Shopizer","a59820c",16,"Context-Independent Typed Path (Model A)",0.1237,0.5643,0.0593,0.0020,-0.0075
+"Shopizer","a59820c",16,"Original OCCP (Unregularized MLE)",0.1312,0.6690,0.0668,0.0095,0.0000
+"Shopizer","a59820c",16,"Smoothed OCCP (lambda = 0.5)",0.1312,0.6690,0.0668,0.0095,0.0000
+"Shopizer","a59820c",16,"Thresholded OCCP (M = 2)",0.1312,0.6690,0.0668,0.0095,0.0000
+"Shopizer","a59820c",16,"Continuous Score Fusion",0.1394,0.6137,0.0750,0.0177,0.0082
+"Shopizer","a59820c",16,"Enhanced OCCP (Selected Best)",0.1376,0.6117,0.0732,0.0159,0.0064
+"Shopizer","60f0fac",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"Context-Independent Typed Path (Model A)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"Original OCCP (Unregularized MLE)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"Smoothed OCCP (lambda = 0.5)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"Thresholded OCCP (M = 2)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"Continuous Score Fusion",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","60f0fac",2,"Enhanced OCCP (Selected Best)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"Context-Independent Typed Path (Model A)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"Original OCCP (Unregularized MLE)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"Smoothed OCCP (lambda = 0.5)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"Thresholded OCCP (M = 2)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"Continuous Score Fusion",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a158815",2,"Enhanced OCCP (Selected Best)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","81b0ade",6,"Canonical Structural Baseline",0.2272,0.5906,0.0000,-0.4395,-0.2646
+"Shopizer","81b0ade",6,"Historical Co-Change Reranker (V4)",0.6667,1.0000,0.4395,0.0000,0.1749
+"Shopizer","81b0ade",6,"Context-Independent Typed Path (Model A)",0.4754,0.8333,0.2482,-0.1913,-0.0164
+"Shopizer","81b0ade",6,"Original OCCP (Unregularized MLE)",0.4917,0.9167,0.2646,-0.1749,0.0000
+"Shopizer","81b0ade",6,"Smoothed OCCP (lambda = 0.5)",0.4917,0.9167,0.2646,-0.1749,0.0000
+"Shopizer","81b0ade",6,"Thresholded OCCP (M = 2)",0.3765,0.8333,0.1493,-0.2902,-0.1152
+"Shopizer","81b0ade",6,"Continuous Score Fusion",0.6422,1.0000,0.4150,-0.0244,0.1505
+"Shopizer","81b0ade",6,"Enhanced OCCP (Selected Best)",0.6556,1.0000,0.4284,-0.0111,0.1638
+"Shopizer","3f237ee",6,"Canonical Structural Baseline",0.2272,0.5906,0.0000,-0.0604,-0.0604
+"Shopizer","3f237ee",6,"Historical Co-Change Reranker (V4)",0.2876,0.7500,0.0604,0.0000,0.0000
+"Shopizer","3f237ee",6,"Context-Independent Typed Path (Model A)",0.2272,0.5906,0.0000,-0.0604,-0.0604
+"Shopizer","3f237ee",6,"Original OCCP (Unregularized MLE)",0.2876,0.7500,0.0604,0.0000,0.0000
+"Shopizer","3f237ee",6,"Smoothed OCCP (lambda = 0.5)",0.2876,0.7500,0.0604,0.0000,0.0000
+"Shopizer","3f237ee",6,"Thresholded OCCP (M = 2)",0.2876,0.7500,0.0604,0.0000,0.0000
+"Shopizer","3f237ee",6,"Continuous Score Fusion",0.2876,0.7500,0.0604,0.0000,0.0000
+"Shopizer","3f237ee",6,"Enhanced OCCP (Selected Best)",0.2876,0.7500,0.0604,0.0000,0.0000
+"Shopizer","a2316b7",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"Context-Independent Typed Path (Model A)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"Original OCCP (Unregularized MLE)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"Smoothed OCCP (lambda = 0.5)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"Thresholded OCCP (M = 2)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"Continuous Score Fusion",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","a2316b7",2,"Enhanced OCCP (Selected Best)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"Context-Independent Typed Path (Model A)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"Original OCCP (Unregularized MLE)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"Smoothed OCCP (lambda = 0.5)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"Thresholded OCCP (M = 2)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"Continuous Score Fusion",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","9f6fc62",2,"Enhanced OCCP (Selected Best)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"Context-Independent Typed Path (Model A)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"Original OCCP (Unregularized MLE)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"Smoothed OCCP (lambda = 0.5)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"Thresholded OCCP (M = 2)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"Continuous Score Fusion",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","2a0c246",2,"Enhanced OCCP (Selected Best)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"Context-Independent Typed Path (Model A)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"Original OCCP (Unregularized MLE)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"Smoothed OCCP (lambda = 0.5)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"Thresholded OCCP (M = 2)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"Continuous Score Fusion",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","380429c",2,"Enhanced OCCP (Selected Best)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"Context-Independent Typed Path (Model A)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"Original OCCP (Unregularized MLE)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"Smoothed OCCP (lambda = 0.5)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"Thresholded OCCP (M = 2)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"Continuous Score Fusion",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","6b822cb",2,"Enhanced OCCP (Selected Best)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"Context-Independent Typed Path (Model A)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"Original OCCP (Unregularized MLE)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"Smoothed OCCP (lambda = 0.5)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"Thresholded OCCP (M = 2)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"Continuous Score Fusion",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","b66de14",2,"Enhanced OCCP (Selected Best)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"Context-Independent Typed Path (Model A)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"Original OCCP (Unregularized MLE)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"Smoothed OCCP (lambda = 0.5)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"Thresholded OCCP (M = 2)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"Continuous Score Fusion",0.0000,0.0000,0.0000,0.0000,0.0000
+"Shopizer","22e94f3",2,"Enhanced OCCP (Selected Best)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","72dc555",3,"Canonical Structural Baseline",0.1182,0.0944,0.0000,-0.3373,-0.5484
+"Apache Commons Lang","72dc555",3,"Historical Co-Change Reranker (V4)",0.4556,0.4444,0.3373,0.0000,-0.2111
+"Apache Commons Lang","72dc555",3,"Context-Independent Typed Path (Model A)",0.6667,0.6667,0.5484,0.2111,0.0000
+"Apache Commons Lang","72dc555",3,"Original OCCP (Unregularized MLE)",0.6667,0.6667,0.5484,0.2111,0.0000
+"Apache Commons Lang","72dc555",3,"Smoothed OCCP (lambda = 0.5)",0.6667,0.6667,0.5484,0.2111,0.0000
+"Apache Commons Lang","72dc555",3,"Thresholded OCCP (M = 2)",0.6667,0.6667,0.5484,0.2111,0.0000
+"Apache Commons Lang","72dc555",3,"Continuous Score Fusion",0.6667,0.6667,0.5484,0.2111,0.0000
+"Apache Commons Lang","72dc555",3,"Enhanced OCCP (Selected Best)",0.6667,0.6667,0.5484,0.2111,0.0000
+"Apache Commons Lang","4c87656",3,"Canonical Structural Baseline",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"Historical Co-Change Reranker (V4)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"Context-Independent Typed Path (Model A)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"Original OCCP (Unregularized MLE)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"Smoothed OCCP (lambda = 0.5)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"Thresholded OCCP (M = 2)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"Continuous Score Fusion",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","4c87656",3,"Enhanced OCCP (Selected Best)",0.0000,0.0000,0.0000,0.0000,0.0000
+"Apache Commons Lang","ed31115",56,"Canonical Structural Baseline",0.0060,0.1156,0.0000,0.0001,-0.0044
+"Apache Commons Lang","ed31115",56,"Historical Co-Change Reranker (V4)",0.0060,0.1126,-0.0001,0.0000,-0.0044
+"Apache Commons Lang","ed31115",56,"Context-Independent Typed Path (Model A)",0.0103,0.2136,0.0043,0.0043,-0.0001
+"Apache Commons Lang","ed31115",56,"Original OCCP (Unregularized MLE)",0.0104,0.2154,0.0044,0.0044,0.0000
+"Apache Commons Lang","ed31115",56,"Smoothed OCCP (lambda = 0.5)",0.0104,0.2154,0.0044,0.0044,0.0000
+"Apache Commons Lang","ed31115",56,"Thresholded OCCP (M = 2)",0.0104,0.2154,0.0044,0.0044,0.0000
+"Apache Commons Lang","ed31115",56,"Continuous Score Fusion",0.0105,0.2154,0.0044,0.0045,0.0001
+"Apache Commons Lang","ed31115",56,"Enhanced OCCP (Selected Best)",0.0088,0.1633,0.0027,0.0028,-0.0017
+"Apache Commons Lang","8065c45",2,"Canonical Structural Baseline",0.0389,0.0389,0.0000,0.0000,-0.0017
+"Apache Commons Lang","8065c45",2,"Historical Co-Change Reranker (V4)",0.0389,0.0389,0.0000,0.0000,-0.0017
+"Apache Commons Lang","8065c45",2,"Context-Independent Typed Path (Model A)",0.0406,0.0406,0.0017,0.0017,0.0000
+"Apache Commons Lang","8065c45",2,"Original OCCP (Unregularized MLE)",0.0406,0.0406,0.0017,0.0017,0.0000
+"Apache Commons Lang","8065c45",2,"Smoothed OCCP (lambda = 0.5)",0.0406,0.0406,0.0017,0.0017,0.0000
+"Apache Commons Lang","8065c45",2,"Thresholded OCCP (M = 2)",0.0406,0.0406,0.0017,0.0017,0.0000
+"Apache Commons Lang","8065c45",2,"Continuous Score Fusion",0.0406,0.0406,0.0017,0.0017,0.0000
+"Apache Commons Lang","8065c45",2,"Enhanced OCCP (Selected Best)",0.0406,0.0406,0.0017,0.0017,0.0000
+"Apache Commons Lang","117a9ea",3,"Canonical Structural Baseline",0.0730,0.1127,0.0000,0.0000,0.0000
+"Apache Commons Lang","117a9ea",3,"Historical Co-Change Reranker (V4)",0.0730,0.1127,0.0000,0.0000,0.0000
+"Apache Commons Lang","117a9ea",3,"Context-Independent Typed Path (Model A)",0.0730,0.1127,0.0000,0.0000,0.0000
+"Apache Commons Lang","117a9ea",3,"Original OCCP (Unregularized MLE)",0.0730,0.1127,0.0000,0.0000,0.0000
+"Apache Commons Lang","117a9ea",3,"Smoothed OCCP (lambda = 0.5)",0.0730,0.1127,0.0000,0.0000,0.0000
+"Apache Commons Lang","117a9ea",3,"Thresholded OCCP (M = 2)",0.0730,0.1127,0.0000,0.0000,0.0000
+"Apache Commons Lang","117a9ea",3,"Continuous Score Fusion",0.0730,0.1127,0.0000,0.0000,0.0000
+"Apache Commons Lang","117a9ea",3,"Enhanced OCCP (Selected Best)",0.0730,0.1127,0.0000,0.0000,0.0000

@@ -1,0 +1,74 @@
+{
+  "referenceEvaluationDate": "2026-10-20",
+  "referenceArtifacts": {
+    "verifiedResultsJson": "software_change/research_artifacts/occp_final_verification_20261020/verified_results.json",
+    "verifiedMetricsCsv": "software_change/research_artifacts/occp_final_verification_20261020/verified_metrics_by_project.csv",
+    "verifiedPerCommitCsv": "software_change/research_artifacts/occp_final_verification_20261020/verified_per_commit_metrics.csv",
+    "accuracyPrecisionRecallF1Csv": "software_change/research_artifacts/occp_final_verification_20261020/accuracy_precision_recall_f1_comparison.csv"
+  },
+  "benchmarkUniverse": {
+    "totalRepositories": 3,
+    "totalIndependentCommits": 25,
+    "totalLeaveOneOutCases": 170,
+    "projectBreakdown": {
+      "Spring PetClinic REST": { "commits": 8, "cases": 57 },
+      "Shopizer": { "commits": 12, "cases": 46 },
+      "Apache Commons Lang": { "commits": 5, "cases": 67 }
+    }
+  },
+  "csfReportedMetrics": {
+    "overall": {
+      "macroMAP": 0.1318,
+      "macroMRR": 0.2366,
+      "top3": { "accuracy": 0.2573, "precision": 0.1556, "recall": 0.1147, "f1": 0.1151 },
+      "top5": { "accuracy": 0.3444, "precision": 0.1359, "recall": 0.1652, "f1": 0.1274 },
+      "top10": { "accuracy": 0.4047, "precision": 0.0999, "recall": 0.2118, "f1": 0.1151 }
+    },
+    "byProject": {
+      "Spring PetClinic REST": {
+        "macroMAP": 0.1794,
+        "macroMRR": 0.3143,
+        "pAt3": 0.1753, "rAt3": 0.1263,
+        "pAt5": 0.1800, "rAt5": 0.2325, "f1At5": 0.1674,
+        "pAt10": 0.1711, "rAt10": 0.3614
+      },
+      "Shopizer": {
+        "macroMAP": 0.0891,
+        "macroMRR": 0.1970,
+        "pAt3": 0.1412, "rAt3": 0.0708,
+        "pAt5": 0.1118, "rAt5": 0.0910, "f1At5": 0.0962,
+        "pAt10": 0.0637, "rAt10": 0.1017
+      },
+      "Apache Commons Lang": {
+        "macroMAP": 0.1582,
+        "macroMRR": 0.2071,
+        "pAt3": 0.1583, "rAt3": 0.2014,
+        "pAt5": 0.1229, "rAt5": 0.2359, "f1At5": 0.1381,
+        "pAt10": 0.0728, "rAt10": 0.2368
+      }
+    }
+  },
+  "comparativeRankings": {
+    "vsCanonicalStructuralBaseline": {
+      "mapDelta": "+0.0453",
+      "relativeGain": "+52.4%",
+      "tStat": 1.6461,
+      "pValueT": 0.0997,
+      "wilcoxonP": 0.0995,
+      "statisticallySignificantAt005": false
+    },
+    "vsHistoricalCoChangeRerankerV4": {
+      "mapDelta": "+0.0130",
+      "relativeGain": "+10.9%",
+      "tStat": 1.3751,
+      "pValueT": 0.1691,
+      "wilcoxonP": 0.2845,
+      "statisticallySignificantAt005": false
+    },
+    "vsOriginalOCCP": {
+      "mapDelta": "+0.0041",
+      "mrrDelta": "-0.0052",
+      "statisticallySignificantAt005": false
+    }
+  }
+}

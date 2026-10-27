@@ -1,14 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
+import BenchmarkDashboard from './BenchmarkDashboard';
+import ThreeWayComparisonDashboard from './ThreeWayComparisonDashboard';
 
 const API_BASE = 'http://localhost:5000/api';
 
 export default function App() {
+  // Navigation tabs: 'analysis' | 'research'
+  const [activeTab, setActiveTab] = useState('analysis');
+
   // Workflow state
-  const [repoPath, setRepoPath] = useState('c:/yashika/STUDY/clg_project/spring-petclinic-rest');
+  const [repoPath, setRepoPath] = useState('');
   const [repoAnalyzed, setRepoAnalyzed] = useState(false);
+  const [analyzedProjectName, setAnalyzedProjectName] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
   const [analyzingImpact, setAnalyzingImpact] = useState(false);
-  const [neo4jStatus, setNeo4jStatus] = useState('offline');
+  const [validationError, setValidationError] = useState(null);
+  const [exampleRepos, setExampleRepos] = useState([]);
 
   // Core data states
   const [components, setComponents] = useState([]);
@@ -16,11 +24,26 @@ export default function App() {
   const [selectedChanged, setSelectedChanged] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [baselineReport, setBaselineReport] = useState([]);
-  const [contextAwareReport, setContextAwareReport] = useState([]);
-  const [impactViewTab, setImpactViewTab] = useState('comparison'); // 'baseline' | 'context' | 'comparison'
+  const [egcpReport, setEgcpReport] = useState([]);
+  const [comparisonData, setComparisonData] = useState(null);
+  const [evolutionaryStatus, setEvolutionaryStatus] = useState(null);
+  const [selectedModel, setSelectedModel] = useState('canonical'); // 'canonical' | 'egcp_v4' | 'compare'
+  const [activeHighlightModel, setActiveHighlightModel] = useState('egcp_v4'); // 'canonical' | 'egcp_v4' for canvas highlight in compare mode
   const [expandedPaths, setExpandedPaths] = useState({});
   const [gitDetectedChanges, setGitDetectedChanges] = useState(null);
   const [isDetectingGit, setIsDetectingGit] = useState(false);
+
+  const activeReport = React.useMemo(() => {
+    if (selectedModel === 'egcp_v4') {
+      return egcpReport.length > 0 ? egcpReport : baselineReport;
+    }
+    if (selectedModel === 'compare') {
+      return activeHighlightModel === 'egcp_v4'
+        ? (egcpReport.length > 0 ? egcpReport : baselineReport)
+        : (baselineReport.length > 0 ? baselineReport : egcpReport);
+    }
+    return baselineReport;
+  }, [selectedModel, activeHighlightModel, egcpReport, baselineReport]);
 
   const togglePathExpand = (id) => {
     setExpandedPaths(prev => ({
@@ -30,9 +53,10 @@ export default function App() {
   };
 
   // Graph filters
-  const [filterTypes, setFilterTypes] = useState(['Controller', 'Service', 'Repository', 'Test']);
-  const [filterRels, setFilterRels] = useState(['DEPENDS_ON', 'USES', 'TESTS']); // CO_CHANGED_WITH unchecked by default
+  const [filterTypes, setFilterTypes] = useState(['Controller', 'Service', 'Repository', 'Test', 'Entity/Model']);
+  const [filterRels, setFilterRels] = useState(['DEPENDS_ON', 'USES', 'TESTS']);
   const [focusSelectedNeighbor, setFocusSelectedNeighbor] = useState(false);
+  const [propagationOnly, setPropagationOnly] = useState(false);
   const [selectedGraphNode, setSelectedGraphNode] = useState(null);
   const [layoutResetTrigger, setLayoutResetTrigger] = useState(0);
 
@@ -49,7 +73,6 @@ export default function App() {
       return;
     }
     
-    // Compute purely in-memory from the historyData already fetched!
     const pairs = historyData.allPairs
       .filter(p => p.source === focusNode || p.target === focusNode)
       .map(p => ({
@@ -75,7 +98,6 @@ export default function App() {
       if (data.success) {
         setHistoryData(data.data);
         
-        // Append historical edges to the graph state
         const historyRels = data.data.allPairs.map(p => ({
           source: p.source,
           target: p.target,
@@ -87,7 +109,6 @@ export default function App() {
           const structural = prev.filter(r => r.type !== 'CO_CHANGED_WITH');
           return [...structural, ...historyRels];
         });
-        
       } else {
         alert(`Historical analysis failed: ${data.error}`);
       }
@@ -100,72 +121,145 @@ export default function App() {
 
   // Canvas Force Simulation Refs
   const canvasRef = useRef(null);
+  const canvasContainerRef = useRef(null);
   const ticksRef = useRef(0);
   const simulationRef = useRef({
     nodes: [],
     links: [],
     dragNode: null,
-    transform: { x: 0, y: 0, scale: 1 },
+    transform: { x: 0, y: 0, scale: 0.8 },
     isPanning: false,
     panStart: { x: 0, y: 0 },
     hoveredNode: null
   });
 
+  // Fetch available example repositories on initial mount (do not auto-analyze PetClinic)
+  useEffect(() => {
+    let isMounted = true;
+    const fetchExamples = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/example-repositories`);
+        const data = await res.json();
+        if (isMounted && data.success && Array.isArray(data.examples)) {
+          setExampleRepos(data.examples);
+        }
+      } catch (err) {
+        console.warn('Could not fetch example repositories:', err.message);
+      }
+    };
+    fetchExamples();
+    return () => { isMounted = false; };
+  }, []);
+
   // 1. Scan Repository API
-  const handleAnalyzeRepo = async () => {
+  const handleAnalyzeRepo = async (targetPath) => {
+    const pathToAnalyze = (typeof targetPath === 'string' && targetPath.trim().length > 0) ? targetPath.trim() : repoPath.trim();
+    if (!pathToAnalyze) {
+      setValidationError('Please enter or select a repository path. The path cannot be empty.');
+      return;
+    }
+
+    setValidationError(null);
     setLoading(true);
+    setLoadingMessage('Validating repository path and verifying Git configuration...');
+    
+    // Clear old state completely to prevent stale data
     setBaselineReport([]);
-    setContextAwareReport([]);
+    setEgcpReport([]);
+    setComparisonData(null);
+    setEvolutionaryStatus(null);
     setSelectedChanged([]);
     setSelectedGraphNode(null);
+    setGitDetectedChanges(null);
+    setHistoryData(null);
+
     try {
+      setLoadingMessage(`Scanning Java AST structure and dependency graph in "${pathToAnalyze.split(/[\\/]/).pop()}"...`);
       const res = await fetch(`${API_BASE}/analyse-repository`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ repoPath })
+        body: JSON.stringify({ repoPath: pathToAnalyze })
       });
       const data = await res.json();
       if (data.success) {
-        setComponents(data.components);
-        setRelationships(data.relationships);
+        setRepoPath(data.repoPath || pathToAnalyze);
+        setAnalyzedProjectName(data.projectName || pathToAnalyze.split(/[\\/]/).pop());
+        setComponents(data.components || []);
+        setRelationships(data.relationships || []);
         setRepoAnalyzed(true);
-        //setNeo4jStatus(data.neo4jStatus === 'synchronized' ? 'online' : 'offline');
       } else {
-        alert(`Analysis failed: ${data.error}`);
+        setValidationError(data.error || 'Failed to analyze repository structure.');
       }
     } catch (err) {
-      alert(`API Connection Error: ${err.message}`);
+      setValidationError(`Connection Error: Unable to reach backend server at ${API_BASE}. (${err.message})`);
     } finally {
       setLoading(false);
+      setLoadingMessage('');
     }
   };
 
-  // Reset landing state to scan another repository
+  // Reset landing state
   const handleResetRepo = () => {
     setRepoAnalyzed(false);
     setComponents([]);
     setRelationships([]);
     setSelectedChanged([]);
     setBaselineReport([]);
-    setContextAwareReport([]);
+    setEgcpReport([]);
+    setComparisonData(null);
+    setEvolutionaryStatus(null);
     setSelectedGraphNode(null);
+    setGitDetectedChanges(null);
+    setHistoryData(null);
+    setValidationError(null);
   };
 
-  // 2. Analyze Change Impact API (Runs both Baseline and Context-Aware models)
-  const handleAnalyzeImpact = async () => {
-    if (selectedChanged.length === 0) return;
+  // Unified Change Impact Analysis Helper with Model Selection
+  const runImpactAnalysis = async (seedIds, modelOverride) => {
+    if (!seedIds || seedIds.length === 0) {
+      setBaselineReport([]);
+      setEgcpReport([]);
+      setComparisonData(null);
+      setEvolutionaryStatus(null);
+      return;
+    }
     
+    const activeModel = (typeof modelOverride === 'string' && modelOverride) ? modelOverride : selectedModel;
     setAnalyzingImpact(true);
     try {
-      const res = await fetch(`${API_BASE}/analyze-context-impact`, {
+      const res = await fetch(`${API_BASE}/analyse-impact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ changedComponents: selectedChanged })
+        body: JSON.stringify({
+          changedComponents: seedIds,
+          model: activeModel,
+          repoPath
+        })
       });
       const data = await res.json();
       if (data.success) {
-        setBaselineReport(data.baselineOutput || []);
-        setContextAwareReport(data.contextAwareOutput || []);
+        if (activeModel === 'canonical') {
+          const report = data.potentiallyImpactedComponents || data.baselineOutput || [];
+          setBaselineReport(report);
+          setEgcpReport([]);
+          setComparisonData(null);
+          setEvolutionaryStatus(null);
+        } else if (activeModel === 'egcp_v4') {
+          const report = data.potentiallyImpactedComponents || [];
+          setEgcpReport(report);
+          setBaselineReport([]);
+          setComparisonData(null);
+          setEvolutionaryStatus(data.evolutionaryStatus || null);
+        } else if (activeModel === 'compare') {
+          setBaselineReport(data.baselineOutput || []);
+          setEgcpReport(data.egcpOutput || []);
+          setComparisonData(data.comparison || data || null);
+          setEvolutionaryStatus(data.evolutionaryStatus || null);
+        }
+
+        if (simulationRef.current) {
+          simulationRef.current.alpha = Math.max(simulationRef.current.alpha || 0, 0.6);
+        }
       } else {
         alert(`Impact analysis failed: ${data.error}`);
       }
@@ -176,32 +270,107 @@ export default function App() {
     }
   };
 
+  // 2. Analyze Change Impact API
+  const handleAnalyzeImpact = async (modelOverride) => {
+    if (selectedChanged.length === 0) return;
+    const targetModel = (typeof modelOverride === 'string' && modelOverride) ? modelOverride : selectedModel;
+    await runImpactAnalysis(selectedChanged, targetModel);
+  };
+
+  // Safely extract filename
+  const getFileInfo = (filePath, componentId) => {
+    let rawPath = filePath || '';
+    const matchedComp = componentId ? components.find(c => c.id === componentId) : null;
+    if (!rawPath && matchedComp?.filePath) {
+      rawPath = matchedComp.filePath;
+    }
+
+    const normPath = rawPath.replace(/\\/g, '/').replace(/^\.?\//, '');
+    let fileName = '';
+    if (normPath) {
+      const parts = normPath.split('/');
+      fileName = parts[parts.length - 1] || '';
+    }
+
+    if (!fileName && componentId) {
+      const baseName = matchedComp?.name || (componentId.includes('.') ? componentId.split('.').pop() : componentId);
+      fileName = `${baseName}.java`;
+    }
+
+    return {
+      fileName: fileName || 'UnknownFile.java',
+      relativePath: normPath || (matchedComp?.filePath ? matchedComp.filePath.replace(/\\/g, '/').replace(/^\.?\//, '') : 'Path unavailable'),
+      componentId,
+      componentType: matchedComp?.type || 'Component'
+    };
+  };
+
   const handleDetectGit = async (mode) => {
     setIsDetectingGit(true);
     setGitDetectedChanges(null);
     try {
-      const res = await fetch('http://localhost:5000/api/detect-git-changes', {
+      const res = await fetch(`${API_BASE}/detect-git-changes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ repoPath, mode })
+        body: JSON.stringify({ repoPath, mode, components })
       });
       const data = await res.json();
       if (data.success) {
-        if (data.changedFiles.length === 0) {
-          alert('No uncommitted changes detected.');
+        if (!data.changedFiles || data.changedFiles.length === 0) {
+          const emptyMsg = mode === 'commit' 
+            ? 'No changed files detected in latest commit.' 
+            : 'No uncommitted changes detected.';
+          alert(emptyMsg);
           setGitDetectedChanges([]);
         } else {
-          const detected = data.changedFiles.map(filePath => {
-            // Find component with exact path match after normalizing just in case
-            const normalizedTarget = filePath.replace(/\\/g, '/').toLowerCase();
-            const matchedComp = components.find(c => c.filePath.toLowerCase() === normalizedTarget);
+          const rawItems = (data.detailedChanges && data.detailedChanges.length > 0)
+            ? data.detailedChanges
+            : (data.mapped && data.mapped.length > 0)
+              ? data.mapped
+              : (data.changes && data.changes.length > 0)
+                ? data.changes
+                : (data.changedFiles || []).map(f => ({ filePath: f }));
+
+          const detected = rawItems.map(item => {
+            const rawPath = (item.filePath || item.newPath || item.oldPath || '').replace(/\\/g, '/');
+            const cleanNormPath = rawPath.replace(/^\.?\//, '').toLowerCase();
+
+            const matchedComp = (item.mappedComponentId ? components.find(c => c.id === item.mappedComponentId) : null) ||
+              components.find(c => {
+                const compNorm = (c.filePath || '').replace(/\\/g, '/').replace(/^\.?\//, '').toLowerCase();
+                return compNorm && (compNorm === cleanNormPath || compNorm.endsWith(cleanNormPath) || cleanNormPath.endsWith(compNorm));
+              });
+
+            const compId = matchedComp ? matchedComp.id : (item.mappedComponentId || null);
+
             return {
-              filePath,
-              componentId: matchedComp ? matchedComp.id : null,
-              matched: !!matchedComp
+              filePath: rawPath,
+              componentId: compId,
+              matched: !!compId,
+              type: matchedComp?.type || item.componentType || 'Component'
             };
-          }).filter(c => c.matched); // Only keep mapped files (like .java components)
+          });
+
           setGitDetectedChanges(detected);
+
+          const matchedSeeds = Array.from(new Set(
+            (data.mappedComponentIds && data.mappedComponentIds.length > 0)
+              ? data.mappedComponentIds
+              : detected.filter(d => d.matched && d.componentId).map(d => d.componentId)
+          ));
+
+          if (mode === 'commit') {
+            if (matchedSeeds.length === 0) {
+              alert(`Git detected ${detected.length} changed file(s) in latest commit, but none could be mapped to active components in this project.`);
+            } else {
+              setSelectedChanged(matchedSeeds);
+              await runImpactAnalysis(matchedSeeds, selectedModel);
+              if (simulationRef.current) {
+                simulationRef.current.alpha = Math.max(simulationRef.current.alpha || 0, 0.85);
+              }
+              setTimeout(() => autoFit(), 250);
+            }
+          }
         }
       } else {
         alert(`Git Detection Failed: ${data.error}`);
@@ -219,60 +388,33 @@ export default function App() {
     );
   };
 
-  useEffect(() => {
-    setBaselineReport([]);
-    setContextAwareReport([]);
-    setExpandedPaths({});
-  }, [selectedChanged]);
-
-  const comparisonData = React.useMemo(() => {
-    const allNames = Array.from(new Set([
-      ...baselineReport.map(b => b.name),
-      ...contextAwareReport.map(c => c.component)
-    ]));
-
-    return allNames.map(name => {
-      const bItem = baselineReport.find(b => b.name === name);
-      const cItem = contextAwareReport.find(c => c.component === name);
-      const bIndex = bItem ? baselineReport.indexOf(bItem) + 1 : null;
-      const cIndex = cItem ? contextAwareReport.indexOf(cItem) + 1 : null;
-      
-      return {
-        name,
-        type: cItem?.impactedType || bItem?.type || 'Other',
-        baseline: bItem ? {
-          rank: bIndex,
-          severity: bItem.impactLevel,
-          reason: bItem.reason,
-          path: bItem.reasoningPath
-        } : null,
-        proposed: cItem ? {
-          rank: cIndex,
-          severity: cItem.severity,
-          score: cItem.influenceScore,
-          category: cItem.category,
-          hopDistance: cItem.hopDistance,
-          relEvidence: cItem.relationshipEvidence,
-          artifactContext: cItem.artifactContext,
-          historyEvidence: cItem.historicalEvidence,
-          path: cItem.primaryReasoningPath
-        } : null
-      };
-    }).sort((a, b) => {
-      const aRank = a.proposed?.rank ?? (a.baseline?.rank ? a.baseline.rank + 100 : 999);
-      const bRank = b.proposed?.rank ?? (b.baseline?.rank ? b.baseline.rank + 100 : 999);
-      return aRank - bRank;
-    });
-  }, [baselineReport, contextAwareReport]);
-
   const clearSelection = () => {
     setSelectedChanged([]);
+    setBaselineReport([]);
+    setEgcpReport([]);
+    setComparisonData(null);
+    setEvolutionaryStatus(null);
+    setSelectedGraphNode(null);
+  };
+
+  const isTypeVisible = (nodeType) => {
+    if (!nodeType) return true;
+    if (nodeType === 'Entity/Model' || nodeType === 'Entity' || nodeType === 'Model') {
+      return filterTypes.includes('Entity/Model') || filterTypes.includes('Entity') || filterTypes.includes('Model');
+    }
+    if (['Controller', 'Service', 'Repository', 'Test'].includes(nodeType)) {
+      return filterTypes.includes(nodeType);
+    }
+    return true;
   };
 
   const toggleTypeFilter = (type) => {
     setFilterTypes(prev =>
       prev.includes(type) ? prev.filter(x => x !== type) : [...prev, type]
     );
+    if (simulationRef.current) {
+      simulationRef.current.alpha = Math.max(simulationRef.current.alpha || 0, 0.4);
+    }
   };
 
   const toggleRelFilter = (type) => {
@@ -283,16 +425,22 @@ export default function App() {
 
   const getTypeColor = (type) => {
     switch (type) {
-      case 'Controller': return '#6366f1'; // Indigo
-      case 'Service': return '#06b6d4';    // Cyan
-      case 'Repository': return '#f59e0b'; // Amber
-      case 'Entity/Model': return '#10b981';// Emerald
-      case 'Test': return '#a855f7';       // Purple
-      default: return '#9ca3af';           // Gray
+      case 'Controller': return '#6366f1';
+      case 'Service': return '#06b6d4';
+      case 'Repository': return '#f59e0b';
+      case 'Entity/Model': return '#10b981';
+      case 'Test': return '#a855f7';
+      default: return '#9ca3af';
     }
   };
 
-  // Clean uppercase letters instead of emojis for nodes
+  const handleModelChange = (model) => {
+    setSelectedModel(model);
+    if (selectedChanged.length > 0) {
+      runImpactAnalysis(selectedChanged, model);
+    }
+  };
+
   const getTypeLetter = (type) => {
     switch (type) {
       case 'Controller': return 'C';
@@ -304,17 +452,138 @@ export default function App() {
     }
   };
 
-  const activeRels = React.useMemo(() => {
-    return relationships.filter(r => 
-      filterRels.includes(r.type) &&
-      components.some(c => c.id === r.source && filterTypes.includes(c.type)) &&
-      components.some(c => c.id === r.target && filterTypes.includes(c.type))
-    );
-  }, [relationships, filterRels, filterTypes, components]);
+  const impactedMap = React.useMemo(() => {
+    const map = new Map();
+    for (const item of activeReport) {
+      if (item.id) {
+        map.set(item.id, item);
+        const simple = item.id.includes('.') ? item.id.split('.').pop() : item.id;
+        map.set(simple, item);
+      }
+      if (item.name) {
+        map.set(item.name, item);
+      }
+    }
+    return map;
+  }, [activeReport]);
 
-  // --- FOCUSED NEIGHBORHOOD COMPUTATION ---
+  // Map to resolve any token (simple name or FQN) to canonical component
+  const resolveComp = React.useCallback((token) => {
+    if (!token) return null;
+    const clean = token.trim();
+    return components.find(c => c.id === clean || c.name === clean || (c.id && c.id.endsWith(`.${clean}`))) || null;
+  }, [components]);
+
+  const propagationInfo = React.useMemo(() => {
+    const edgeKeys = new Set();
+    const directedEdgeKeys = new Set();
+    const pathNodeIds = new Set();
+    const candidatePathMap = new Map();
+    const propagationEdgeMap = new Map();
+
+    for (const item of activeReport) {
+      if (!item.reasoningPath) continue;
+      const tokens = item.reasoningPath.split(/\s*➔\s*|\s*->\s*|\s*→\s*/);
+      const itemEdges = new Set();
+
+      for (let i = 0; i < tokens.length - 2; i += 2) {
+        const uRaw = tokens[i].trim();
+        const relToken = tokens[i + 1].trim();
+        const rel = relToken.replace(/[\[\]]/g, '').trim();
+        const vRaw = tokens[i + 2].trim();
+
+        if (uRaw && vRaw) {
+          const compU = resolveComp(uRaw);
+          const compV = resolveComp(vRaw);
+
+          const uId = compU ? compU.id : uRaw;
+          const vId = compV ? compV.id : vRaw;
+          const uName = compU ? compU.name : uRaw;
+          const vName = compV ? compV.name : vRaw;
+
+          pathNodeIds.add(uId);
+          pathNodeIds.add(vId);
+          if (uName) pathNodeIds.add(uName);
+          if (vName) pathNodeIds.add(vName);
+
+          const addKey = (k1, k2) => {
+            edgeKeys.add(`${k1}|${k2}`);
+            edgeKeys.add(`${k2}|${k1}`);
+            itemEdges.add(`${k1}|${k2}`);
+            itemEdges.add(`${k2}|${k1}`);
+            propagationEdgeMap.set(`${k1}|${k2}`, { from: uId, to: vId, rel, impactLevel: item.impactLevel, candidateId: item.id || item.name });
+            propagationEdgeMap.set(`${k2}|${k1}`, { from: uId, to: vId, rel, impactLevel: item.impactLevel, candidateId: item.id || item.name });
+          };
+
+          addKey(uId, vId);
+          if (uName && vName) addKey(uName, vName);
+          if (uId && vName) addKey(uId, vName);
+          if (uName && vId) addKey(uName, vId);
+
+          directedEdgeKeys.add(`${uId}->${vId}:${rel}`);
+        }
+      }
+
+      if (item.id) candidatePathMap.set(item.id, itemEdges);
+      if (item.name) candidatePathMap.set(item.name, itemEdges);
+    }
+
+    return { edgeKeys, directedEdgeKeys, pathNodeIds, candidatePathMap, propagationEdgeMap };
+  }, [activeReport, resolveComp]);
+
+  const graphDiagnostics = React.useMemo(() => {
+    if (!repoAnalyzed) return null;
+    const missingSources = selectedChanged.filter(id => !components.some(c => c.id === id));
+    const hiddenSources = selectedChanged.filter(id => {
+      const comp = components.find(c => c.id === id);
+      return comp && !filterTypes.includes(comp.type);
+    }).map(id => components.find(c => c.id === id));
+
+    const missingCandidates = activeReport.filter(item => 
+      !components.some(c => c.id === item.id || c.name === item.name)
+    );
+    const hiddenCandidates = activeReport.filter(item => {
+      const comp = components.find(c => c.id === item.id || c.name === item.name);
+      return comp && !filterTypes.includes(comp.type);
+    }).map(item => components.find(c => c.id === item.id || c.name === item.name));
+
+    return {
+      missingSources,
+      hiddenSources,
+      missingCandidates,
+      hiddenCandidates,
+      hasMismatch: missingSources.length > 0 || hiddenSources.length > 0 || missingCandidates.length > 0 || hiddenCandidates.length > 0
+    };
+  }, [repoAnalyzed, selectedChanged, activeReport, components, filterTypes]);
+
+  const compLookup = React.useMemo(() => {
+    const validIds = new Set();
+    components.forEach(c => {
+      const isChanged = selectedChanged.includes(c.id) || selectedChanged.includes(c.name);
+      const isImpacted = impactedMap.has(c.id) || impactedMap.has(c.name);
+      const isConduit = propagationInfo.pathNodeIds.has(c.id) || propagationInfo.pathNodeIds.has(c.name);
+      const isProp = isChanged || isImpacted || isConduit;
+      if (isProp || filterTypes.includes(c.type)) {
+        validIds.add(c.id);
+        if (c.name) validIds.add(c.name);
+      }
+    });
+    return validIds;
+  }, [components, filterTypes, selectedChanged, impactedMap, propagationInfo]);
+
+  const activeRels = React.useMemo(() => {
+    return relationships.filter(r => {
+      const isPropagationEdge = propagationInfo.edgeKeys.has(`${r.source}|${r.target}`) ||
+        propagationInfo.edgeKeys.has(`${r.target}|${r.source}`);
+      const isTypeAllowed = filterRels.includes(r.type);
+      if (!isTypeAllowed && !isPropagationEdge) return false;
+
+      return compLookup.has(r.source) && compLookup.has(r.target);
+    });
+  }, [relationships, filterRels, compLookup, propagationInfo]);
+
   const focusedNeighborhood = React.useMemo(() => {
-    if (!focusSelectedNeighbor) return null;
+    if (!focusSelectedNeighbor && !propagationOnly) return null;
     
     let seeds = [];
     if (selectedGraphNode) {
@@ -326,64 +595,172 @@ export default function App() {
     }
 
     const set = new Set(seeds);
-    activeRels.forEach(r => {
-      if (seeds.includes(r.source)) set.add(r.target);
-      if (seeds.includes(r.target)) set.add(r.source);
-    });
-    return set;
-  }, [focusSelectedNeighbor, selectedGraphNode, selectedChanged, activeRels]);
 
-  // --- FILTERED GRAPH INITIALIZATION ---
+    if (propagationOnly && activeReport.length > 0) {
+      selectedChanged.forEach(id => set.add(id));
+      propagationInfo.pathNodeIds.forEach(id => set.add(id));
+      activeReport.forEach(item => {
+        if (item.id) set.add(item.id);
+        if (item.name) set.add(item.name);
+      });
+      return set;
+    }
+
+    activeRels.forEach(r => {
+      if (seeds.includes(r.source) || seeds.includes(r.target)) {
+        set.add(r.source);
+        set.add(r.target);
+      }
+    });
+
+    if (!selectedGraphNode && activeReport.length > 0) {
+      propagationInfo.pathNodeIds.forEach(id => set.add(id));
+      activeReport.forEach(item => {
+        if (item.id) set.add(item.id);
+        if (item.name) set.add(item.name);
+      });
+    } else if (selectedGraphNode && activeReport.length > 0) {
+      const candidateItem = activeReport.find(b => b.id === selectedGraphNode || b.name === selectedGraphNode);
+      if (candidateItem?.reasoningPath) {
+        const tokens = candidateItem.reasoningPath.split(/\s*➔\s*|\s*->\s*|\s*→\s*/);
+        for (let i = 0; i < tokens.length; i += 2) {
+          const uRaw = tokens[i].trim();
+          if (uRaw) {
+            const comp = resolveComp(uRaw);
+            if (comp) { set.add(comp.id); set.add(comp.name); }
+            set.add(uRaw);
+          }
+        }
+      }
+    }
+    return set;
+  }, [focusSelectedNeighbor, propagationOnly, selectedGraphNode, selectedChanged, activeRels, activeReport, propagationInfo, resolveComp]);
+
+  // Dynamic canvas resize observer
+  useEffect(() => {
+    const container = canvasContainerRef.current;
+    const canvas = canvasRef.current;
+    if (!container || !canvas) return;
+
+    const syncSize = () => {
+      const rect = container.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      if (rect.width > 0 && rect.height > 0) {
+        const targetW = Math.floor(rect.width * dpr);
+        const targetH = Math.floor(rect.height * dpr);
+        if (canvas.width !== targetW || canvas.height !== targetH) {
+          canvas.width = targetW;
+          canvas.height = targetH;
+        }
+      }
+    };
+
+    syncSize();
+    const ro = new ResizeObserver(syncSize);
+    ro.observe(container);
+    return () => ro.disconnect();
+  }, [repoAnalyzed]);
+
   useEffect(() => {
     if (!repoAnalyzed || components.length === 0) return;
 
-    // 1. Identify which components match the type filters
-    let activeComponents = components.filter(c => filterTypes.includes(c.type));
+    const activeComponents = components;
 
-    // 4. Initialize Simulation nodes & links
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const width = canvas.width;
-    const height = canvas.height;
+    const dpr = window.devicePixelRatio || 1;
+    const width = canvas ? canvas.width / dpr : 800;
+    const height = canvas ? canvas.height / dpr : 520;
 
     const oldNodeMap = new Map(simulationRef.current.nodes.map(n => [n.id, n]));
 
     const nodes = activeComponents.map((n, i) => {
       const oldNode = oldNodeMap.get(n.id);
-      if (oldNode) {
-        return { ...oldNode, type: n.type, filePath: n.filePath };
+      if (oldNode && Number.isFinite(oldNode.x) && Number.isFinite(oldNode.y)) {
+        return { ...oldNode, name: n.name, type: n.type, filePath: n.filePath };
       }
-      const angle = (i / activeComponents.length) * Math.PI * 2;
-      const radius = 130 + Math.random() * 90;
+
+      const isChanged = selectedChanged.includes(n.id) || selectedChanged.includes(n.name);
+      const isImpacted = impactedMap.has(n.id) || impactedMap.has(n.name);
+      const isConduit = propagationInfo.pathNodeIds.has(n.id) || propagationInfo.pathNodeIds.has(n.name);
+
+      let x, y;
+      if (isChanged) {
+        x = width / 2 + (Math.random() - 0.5) * 60;
+        y = height / 2 + (Math.random() - 0.5) * 60;
+      } else if (isImpacted || isConduit) {
+        const angle = (i / Math.max(activeComponents.length, 1)) * Math.PI * 2;
+        const radius = 180 + (i % 4) * 50;
+        x = width / 2 + Math.cos(angle) * radius;
+        y = height / 2 + Math.sin(angle) * radius;
+      } else {
+        const angle = (i / Math.max(activeComponents.length, 1)) * Math.PI * 2;
+        const radius = 320 + (i % 5) * 55;
+        x = width / 2 + Math.cos(angle) * radius;
+        y = height / 2 + Math.sin(angle) * radius;
+      }
+
       return {
         ...n,
-        x: width / 2 + Math.cos(angle) * radius,
-        y: height / 2 + Math.sin(angle) * radius,
+        x,
+        y,
         vx: 0,
         vy: 0,
-        r: 14
+        r: isChanged ? 18 : (isImpacted ? 16 : 14)
       };
     });
 
-    const links = activeRels.map(l => {
-      const sourceNode = nodes.find(n => n.id === l.source);
-      const targetNode = nodes.find(n => n.id === l.target);
-      return {
-        ...l,
-        sourceNode,
-        targetNode
-      };
-    }).filter(l => l.sourceNode && l.targetNode);
+    const nodeMap = new Map();
+    nodes.forEach(n => {
+      nodeMap.set(n.id, n);
+      if (n.name) nodeMap.set(n.name, n);
+    });
+
+    const links = [];
+    const linkSet = new Set();
+
+    activeRels.forEach(l => {
+      const sourceNode = nodeMap.get(l.source);
+      const targetNode = nodeMap.get(l.target);
+      if (sourceNode && targetNode && sourceNode !== targetNode) {
+        const key = `${sourceNode.id}|${targetNode.id}`;
+        if (!linkSet.has(key)) {
+          linkSet.add(key);
+          links.push({
+            ...l,
+            sourceNode,
+            targetNode
+          });
+        }
+      }
+    });
+
+    propagationInfo.propagationEdgeMap.forEach((edgeData) => {
+      const sourceNode = nodeMap.get(edgeData.from);
+      const targetNode = nodeMap.get(edgeData.to);
+      if (sourceNode && targetNode && sourceNode !== targetNode) {
+        const key1 = `${sourceNode.id}|${targetNode.id}`;
+        const key2 = `${targetNode.id}|${sourceNode.id}`;
+        if (!linkSet.has(key1) && !linkSet.has(key2)) {
+          linkSet.add(key1);
+          links.push({
+            source: edgeData.from,
+            target: edgeData.to,
+            type: edgeData.rel || 'DEPENDS_ON',
+            detail: 'Propagation Path',
+            sourceNode,
+            targetNode,
+            isSyntheticProp: true
+          });
+        }
+      }
+    });
 
     simulationRef.current.nodes = nodes;
     simulationRef.current.links = links;
-    
-    ticksRef.current = 0;
+    simulationRef.current.alpha = 1.0;
 
-  }, [repoAnalyzed, components, relationships, filterTypes, filterRels, layoutResetTrigger]);
+  }, [repoAnalyzed, components, relationships, filterTypes, filterRels, selectedChanged, activeReport, impactedMap, propagationInfo, propagationOnly, layoutResetTrigger]);
 
-  // --- PHYSICS ENGINE LOOP (CAPPED TICK SIMULATION) ---
   useEffect(() => {
     if (!repoAnalyzed) return;
 
@@ -396,14 +773,16 @@ export default function App() {
       const sim = simulationRef.current;
       const nodes = sim.nodes;
       const links = sim.links;
-      
-      if (ticksRef.current > 140) {
-        return; 
-      }
-      ticksRef.current++;
 
-      const width = canvas.width;
-      const height = canvas.height;
+      if (!nodes || nodes.length === 0) return;
+      if (sim.alpha < 0.005 && !sim.dragNode && !sim.isPanning) {
+        return;
+      }
+
+      const alpha = sim.alpha;
+      const dpr = window.devicePixelRatio || 1;
+      const width = canvas.width / dpr;
+      const height = canvas.height / dpr;
       const center = { x: width / 2, y: height / 2 };
 
       for (let i = 0; i < nodes.length; i++) {
@@ -414,11 +793,11 @@ export default function App() {
           const dy = n2.y - n1.y;
           const dist = Math.hypot(dx, dy) || 1;
           
-          if (dist < 260) {
-            const force = (260 - dist) * 0.08;
+          const maxDist = 340;
+          if (dist < maxDist) {
+            const force = ((maxDist - dist) / maxDist) * 2.5 * alpha;
             const fx = (dx / dist) * force;
             const fy = (dy / dist) * force;
-            
             n1.vx -= fx;
             n1.vy -= fy;
             n2.vx += fx;
@@ -430,12 +809,13 @@ export default function App() {
       for (const link of links) {
         const n1 = link.sourceNode;
         const n2 = link.targetNode;
+        if (!n1 || !n2) continue;
         const dx = n2.x - n1.x;
         const dy = n2.y - n1.y;
         const dist = Math.hypot(dx, dy) || 1;
         
-        const targetDist = 110;
-        const force = (dist - targetDist) * 0.03;
+        const targetDist = 185;
+        const force = (dist - targetDist) * 0.024 * alpha;
         const fx = (dx / dist) * force;
         const fy = (dy / dist) * force;
         
@@ -446,17 +826,19 @@ export default function App() {
       }
 
       for (const n of nodes) {
-        n.vx += (center.x - n.x) * 0.006;
-        n.vy += (center.y - n.y) * 0.006;
+        n.vx += (center.x - n.x) * 0.0018 * alpha;
+        n.vy += (center.y - n.y) * 0.0018 * alpha;
       }
 
       for (const n of nodes) {
         if (n === sim.dragNode) continue;
-        n.vx *= 0.76;
-        n.vy *= 0.76;
+        n.vx *= 0.80;
+        n.vy *= 0.80;
         n.x += n.vx;
         n.y += n.vy;
       }
+
+      sim.alpha *= 0.988;
     };
 
     const render = () => {
@@ -464,57 +846,136 @@ export default function App() {
       
       const sim = simulationRef.current;
       const { x, y, scale } = sim.transform;
+      const dpr = window.devicePixelRatio || 1;
+      const viewW = canvas.width / dpr;
+      const viewH = canvas.height / dpr;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      sim.animOffset = (sim.animOffset || 0) + 0.35;
+
       ctx.save();
-      
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, viewW, viewH);
+
       ctx.translate(x, y);
       ctx.scale(scale, scale);
 
-      const visibleLinks = focusedNeighborhood 
-        ? sim.links.filter(l => focusedNeighborhood.has(l.sourceNode.id) && focusedNeighborhood.has(l.targetNode.id))
-        : sim.links;
-        
-      const visibleNodes = focusedNeighborhood
-        ? sim.nodes.filter(n => focusedNeighborhood.has(n.id))
-        : sim.nodes;
+      const typeVisibleNodes = sim.nodes.filter(n => {
+        if (!isTypeVisible(n.type)) return false;
+        if (propagationOnly && activeReport.length > 0) {
+          const isChanged = selectedChanged.includes(n.id) || selectedChanged.includes(n.name);
+          const isImpacted = impactedMap.has(n.id) || impactedMap.has(n.name);
+          const isConduit = propagationInfo.pathNodeIds.has(n.id) || propagationInfo.pathNodeIds.has(n.name);
+          return isChanged || isImpacted || isConduit;
+        }
+        return true;
+      });
 
-      // --- Draw links ---
+      const visibleNodes = focusedNeighborhood
+        ? typeVisibleNodes.filter(n => focusedNeighborhood.has(n.id) || focusedNeighborhood.has(n.name))
+        : typeVisibleNodes;
+
+      const visibleNodeIdSet = new Set();
+      visibleNodes.forEach(n => {
+        visibleNodeIdSet.add(n.id);
+        if (n.name) visibleNodeIdSet.add(n.name);
+      });
+
+      const visibleLinks = sim.links.filter(l => 
+        l.sourceNode && l.targetNode &&
+        (visibleNodeIdSet.has(l.sourceNode.id) || visibleNodeIdSet.has(l.sourceNode.name)) &&
+        (visibleNodeIdSet.has(l.targetNode.id) || visibleNodeIdSet.has(l.targetNode.name)) &&
+        (!focusedNeighborhood || (
+          (focusedNeighborhood.has(l.sourceNode.id) || focusedNeighborhood.has(l.sourceNode.name)) && 
+          (focusedNeighborhood.has(l.targetNode.id) || focusedNeighborhood.has(l.targetNode.name))
+        ))
+      );
+
       visibleLinks.forEach(link => {
         const from = link.sourceNode;
         const to = link.targetNode;
+        if (!from || !to) return;
 
-        const isChangedRel = selectedChanged.includes(from.id) || selectedChanged.includes(to.id);
-        const isImpactedRel = baselineReport.some(i => i.name === from.id || i.name === to.id);
-        const isFocusedRel = selectedGraphNode === from.id || selectedGraphNode === to.id;
+        const linkKey1 = `${from.id}|${to.id}`;
+        const linkKey2 = `${to.id}|${from.id}`;
+        const linkKey3 = `${from.name}|${to.name}`;
+        const linkKey4 = `${to.name}|${from.name}`;
+        
+        const fromChanged = selectedChanged.includes(from.id) || selectedChanged.includes(from.name) || 
+          (from.id && selectedChanged.some(s => s === from.id || s === from.name || from.id.endsWith(`.${s}`) || s.endsWith(`.${from.name}`)));
+        const toChanged = selectedChanged.includes(to.id) || selectedChanged.includes(to.name) || 
+          (to.id && selectedChanged.some(s => s === to.id || s === to.name || to.id.endsWith(`.${s}`) || s.endsWith(`.${to.name}`)));
+
+        const fromImpact = impactedMap.get(from.id) || impactedMap.get(from.name);
+        const toImpact = impactedMap.get(to.id) || impactedMap.get(to.name);
+
+        const isDirectImpact = (fromChanged && toImpact) || (toChanged && fromImpact);
+        const isIndirectImpact = !!(fromImpact && toImpact);
+
+        const isReasoningPathLink = propagationInfo.edgeKeys.has(linkKey1) || 
+          propagationInfo.edgeKeys.has(linkKey2) || 
+          propagationInfo.edgeKeys.has(linkKey3) || 
+          propagationInfo.edgeKeys.has(linkKey4) ||
+          link.isSyntheticProp;
+
+        const isPropagationLink = isDirectImpact || isIndirectImpact || isReasoningPathLink;
+
+        const propEdge = propagationInfo.propagationEdgeMap.get(linkKey1) || 
+          propagationInfo.propagationEdgeMap.get(linkKey2) || 
+          propagationInfo.propagationEdgeMap.get(linkKey3) || 
+          propagationInfo.propagationEdgeMap.get(linkKey4);
+
+        const relevantImpact = toImpact || fromImpact;
+        const impactLevel = (toImpact?.impactLevel === 'High' || fromImpact?.impactLevel === 'High')
+          ? 'High'
+          : ((toImpact?.impactLevel === 'Medium' || fromImpact?.impactLevel === 'Medium')
+             ? 'Medium'
+             : (propEdge?.impactLevel || relevantImpact?.impactLevel || 'Low'));
+
+        const isFocusedPath = selectedGraphNode && (
+          (propagationInfo.candidatePathMap.get(selectedGraphNode)?.has(linkKey1)) ||
+          (propagationInfo.candidatePathMap.get(selectedGraphNode)?.has(linkKey2)) ||
+          (propagationInfo.candidatePathMap.get(selectedGraphNode)?.has(linkKey3)) ||
+          (propagationInfo.candidatePathMap.get(selectedGraphNode)?.has(linkKey4)) ||
+          (from.id === selectedGraphNode || to.id === selectedGraphNode || from.name === selectedGraphNode || to.name === selectedGraphNode)
+        );
 
         ctx.beginPath();
         ctx.moveTo(from.x, from.y);
         ctx.lineTo(to.x, to.y);
 
-        if (link.type === 'CO_CHANGED_WITH') {
-          ctx.setLineDash([5, 5]);
-          ctx.strokeStyle = 'rgba(217, 70, 239, 0.6)'; // Soft Fuchsia
-          ctx.lineWidth = 1.5;
+        if (isFocusedPath) {
+          ctx.setLineDash([8, 4]);
+          ctx.lineDashOffset = -sim.animOffset * 2;
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 3.6;
+        } else if (isPropagationLink) {
+          ctx.setLineDash(isDirectImpact ? [] : [6, 4]);
+          if (!isDirectImpact) ctx.lineDashOffset = -sim.animOffset;
+          
+          if (impactLevel === 'High') {
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = isDirectImpact ? 3.4 : 2.6;
+          } else if (impactLevel === 'Medium') {
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = isDirectImpact ? 2.8 : 2.2;
+          } else {
+            ctx.strokeStyle = '#0284c7';
+            ctx.lineWidth = isDirectImpact ? 2.2 : 1.8;
+          }
+        } else if (link.type === 'CO_CHANGED_WITH') {
+          ctx.setLineDash([4, 4]);
+          ctx.lineDashOffset = 0;
+          ctx.strokeStyle = 'rgba(217, 70, 239, 0.75)';
+          ctx.lineWidth = 1.6;
         } else {
           ctx.setLineDash([]);
-          if (isChangedRel && isImpactedRel) {
-            ctx.strokeStyle = '#fda4af'; 
-            ctx.lineWidth = 2.5;
-          } else if (selectedGraphNode && isFocusedRel) {
-            ctx.strokeStyle = '#22d3ee'; 
-            ctx.lineWidth = 2;
-          } else if (isImpactedRel) {
-            ctx.strokeStyle = '#60a5fa'; 
-            ctx.lineWidth = 1.5;
-          } else {
-            ctx.strokeStyle = 'rgba(75, 85, 99, 0.2)';
-            ctx.lineWidth = 1;
-          }
+          const isFaded = activeReport.length > 0;
+          ctx.strokeStyle = isFaded ? 'rgba(148, 163, 184, 0.08)' : 'rgba(148, 163, 184, 0.35)';
+          ctx.lineWidth = isFaded ? 0.6 : 1.2;
         }
         
         ctx.stroke();
-        ctx.setLineDash([]); // Reset line dash for arrow heads and other elements
+        ctx.setLineDash([]);
 
         const mx = (from.x + to.x) / 2;
         const my = (from.y + to.y) / 2;
@@ -524,66 +985,146 @@ export default function App() {
         ctx.translate(mx, my);
         ctx.rotate(angle);
         ctx.beginPath();
-        ctx.moveTo(-6, -4);
-        ctx.lineTo(2, 0);
-        ctx.lineTo(-6, 4);
-        ctx.fillStyle = (isChangedRel && isImpactedRel) ? '#fda4af' : ((selectedGraphNode && isFocusedRel) ? '#22d3ee' : (isImpactedRel ? '#60a5fa' : 'rgba(75, 85, 99, 0.35)'));
+        if (isFocusedPath) {
+          ctx.moveTo(-9, -6);
+          ctx.lineTo(4, 0);
+          ctx.lineTo(-9, 6);
+          ctx.fillStyle = '#38bdf8';
+        } else if (isPropagationLink) {
+          const arrowSize = impactLevel === 'High' ? 8 : (impactLevel === 'Medium' ? 7 : 6);
+          ctx.moveTo(-arrowSize, -arrowSize * 0.65);
+          ctx.lineTo(3, 0);
+          ctx.lineTo(-arrowSize, arrowSize * 0.65);
+          ctx.fillStyle = impactLevel === 'High' ? '#ef4444' : (impactLevel === 'Medium' ? '#f59e0b' : '#0284c7');
+        } else {
+          ctx.moveTo(-6, -3.5);
+          ctx.lineTo(2, 0);
+          ctx.lineTo(-6, 3.5);
+          ctx.fillStyle = activeReport.length > 0 ? 'rgba(148, 163, 184, 0.10)' : 'rgba(148, 163, 184, 0.45)';
+        }
         ctx.fill();
         ctx.restore();
+
+        const isEndpointSelected = selectedGraphNode && (
+          from.id === selectedGraphNode || to.id === selectedGraphNode || 
+          from.name === selectedGraphNode || to.name === selectedGraphNode
+        );
+
+        if (isFocusedPath || isPropagationLink) {
+          ctx.save();
+          ctx.font = 'bold 9px JetBrains Mono, monospace';
+          const text = link.type || propEdge?.rel || (isDirectImpact ? 'IMPACTS' : 'DEPENDS_ON');
+          const tw = ctx.measureText(text).width;
+          ctx.fillStyle = '#0f172a';
+          ctx.fillRect(mx - tw / 2 - 4, my - 7, tw + 8, 14);
+          ctx.strokeStyle = isFocusedPath ? '#38bdf8' : (impactLevel === 'High' ? '#ef4444' : (impactLevel === 'Medium' ? '#f59e0b' : '#0284c7'));
+          ctx.lineWidth = 1;
+          ctx.strokeRect(mx - tw / 2 - 4, my - 7, tw + 8, 14);
+          ctx.fillStyle = isFocusedPath ? '#38bdf8' : (impactLevel === 'High' ? '#fca5a5' : (impactLevel === 'Medium' ? '#fde68a' : '#bae6fd'));
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(text, mx, my);
+          ctx.restore();
+        }
       });
 
-      // --- Draw nodes ---
       visibleNodes.forEach(node => {
-        const isChanged = selectedChanged.includes(node.id);
-        const isFocused = selectedGraphNode === node.id;
-        const impacted = baselineReport.find(i => i.name === node.id);
+        const isChanged = selectedChanged.includes(node.id) || selectedChanged.includes(node.name) || 
+          (node.id && selectedChanged.some(s => s === node.id || s === node.name || node.id.endsWith(`.${s}`) || s.endsWith(`.${node.name}`)));
+        const isFocused = selectedGraphNode === node.id || selectedGraphNode === node.name;
+        const impacted = impactedMap.get(node.id) || impactedMap.get(node.name);
+        const isPropagationNode = propagationInfo.pathNodeIds.has(node.id) || propagationInfo.pathNodeIds.has(node.name);
+        const isConduit = !isChanged && !impacted && isPropagationNode;
+        const isFaded = activeReport.length > 0 && !isChanged && !impacted && !isConduit;
 
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
+        const baseRadius = node.r || 14;
+        const nodeRadius = isChanged ? baseRadius + 4 : (impacted ? baseRadius + 2 : baseRadius);
 
-        const baseColor = getTypeColor(node.type);
-        ctx.fillStyle = isChanged ? '#f43f5e' : baseColor;
-        ctx.strokeStyle = isFocused ? '#22d3ee' : (isChanged ? '#fff' : 'rgba(255,255,255,0.15)');
-        ctx.lineWidth = isFocused ? 3.5 : (isChanged ? 2.5 : 2);
-        
-        ctx.shadowBlur = 0;
-        if (isFocused) {
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, node.r + 6, 0, Math.PI * 2);
-          ctx.strokeStyle = 'rgba(34, 211, 238, 0.5)';
-          ctx.lineWidth = 2;
-          ctx.stroke();
-
-          ctx.shadowColor = '#22d3ee';
-          ctx.shadowBlur = 18;
-        } else if (isChanged) {
-          ctx.shadowColor = '#f43f5e';
-          ctx.shadowBlur = 15;
-        } else if (impacted) {
-          const glowColor = impacted.impactLevel === 'High' ? '#f43f5e' : (impacted.impactLevel === 'Medium' ? '#fbbf24' : '#60a5fa');
-          ctx.shadowColor = glowColor;
-          ctx.shadowBlur = 12;
-        } else if (sim.hoveredNode === node) {
-          ctx.shadowColor = baseColor;
-          ctx.shadowBlur = 8;
+        ctx.save();
+        if (isFaded) {
+          ctx.globalAlpha = 0.18;
         }
 
+        if (isFocused) {
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, nodeRadius + 8, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.85)';
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+          ctx.shadowColor = '#38bdf8';
+          ctx.shadowBlur = 20;
+        } else if (isChanged) {
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, nodeRadius + 7, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(239, 68, 68, 0.95)';
+          ctx.lineWidth = 2.8;
+          ctx.stroke();
+          ctx.shadowColor = '#ef4444';
+          ctx.shadowBlur = 20;
+        } else if (impacted) {
+          const glowColor = impacted.impactLevel === 'High' ? '#ef4444' : (impacted.impactLevel === 'Medium' ? '#f59e0b' : '#0284c7');
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, nodeRadius + 6, 0, Math.PI * 2);
+          ctx.strokeStyle = glowColor;
+          ctx.lineWidth = 2.2;
+          ctx.stroke();
+          ctx.shadowColor = glowColor;
+          ctx.shadowBlur = 16;
+        } else if (isConduit) {
+          ctx.save();
+          ctx.setLineDash([4, 3]);
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, nodeRadius + 5, 0, Math.PI * 2);
+          ctx.strokeStyle = '#fbbf24';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.restore();
+          ctx.shadowColor = '#fbbf24';
+          ctx.shadowBlur = 12;
+        }
+
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, nodeRadius, 0, Math.PI * 2);
+        const baseColor = getTypeColor(node.type);
+        ctx.fillStyle = isChanged ? '#ef4444' : baseColor;
         ctx.fill();
-        ctx.shadowBlur = 0; 
+
+        ctx.shadowBlur = 0;
+        const borderGlow = impacted ? (impacted.impactLevel === 'High' ? '#ef4444' : (impacted.impactLevel === 'Medium' ? '#f59e0b' : '#38bdf8')) : 'rgba(255, 255, 255, 0.4)';
+        ctx.strokeStyle = isFocused ? '#38bdf8' : (isChanged ? '#ffffff' : (impacted ? borderGlow : 'rgba(255, 255, 255, 0.4)'));
+        ctx.lineWidth = isFocused ? 3 : (isChanged ? 3 : (impacted ? 2.5 : 1.5));
         ctx.stroke();
 
-        ctx.fillStyle = '#f3f4f6';
-        ctx.font = isFocused ? '600 11px Outfit' : '500 10.5px Outfit';
-        ctx.textAlign = 'center';
-        ctx.fillText(node.name, node.x, node.y - node.r - 6);
-
-        ctx.fillStyle = '#9ca3af';
-        ctx.font = '8px Outfit';
-        ctx.fillText(node.type.toUpperCase(), node.x, node.y + node.r + 11);
-        
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 9.5px JetBrains Mono';
-        ctx.fillText(getTypeLetter(node.type), node.x, node.y + 3.5);
+        ctx.font = 'bold 10px JetBrains Mono, monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(isChanged ? '!' : getTypeLetter(node.type), node.x, node.y);
+
+        ctx.font = isFocused || isChanged || impacted ? '600 11px Outfit, sans-serif' : '500 10.5px Outfit, sans-serif';
+        ctx.fillStyle = isFaded ? '#64748b' : '#ffffff';
+        ctx.fillText(node.name, node.x, node.y - nodeRadius - 8);
+
+        if (isChanged) {
+          ctx.fillStyle = '#fecdd3';
+          ctx.font = 'bold 8.5px Outfit, sans-serif';
+          ctx.fillText('CHANGED SEED', node.x, node.y + nodeRadius + 13);
+        } else if (impacted) {
+          const impactColor = impacted.impactLevel === 'High' ? '#fca5a5' : (impacted.impactLevel === 'Medium' ? '#fde68a' : '#7dd3fc');
+          ctx.fillStyle = impactColor;
+          ctx.font = 'bold 8.5px Outfit, sans-serif';
+          ctx.fillText(`${impacted.impactLevel.toUpperCase()} IMPACT (${impacted.hopDistance || 1}H)`, node.x, node.y + nodeRadius + 13);
+        } else if (isConduit) {
+          ctx.fillStyle = '#fde68a';
+          ctx.font = 'bold 8.5px Outfit, sans-serif';
+          ctx.fillText('PATH CONDUIT', node.x, node.y + nodeRadius + 13);
+        } else if (!isFaded) {
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '8px Outfit, sans-serif';
+          ctx.fillText(node.type.toUpperCase(), node.x, node.y + nodeRadius + 12);
+        }
+
+        ctx.restore();
       });
 
       ctx.restore();
@@ -591,15 +1132,87 @@ export default function App() {
     };
 
     render();
+    return () => cancelAnimationFrame(animationId);
+  }, [repoAnalyzed, selectedChanged, activeReport, selectedGraphNode, focusedNeighborhood, propagationInfo, impactedMap, filterTypes, filterRels, propagationOnly]);
 
-    return () => {
-      cancelAnimationFrame(animationId);
+  const autoFit = () => {
+    const sim = simulationRef.current;
+    const canvas = canvasRef.current;
+    if (!canvas || !sim.nodes || sim.nodes.length === 0) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const viewW = canvas.width / dpr;
+    const viewH = canvas.height / dpr;
+
+    const typeVisibleNodes = sim.nodes.filter(n => isTypeVisible(n.type));
+    if (typeVisibleNodes.length === 0) return;
+
+    const targetNodes = (activeReport.length > 0)
+      ? typeVisibleNodes.filter(n => 
+          selectedChanged.includes(n.id) || 
+          selectedChanged.includes(n.name) ||
+          impactedMap.has(n.id) || 
+          impactedMap.has(n.name) ||
+          propagationInfo.pathNodeIds.has(n.id) ||
+          propagationInfo.pathNodeIds.has(n.name)
+        )
+      : typeVisibleNodes;
+
+    const fitList = targetNodes.length > 0 ? targetNodes : typeVisibleNodes;
+
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    fitList.forEach(n => {
+      minX = Math.min(minX, n.x);
+      maxX = Math.max(maxX, n.x);
+      minY = Math.min(minY, n.y);
+      maxY = Math.max(maxY, n.y);
+    });
+
+    const boxW = Math.max(maxX - minX, 160);
+    const boxH = Math.max(maxY - minY, 160);
+    const pad = 60;
+
+    const scale = Math.min((viewW - pad * 2) / boxW, (viewH - pad * 2) / boxH);
+    const clampedScale = Math.max(0.28, Math.min(scale, 1.05));
+
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
+
+    sim.transform = {
+      x: viewW / 2 - centerX * clampedScale,
+      y: viewH / 2 - centerY * clampedScale,
+      scale: clampedScale
     };
-  }, [repoAnalyzed, selectedChanged, baselineReport, selectedGraphNode, focusedNeighborhood]);
+  };
 
-  // Canvas Mouse handlers
+  useEffect(() => {
+    if (activeReport.length > 0) {
+      const timer = setTimeout(() => {
+        autoFit();
+      }, 350);
+      return () => clearTimeout(timer);
+    }
+  }, [activeReport]);
+
+  const focusOnNode = (nodeId) => {
+    setSelectedGraphNode(prev => prev === nodeId ? null : nodeId);
+    const sim = simulationRef.current;
+    const canvas = canvasRef.current;
+    if (!canvas || !sim.nodes) return;
+    const node = sim.nodes.find(n => n.id === nodeId || n.name === nodeId);
+    if (!node) return;
+    const dpr = window.devicePixelRatio || 1;
+    const viewW = canvas.width / dpr;
+    const viewH = canvas.height / dpr;
+    const targetScale = Math.max(sim.transform.scale, 0.95);
+    sim.transform.scale = targetScale;
+    sim.transform.x = viewW / 2 - node.x * targetScale;
+    sim.transform.y = viewH / 2 - node.y * targetScale;
+  };
+
   const getMousePos = (e) => {
     const canvas = canvasRef.current;
+    if (!canvas) return { x: 0, y: 0 };
     const rect = canvas.getBoundingClientRect();
     return {
       x: e.clientX - rect.left,
@@ -614,13 +1227,18 @@ export default function App() {
     const worldX = (pos.x - sim.transform.x) / sim.transform.scale;
     const worldY = (pos.y - sim.transform.y) / sim.transform.scale;
 
-    const visibleNodes = focusedNeighborhood ? sim.nodes.filter(n => focusedNeighborhood.has(n.id)) : sim.nodes;
-    const clickedNode = visibleNodes.find(n => Math.hypot(n.x - worldX, n.y - worldY) < n.r + 15);
+    const typeVisibleNodes = sim.nodes.filter(n => isTypeVisible(n.type));
+    const visibleNodes = focusedNeighborhood 
+      ? typeVisibleNodes.filter(n => focusedNeighborhood.has(n.id) || focusedNeighborhood.has(n.name)) 
+      : typeVisibleNodes;
+    const clickedNode = visibleNodes.find(n => Math.hypot(n.x - worldX, n.y - worldY) < (n.r || 14) + 10);
 
     sim.clickStart = { x: pos.x, y: pos.y };
 
     if (clickedNode) {
       sim.dragNode = clickedNode;
+      sim.dragNode.vx = 0;
+      sim.dragNode.vy = 0;
     } else {
       sim.isPanning = true;
       sim.panStart = { x: pos.x - sim.transform.x, y: pos.y - sim.transform.y };
@@ -637,12 +1255,18 @@ export default function App() {
     if (sim.dragNode) {
       sim.dragNode.x = worldX;
       sim.dragNode.y = worldY;
+      sim.dragNode.vx = 0;
+      sim.dragNode.vy = 0;
+      sim.alpha = Math.max(sim.alpha, 0.15);
     } else if (sim.isPanning) {
       sim.transform.x = pos.x - sim.panStart.x;
       sim.transform.y = pos.y - sim.panStart.y;
     } else {
-      const visibleNodes = focusedNeighborhood ? sim.nodes.filter(n => focusedNeighborhood.has(n.id)) : sim.nodes;
-      const hover = visibleNodes.find(n => Math.hypot(n.x - worldX, n.y - worldY) < n.r + 15);
+      const typeVisibleNodes = sim.nodes.filter(n => isTypeVisible(n.type));
+      const visibleNodes = focusedNeighborhood 
+        ? typeVisibleNodes.filter(n => focusedNeighborhood.has(n.id) || focusedNeighborhood.has(n.name)) 
+        : typeVisibleNodes;
+      const hover = visibleNodes.find(n => Math.hypot(n.x - worldX, n.y - worldY) < (n.r || 14) + 8);
       sim.hoveredNode = hover || null;
     }
   };
@@ -654,9 +1278,9 @@ export default function App() {
     if (sim.clickStart) {
       const dx = pos.x - sim.clickStart.x;
       const dy = pos.y - sim.clickStart.y;
-      if (Math.hypot(dx, dy) < 5) {
+      if (Math.hypot(dx, dy) < 6) {
         if (sim.dragNode) {
-          setSelectedGraphNode(sim.dragNode.id);
+          focusOnNode(sim.dragNode.id);
         } else if (sim.isPanning) {
           setSelectedGraphNode(null);
         }
@@ -668,20 +1292,44 @@ export default function App() {
     sim.clickStart = null;
   };
 
+  const handleWheel = (e) => {
+    e.preventDefault();
+    const sim = simulationRef.current;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const pos = getMousePos(e);
+    
+    const zoomFactor = e.deltaY < 0 ? 1.12 : 0.89;
+    const newScale = Math.min(Math.max(sim.transform.scale * zoomFactor, 0.25), 3.5);
+    
+    sim.transform.x = pos.x - (pos.x - sim.transform.x) * (newScale / sim.transform.scale);
+    sim.transform.y = pos.y - (pos.y - sim.transform.y) * (newScale / sim.transform.scale);
+    sim.transform.scale = newScale;
+  };
+
   const handleZoom = (direction) => {
     const sim = simulationRef.current;
-    const factor = direction === 'in' ? 1.15 : 0.85;
-    sim.transform.scale = Math.min(Math.max(sim.transform.scale * factor, 0.2), 3);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const dpr = window.devicePixelRatio || 1;
+    const centerX = canvas.width / dpr / 2;
+    const centerY = canvas.height / dpr / 2;
+
+    const factor = direction === 'in' ? 1.2 : 0.83;
+    const newScale = Math.min(Math.max(sim.transform.scale * factor, 0.25), 3.5);
+
+    sim.transform.x = centerX - (centerX - sim.transform.x) * (newScale / sim.transform.scale);
+    sim.transform.y = centerY - (centerY - sim.transform.y) * (newScale / sim.transform.scale);
+    sim.transform.scale = newScale;
   };
 
   const handleResetLayout = () => {
     simulationRef.current.nodes = [];
-    simulationRef.current.transform = { x: 0, y: 0, scale: 0.85 };
-    ticksRef.current = 0;
+    simulationRef.current.transform = { x: 0, y: 0, scale: 0.8 };
+    simulationRef.current.alpha = 1.0;
     setLayoutResetTrigger(prev => prev + 1);
   };
 
-  // Filtering lists
   const filteredComponents = components.filter(c => 
     c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     c.type.toLowerCase().includes(searchTerm.toLowerCase())
@@ -692,719 +1340,970 @@ export default function App() {
     return acc;
   }, {});
 
-  // --- LANDING SCREEN ---
-  if (!repoAnalyzed) {
-    return (
-      <div className="app-container" style={{ justifyContent: 'center', alignItems: 'center', minHeight: '90vh' }}>
-        <div className="glass-panel" style={{ maxWidth: '640px', width: '100%', padding: '2.5rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-          
-          <div style={{ textAlign: 'center' }}>
-            <h1 style={{ fontSize: '2.1rem', fontWeight: '500', marginBottom: '0.5rem', background: 'linear-gradient(135deg, #fff 40%, var(--color-secondary) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              Software Change Impact Intelligence
-            </h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-              Structural dependency scanning, layered software knowledge graphs, and rule-based change propagation.
-            </p>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <label style={{ fontWeight: 500, fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--color-secondary)', letterSpacing: '0.05em' }}>
-              Local Repository Path
-            </label>
-            <div style={{ display: 'flex', gap: '0.75rem', flexDirection: 'column' }}>
-              <input 
-                type="text" 
-                className="repo-input"
-                style={{ width: '100%', padding: '0.8rem 1.1rem', fontSize: '0.95rem' }}
-                value={repoPath}
-                onChange={(e) => setRepoPath(e.target.value)}
-                placeholder="e.g. C:/my-projects/spring-boot-app"
-              />
-              <button 
-                className="btn btn-primary"
-                style={{ width: '100%', padding: '0.8rem', justifyContent: 'center', fontSize: '0.95rem' }}
-                onClick={handleAnalyzeRepo}
-                disabled={loading}
-              >
-                {loading ? 'Analyzing Repository Contents...' : 'Analyze Repository'}
-              </button>
-            </div>
-          </div>
-
-          {loading && (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', marginTop: '1rem' }}>
-              <div className="spinner-dot"></div>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Scanning directories, extracting components, and parsing relationships...</p>
-            </div>
-          )}
-
-          <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '1rem' }}>
-            <h4 style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.5rem', letterSpacing: '0.05em' }}>Overview</h4>
-            <ul style={{ color: 'var(--text-muted)', fontSize: '0.82rem', paddingLeft: '1.1rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-              <li>Point to any local Java directory containing Spring Boot components.</li>
-              <li>Processes constructor injections, field injections, and context-specific reference semantics.</li>
-              <li>Graph database sync operates automatically if Neo4j is online, with seamless local fallback.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // --- MAIN DASHBOARD SCREEN ---
   return (
-    <div className="app-container">
-      {/* Header */}
-      <header className="app-header glass-panel glow-primary">
-        <div className="logo-section">
-          <h1>Software Change Impact Intelligence Framework</h1>
-          <p>Path: <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--color-secondary)' }}>{repoPath}</span></p>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      
+      {/* 1. TOP NAVBAR (Matching Reference Theme) */}
+      <nav style={{
+        background: '#ffffff',
+        borderBottom: '1px solid var(--border-light)',
+        padding: '0.85rem 2rem',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        boxShadow: 'var(--shadow-sm)'
+      }}>
+        {/* Brand */}
+        <div className="navbar-brand-section">
+          <div className="brand-icon-circle">
+            CIA
+          </div>
+          <div>
+            <span style={{ fontSize: '1.15rem', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.02em' }}>
+              Software Change Impact Analysis
+            </span>
+            <span style={{ fontSize: '0.72rem', color: '#64748b', marginLeft: '0.4rem', fontWeight: '500' }}>
+              Research Framework
+            </span>
+          </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <button className="btn btn-secondary" style={{ padding: '0.5rem 1rem', fontSize: '0.82rem' }} onClick={handleResetRepo}>
-            Scan New Project
+
+        {/* Center Navigation Tabs */}
+        <div style={{ display: 'flex', gap: '0.5rem', background: '#f1f5f9', padding: '4px', borderRadius: '9999px' }}>
+          <button
+            className={`nav-tab-pill ${activeTab === 'analysis' ? 'active' : 'inactive'}`}
+            onClick={() => setActiveTab('analysis')}
+          >
+            <span>Run Analysis</span>
+          </button>
+          <button
+            className={`nav-tab-pill ${activeTab === 'comparison' ? 'active' : 'inactive'}`}
+            onClick={() => setActiveTab('comparison')}
+          >
+            <span>3-Model Comparison</span>
+            <span className="badge-clean badge-clean-primary" style={{ fontSize: '0.62rem', padding: '0.05rem 0.35rem' }}>
+              Side-by-Side
+            </span>
+          </button>
+          <button
+            className={`nav-tab-pill ${activeTab === 'research' ? 'active' : 'inactive'}`}
+            onClick={() => setActiveTab('research')}
+          >
+            <span>Research & Model Comparison</span>
+            <span className="badge-clean badge-clean-success" style={{ fontSize: '0.62rem', padding: '0.05rem 0.35rem' }}>
+              v4 Winner
+            </span>
           </button>
         </div>
-      </header>
 
-      {/* Metrics Row */}
-      <section className="metrics-grid">
-        <div className="metric-card">
-          <span className="metric-dot" style={{backgroundColor: getTypeColor('Controller')}}></span>
-          <div className="metric-info">
-            <h4>Controllers</h4>
-            <p>{typeCounts['Controller'] || 0}</p>
-          </div>
+        {/* Right CTA */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <span className="badge-clean badge-clean-primary" style={{ display: 'inline-flex' }}>
+            Engine: {selectedModel === 'canonical' ? 'Canonical Baseline' : (selectedModel === 'egcp_v4' ? 'EGCP v4 Combined' : 'Comparative Mode')}
+          </span>
+          <button 
+            className="btn-cobalt"
+            onClick={() => {
+              if (activeTab !== 'analysis') setActiveTab('analysis');
+              if (repoAnalyzed && selectedChanged.length > 0) handleAnalyzeImpact();
+            }}
+          >
+            <span>{repoAnalyzed ? 'Analyze Impact' : 'Get Started'}</span>
+            <span style={{ fontSize: '1.05rem' }}>&rarr;</span>
+          </button>
         </div>
-        <div className="metric-card">
-          <span className="metric-dot" style={{backgroundColor: getTypeColor('Service')}}></span>
-          <div className="metric-info">
-            <h4>Services</h4>
-            <p>{typeCounts['Service'] || 0}</p>
+      </nav>
+
+      {/* 2. HERO COBALT BLUE BANNER (Matches Theme In Reference Screenshot) */}
+      <section className="hero-cobalt-banner">
+        <div className="hero-dot-pattern"></div>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1rem' }}>
+          
+          <div className="badge-clean" style={{ background: 'rgba(255, 255, 255, 0.15)', color: '#ffffff', border: '1px solid rgba(255, 255, 255, 0.3)', backdropFilter: 'blur(8px)', padding: '0.35rem 0.85rem' }}>
+            Next-Gen Software Change Propagation Research
           </div>
-        </div>
-        <div className="metric-card">
-          <span className="metric-dot" style={{backgroundColor: getTypeColor('Repository')}}></span>
-          <div className="metric-info">
-            <h4>Repositories</h4>
-            <p>{typeCounts['Repository'] || 0}</p>
+
+          <h1 style={{ fontSize: 'clamp(2.1rem, 4vw, 3.4rem)', fontWeight: '800', lineHeight: 1.15, letterSpacing: '-0.03em', maxWidth: '850px' }}>
+            The Future of Change Propagation is Here
+          </h1>
+
+          <p style={{ fontSize: '1.05rem', color: '#e0e7ff', maxWidth: '680px', lineHeight: 1.5, fontWeight: '400' }}>
+            Unify code dependencies, trace propagation paths across structural knowledge graphs, and evaluate state-of-the-art evolutionary models.
+          </p>
+
+          <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <button 
+              className={`nav-tab-pill ${activeTab === 'analysis' ? 'active' : 'inactive'}`} 
+              style={{ background: activeTab === 'analysis' ? '#ffffff' : 'rgba(255,255,255,0.15)', color: activeTab === 'analysis' ? '#0f48f2' : '#ffffff', borderColor: 'transparent', padding: '0.65rem 1.4rem', fontWeight: '600' }}
+              onClick={() => setActiveTab('analysis')}
+            >
+              Launch Change Analysis
+            </button>
+            <button 
+              className={`nav-tab-pill ${activeTab === 'comparison' ? 'active' : 'inactive'}`} 
+              style={{ background: activeTab === 'comparison' ? '#ffffff' : 'rgba(255,255,255,0.15)', color: activeTab === 'comparison' ? '#0f48f2' : '#ffffff', borderColor: 'transparent', padding: '0.65rem 1.4rem', fontWeight: '600' }}
+              onClick={() => setActiveTab('comparison')}
+            >
+              3-Model Comparison Dashboard
+            </button>
+            <button 
+              className={`nav-tab-pill ${activeTab === 'research' ? 'active' : 'inactive'}`}
+              style={{ background: activeTab === 'research' ? '#ffffff' : 'rgba(255,255,255,0.15)', color: activeTab === 'research' ? '#0f48f2' : '#ffffff', borderColor: 'transparent', padding: '0.65rem 1.4rem', fontWeight: '600' }}
+              onClick={() => setActiveTab('research')}
+            >
+              Explore Model Benchmarks (EGCP v4)
+            </button>
           </div>
-        </div>
-        <div className="metric-card">
-          <span className="metric-dot" style={{backgroundColor: getTypeColor('Entity/Model')}}></span>
-          <div className="metric-info">
-            <h4>Entities</h4>
-            <p>{typeCounts['Entity/Model'] || 0}</p>
-          </div>
-        </div>
-        <div className="metric-card">
-          <span className="metric-dot" style={{backgroundColor: getTypeColor('Test')}}></span>
-          <div className="metric-info">
-            <h4>Tests</h4>
-            <p>{typeCounts['Test'] || 0}</p>
-          </div>
-        </div>
-        <div className="metric-card">
-          <span className="metric-dot" style={{backgroundColor: '#9ca3af'}}></span>
-          <div className="metric-info">
-            <h4>Relationships</h4>
-            <p>{relationships.length}</p>
-          </div>
+
         </div>
       </section>
 
-      {/* Main Grid: Visualizer + Sidebar Selector & Impact report */}
-      <div className="dashboard-grid">
+      {/* 3. MAIN DASHBOARD FRAME (Browser Mockup Frame from Screenshot) */}
+      <main style={{ maxWidth: '1440px', width: '100%', margin: '-3.8rem auto 3rem auto', padding: '0 1.5rem', position: 'relative', zIndex: 10 }}>
         
-        {/* Left Column: Visualizer & Custom Filters */}
-        <section className="visualizer-container">
-          <div className="glass-panel" style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            
-            {/* Toolbar / Filters Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-              <div>
-                <h3 style={{ fontSize: '1rem', marginBottom: '0.2rem' }}>Knowledge Graph</h3>
-                <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Graph is static. Drag nodes to adjust; click to focus neighborhood.</p>
-              </div>
-              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-                <label style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--color-secondary)', cursor: 'pointer' }}>
-                  <input 
-                    type="checkbox" 
-                    checked={focusSelectedNeighbor} 
-                    onChange={(e) => setFocusSelectedNeighbor(e.target.checked)}
-                  />
-                  Focus Direct Neighborhood
-                </label>
-              </div>
-            </div>
-
-            {/* Checkbox Group Filters */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', background: 'rgba(255,255,255,0.01)', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-color)', fontSize: '0.8rem' }}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
-                <strong style={{ color: 'var(--text-muted)', fontSize: '0.75rem', textTransform: 'uppercase' }}>Node Types</strong>
-                {['Controller', 'Service', 'Repository', 'Test', 'Entity/Model', 'Other'].map(type => (
-                  <label key={type} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', cursor: 'pointer' }}>
-                    <input 
-                      type="checkbox" 
-                      checked={filterTypes.includes(type)}
-                      onChange={() => toggleTypeFilter(type)}
-                    />
-                    {type}
-                  </label>
-                ))}
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.03)', paddingTop: '0.4rem' }}>
-                <strong style={{ color: 'var(--text-muted)', fontSize: '0.75rem', textTransform: 'uppercase' }}>Relationships</strong>
-                {['DEPENDS_ON', 'USES', 'TESTS', 'EXTENDS', 'ASSOCIATED_WITH', 'REFERENCES'].map(rel => (
-                  <label key={rel} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', cursor: 'pointer' }}>
-                    <input 
-                      type="checkbox" 
-                      checked={filterRels.includes(rel)}
-                      onChange={() => toggleRelFilter(rel)}
-                    />
-                    {rel}
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Visualizer Canvas */}
-            <div className="canvas-wrapper">
-              <div className="canvas-controls">
-                <button className="canvas-control-btn" title="Zoom In" onClick={() => handleZoom('in')}>+</button>
-                <button className="canvas-control-btn" title="Zoom Out" onClick={() => handleZoom('out')}>-</button>
-                <button className="canvas-control-btn" title="Re-stabilize Layout" onClick={handleResetLayout}>Reset</button>
-              </div>
-              <canvas 
-                ref={canvasRef} 
-                width={800} 
-                height={520}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseUp}
-                style={{ width: '100%', height: '100%', cursor: 'grab' }}
-              />
-            </div>
-            
-            {/* Visual focus details */}
-            {selectedGraphNode && (
-              <div style={{ background: 'rgba(34, 211, 238, 0.03)', border: '1px solid rgba(34, 211, 238, 0.25)', borderRadius: '8px', padding: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.82rem' }}>
-                  Focused Node: <strong style={{ color: '#22d3ee' }}>{selectedGraphNode}</strong> 
-                  &nbsp;({components.find(c => c.id === selectedGraphNode)?.type})
-                </span>
-                <button 
-                  className="btn btn-secondary" 
-                  style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', background: 'rgba(34, 211, 238, 0.08)', borderColor: 'rgba(34, 211, 238, 0.25)' }}
-                  onClick={() => toggleComponentSelected(selectedGraphNode)}
-                >
-                  {selectedChanged.includes(selectedGraphNode) ? 'Remove from Changed' : 'Mark as Changed'}
-                </button>
-              </div>
-            )}
-          </div>
-        </section>
-
-        {/* Right Column: Sidebar Selector & Impact Report */}
-        <section className="impact-report-container">
-
-          {/* Git Change Detection Box */}
-          <div className="glass-panel selection-card" style={{ marginBottom: '1rem', minHeight: 'unset' }}>
-            <div className="component-selector-header" style={{ marginBottom: '0.8rem' }}>
-              <h3>Git Change Detection</h3>
-            </div>
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <button className="btn btn-secondary" style={{ flex: 1, padding: '0.4rem', fontSize: '0.8rem' }} onClick={() => handleDetectGit('local')} disabled={isDetectingGit}>
-                {isDetectingGit ? 'Detecting...' : 'Detect Local Changes'}
-              </button>
-              <button className="btn btn-secondary" style={{ flex: 1, padding: '0.4rem', fontSize: '0.8rem' }} onClick={() => handleDetectGit('commit')} disabled={isDetectingGit}>
-                {isDetectingGit ? 'Detecting...' : 'Analyze Latest Commit'}
-              </button>
-            </div>
-
-            {gitDetectedChanges && gitDetectedChanges.length > 0 && (
-              <div style={{ marginTop: '0.8rem', background: 'rgba(255,255,255,0.02)', padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                <h4 style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Detected Changed Files</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', maxHeight: '150px', overflowY: 'auto', paddingRight: '4px' }}>
-                  {gitDetectedChanges.map((change, idx) => {
-                    const isChecked = change.matched && selectedChanged.includes(change.componentId);
-                    return (
-                      <div 
-                        key={idx} 
-                        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem', padding: '0.4rem 0.5rem', background: 'rgba(255,255,255,0.03)', borderRadius: '4px', cursor: 'pointer' }}
-                        onClick={() => change.matched && toggleComponentSelected(change.componentId)}
-                      >
-                        <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-color)', wordBreak: 'break-all', paddingRight: '0.5rem', pointerEvents: 'none' }}>{change.filePath}</span>
-                        {change.matched ? (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap', pointerEvents: 'none' }}>
-                            <span style={{ color: 'var(--color-secondary)' }}>{change.componentId}</span>
-                            <input 
-                              type="checkbox" 
-                              checked={isChecked}
-                              readOnly
-                              style={{ margin: 0, pointerEvents: 'none' }}
-                            />
-                          </div>
-                        ) : (
-                          <span style={{ color: '#ef4444', fontStyle: 'italic', whiteSpace: 'nowrap' }}>Unmapped File</span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
+        <div className="dashboard-frame-card">
           
-          {/* Changed Selection Box */}
-          <div className="glass-panel selection-card">
-            <div className="component-selector-header">
-              <h3>Changed Selection</h3>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                {selectedChanged.length > 0 && (
-                  <>
-                    <button className="btn btn-secondary" style={{ padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem' }} onClick={clearSelection}>Clear All</button>
-                    <button className="btn btn-primary" style={{ padding: '0.2rem 0.6rem', borderRadius: '4px', fontSize: '0.75rem' }} onClick={handleAnalyzeImpact} disabled={analyzingImpact}>
-                      {analyzingImpact ? 'Analyzing...' : 'Analyze Impact'}
-                    </button>
-                  </>
-                )}
-              </div>
+          {/* Top Browser Bar */}
+          <div className="browser-header-mockup">
+            <div className="browser-dots">
+              <span className="browser-dot red"></span>
+              <span className="browser-dot yellow"></span>
+              <span className="browser-dot green"></span>
+            </div>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#0f172a', padding: '0.25rem 1rem', borderRadius: '6px', border: '1px solid #334155', color: '#94a3b8', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>
+              <span>localhost:5000/api</span>
+              <span style={{ color: '#38bdf8' }}>({activeTab === 'analysis' ? 'analysis-engine' : 'frozen-benchmark'})</span>
             </div>
 
-            {selectedChanged.length > 0 ? (
-              <div className="active-changed-chips">
-                {selectedChanged.map(id => {
-                  const comp = components.find(c => c.id === id);
-                  return (
-                    <div key={id} className="chip" style={{ color: '#ffffff', backgroundColor: 'rgba(244, 63, 94, 0.12)', border: '1px solid rgba(244, 63, 94, 0.25)' }}>
-                      <span>{id}</span>
-                      <span className="chip-remove" onClick={() => toggleComponentSelected(id)}>×</span>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontStyle: 'italic', marginBottom: '0.5rem' }}>
-                No changed components selected. Select nodes in the graph or check items in the search list.
-              </div>
-            )}
-
-            {/* Component Search List */}
-            <div>
-              <input 
-                type="text" 
-                className="search-box" 
-                placeholder="Filter components by name..." 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <div className="component-scroll-list">
-                {filteredComponents.map(comp => {
-                  const isChecked = selectedChanged.includes(comp.id);
-                  return (
-                    <div 
-                      key={comp.id} 
-                      className={`component-item ${isChecked ? 'selected' : ''}`}
-                      onClick={() => toggleComponentSelected(comp.id)}
-                    >
-                      <div className="component-item-name">
-                        <input 
-                          type="checkbox" 
-                          checked={isChecked}
-                          readOnly
-                          style={{ marginRight: '0.3rem', pointerEvents: 'none' }}
-                        />
-                        <span>{comp.name}</span>
-                      </div>
-                      <span className={`badge badge-${comp.type.toLowerCase().replace('/', '')}`}>
-                        {comp.type}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span className="badge-clean badge-clean-primary" style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem' }}>
+                AI Engine: Canonical Baseline
+              </span>
             </div>
           </div>
 
-          {/* Change Impact Report */}
-          <div className="glass-panel" style={{ flex: 1, minHeight: '380px' }}>
-            <div className="report-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+          {/* Frame Inner Content */}
+          <div style={{ padding: '2rem' }}>
+            
+            {/* TAB 1: RUN ANALYSIS */}
+            {activeTab === 'analysis' && (
               <div>
-                <h3 style={{ fontSize: '1.05rem', margin: 0 }}>Potential Impact Report</h3>
-                <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
-                  {baselineReport.length > 0 || contextAwareReport.length > 0
-                    ? `${baselineReport.length} baseline / ${contextAwareReport.length} proposed candidates`
-                    : 'Select changed components to calculate potential impact propagation.'}
-                </span>
-              </div>
+                {!repoAnalyzed ? (
+                  /* Landing / Scan Repository View */
+                  <div style={{ maxWidth: '720px', margin: '2rem auto', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+                    <div>
+                      <h2 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#0f172a', marginBottom: '0.5rem' }}>
+                        Select & Connect Repository
+                      </h2>
+                      <p style={{ color: '#64748b', fontSize: '0.92rem' }}>
+                        Enter the local directory path to your Java / Spring Boot Git codebase, or choose one of the verified local example projects below.
+                      </p>
+                    </div>
 
-              {(baselineReport.length > 0 || contextAwareReport.length > 0) && (
-                <div style={{ display: 'flex', gap: '0.35rem', background: 'rgba(0,0,0,0.35)', padding: '0.2rem', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
-                  <button 
-                    className={`btn ${impactViewTab === 'baseline' ? 'btn-primary' : 'btn-secondary'}`}
-                    style={{ padding: '0.2rem 0.6rem', fontSize: '0.74rem', borderRadius: '4px' }}
-                    onClick={() => setImpactViewTab('baseline')}
-                  >
-                    Baseline ({baselineReport.length})
-                  </button>
-                  <button 
-                    className={`btn ${impactViewTab === 'context' ? 'btn-primary' : 'btn-secondary'}`}
-                    style={{ padding: '0.2rem 0.6rem', fontSize: '0.74rem', borderRadius: '4px' }}
-                    onClick={() => setImpactViewTab('context')}
-                  >
-                    Context-Aware (Proposed) ({contextAwareReport.length})
-                  </button>
-                  <button 
-                    className={`btn ${impactViewTab === 'comparison' ? 'btn-primary' : 'btn-secondary'}`}
-                    style={{ padding: '0.2rem 0.6rem', fontSize: '0.74rem', borderRadius: '4px' }}
-                    onClick={() => setImpactViewTab('comparison')}
-                  >
-                    Comparison ({comparisonData.length})
-                  </button>
-                </div>
-              )}
-            </div>
+                    {/* Validation Error Banner */}
+                    {validationError && (
+                      <div style={{
+                        background: '#fef2f2',
+                        border: '1px solid #f87171',
+                        borderRadius: '10px',
+                        padding: '1rem 1.25rem',
+                        textAlign: 'left',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '0.35rem'
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#991b1b', fontWeight: '700', fontSize: '0.9rem' }}>
+                          <span>⚠️</span>
+                          <span>Repository Validation Error</span>
+                        </div>
+                        <p style={{ color: '#b91c1c', fontSize: '0.85rem', margin: 0, lineHeight: 1.45 }}>
+                          {validationError}
+                        </p>
+                      </div>
+                    )}
 
-            {analyzingImpact ? (
-              <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
-                Calculating change propagation paths across both baseline and proposed models...
-              </div>
-            ) : selectedChanged.length === 0 ? (
-              <div className="no-impacts-placeholder">
-                <div>Select changed components to calculate potential impact propagation.</div>
-              </div>
-            ) : (baselineReport.length === 0 && contextAwareReport.length === 0) ? (
-              <div className="no-impacts-placeholder">
-                <div>No potentially impacted components found within 2 hops of selection.</div>
-              </div>
-            ) : impactViewTab === 'baseline' ? (
-              /* VIEW 1: BASELINE MODEL */
-              <div className="impact-list">
-                <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '6px', padding: '0.5rem 0.75rem', marginBottom: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                  <strong>Baseline Structural Model:</strong> Identifies reachable components within 2 hops using graph reachability across dependency and test relationships. Discrete impact categories (High/Medium/Low) based purely on graph distance and relationship type.
-                </div>
-                {baselineReport.map((item, index) => (
-                  <div key={item.name} className={`impact-card ${item.impactLevel.toLowerCase()}-impact`}>
-                    <div className="impact-card-title-row">
-                      <div className="impact-card-title">
-                        <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem', marginRight: '0.2rem' }}>#{index + 1}</span>
-                        <span>{item.name}</span>
-                        {item.type && (
-                          <span className={`badge badge-${item.type.toLowerCase().replace('/', '')}`} style={{ fontSize: '0.68rem', padding: '0.1rem 0.4rem' }}>
-                            {item.type}
+                    <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.15rem', textAlign: 'left' }}>
+                      <label style={{ fontSize: '0.82rem', fontWeight: '700', textTransform: 'uppercase', color: '#475569', letterSpacing: '0.04em' }}>
+                        Repository Workspace Directory
+                      </label>
+                      <input 
+                        type="text" 
+                        value={repoPath}
+                        onChange={(e) => {
+                          setRepoPath(e.target.value);
+                          if (validationError) setValidationError(null);
+                        }}
+                        style={{
+                          width: '100%',
+                          padding: '0.8rem 1rem',
+                          borderRadius: '8px',
+                          border: validationError ? '1px solid #ef4444' : '1px solid #cbd5e1',
+                          fontSize: '0.92rem',
+                          fontFamily: 'var(--font-mono)',
+                          color: '#0f172a',
+                          background: '#ffffff'
+                        }}
+                        placeholder="e.g. C:\yashika\STUDY\clg_project\shopizer"
+                      />
+
+                      {/* Preset Example Chips */}
+                      {exampleRepos.length > 0 && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+                          <span style={{ fontSize: '0.74rem', fontWeight: '700', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                            Quick-Select Verified Local Examples:
                           </span>
-                        )}
-                      </div>
-                      <span className={`badge badge-impact-${item.impactLevel.toLowerCase()}`}>
-                        {item.impactLevel} Impact
-                      </span>
-                    </div>
-                    
-                    <div className="impact-reason">
-                      {item.reason}
-                    </div>
-                    
-                    <div className="impact-path">
-                      {item.reasoningPath}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : impactViewTab === 'context' ? (
-              /* VIEW 2: CONTEXT-AWARE MODEL (PROPOSED) */
-              <div className="impact-list">
-                <div style={{ background: 'rgba(99, 102, 241, 0.08)', border: '1px solid rgba(99, 102, 241, 0.25)', borderRadius: '8px', padding: '0.6rem 0.8rem', marginBottom: '0.75rem', fontSize: '0.76rem', color: '#c7d2fe', lineHeight: 1.4 }}>
-                  <strong>Experimental Proposed Model:</strong> Combines structural distance with relationship semantics, architectural layer context, and historical Git co-change frequency. Scores reflect relative evidence weight, not breakage probabilities.
-                </div>
-
-                {/* Non-Regression Impacted Components */}
-                {contextAwareReport.filter(r => r.category !== 'Regression Tests').map((item, index) => (
-                  <div key={item.component} className={`impact-card ${item.severity.toLowerCase()}-impact`}>
-                    <div className="impact-card-title-row">
-                      <div className="impact-card-title" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
-                        <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>#{index + 1}</span>
-                        <span>{item.component}</span>
-                        {item.impactedType && (
-                          <span className={`badge badge-${item.impactedType.toLowerCase().replace('/', '')}`} style={{ fontSize: '0.68rem', padding: '0.1rem 0.4rem' }}>
-                            {item.impactedType}
-                          </span>
-                        )}
-                        <span style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-color)', borderRadius: '4px', padding: '0.1rem 0.4rem', fontSize: '0.68rem', color: 'var(--text-muted)' }}>
-                          {item.category}
-                        </span>
-                      </div>
-                      
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 600, color: '#38bdf8', background: 'rgba(56, 189, 248, 0.1)', padding: '0.2rem 0.5rem', borderRadius: '4px', border: '1px solid rgba(56, 189, 248, 0.25)' }}>
-                          Score: {item.influenceScore.toFixed(2)}
-                        </span>
-                        <span className={`badge badge-impact-${item.severity.toLowerCase()}`}>
-                          {item.severity} Severity
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Multi-factor Evidence Badges */}
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', fontSize: '0.72rem', margin: '0.1rem 0' }}>
-                      <span style={{ background: 'rgba(255,255,255,0.03)', padding: '0.15rem 0.45rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.08)' }}>
-                        📏 Distance: <strong>{item.hopDistance}-hop</strong>
-                      </span>
-                      <span style={{ background: 'rgba(255,255,255,0.03)', padding: '0.15rem 0.45rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.08)' }}>
-                        🔗 Semantics: <strong>{item.relationshipEvidence ? item.relationshipEvidence.join(', ') : 'N/A'}</strong>
-                      </span>
-                      {item.artifactContext && (
-                        <span style={{ background: 'rgba(255,255,255,0.03)', padding: '0.15rem 0.45rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.08)' }}>
-                          🏛️ Artifact Flow: <strong>{item.artifactContext}</strong>
-                        </span>
-                      )}
-                      <span style={{ background: 'rgba(255,255,255,0.03)', padding: '0.15rem 0.45rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.08)' }}>
-                        📜 History: <strong style={{ color: item.historicalEvidence > 0 ? '#fbbf24' : 'inherit' }}>
-                          {item.historicalEvidence > 0 ? `${item.historicalEvidence} co-change(s)` : '0 (Neutral)'}
-                        </strong>
-                      </span>
-                    </div>
-
-                    <div className="impact-path" style={{ fontSize: '0.78rem' }}>
-                      <span style={{ color: 'var(--text-muted)', marginRight: '0.3rem' }}>Primary Path:</span>
-                      {item.primaryReasoningPath}
-                    </div>
-
-                    {/* Supporting Paths Toggle */}
-                    {item.allSupportingPaths && item.allSupportingPaths.length > 1 && (
-                      <div style={{ marginTop: '0.2rem' }}>
-                        <button 
-                          style={{ background: 'none', border: 'none', color: 'var(--color-secondary)', fontSize: '0.72rem', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}
-                          onClick={() => togglePathExpand(item.component)}
-                        >
-                          {expandedPaths[item.component] 
-                            ? `▾ Hide ${item.allSupportingPaths.length - 1} supporting path(s)` 
-                            : `▸ View ${item.allSupportingPaths.length - 1} alternative path(s)`}
-                        </button>
-                        
-                        {expandedPaths[item.component] && (
-                          <div style={{ marginTop: '0.35rem', display: 'flex', flexDirection: 'column', gap: '0.3rem', paddingLeft: '0.5rem', borderLeft: '2px solid rgba(255,255,255,0.1)' }}>
-                            {item.allSupportingPaths.map((p, pIdx) => (
-                              <div key={pIdx} style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', background: 'rgba(0,0,0,0.25)', padding: '0.3rem 0.5rem', borderRadius: '4px' }}>
-                                <div>{p.reasoningString}</div>
-                                <div style={{ fontSize: '0.68rem', color: '#94a3b8', marginTop: '0.15rem' }}>
-                                  Base: {p.evidence?.baseInfluence} · Context: {p.evidence?.contextInfluence} · Path Score: {p.score?.toFixed(2)}
-                                </div>
-                              </div>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                            {exampleRepos.map((ex, idx) => (
+                              <button
+                                key={idx}
+                                type="button"
+                                onClick={() => {
+                                  setRepoPath(ex.repoPath);
+                                  setValidationError(null);
+                                }}
+                                style={{
+                                  background: repoPath === ex.repoPath ? '#dbeafe' : '#ffffff',
+                                  border: repoPath === ex.repoPath ? '1px solid #3b82f6' : '1px solid #cbd5e1',
+                                  color: repoPath === ex.repoPath ? '#1d4ed8' : '#334155',
+                                  borderRadius: '20px',
+                                  padding: '0.35rem 0.85rem',
+                                  fontSize: '0.78rem',
+                                  fontWeight: '600',
+                                  cursor: 'pointer',
+                                  transition: 'all 0.15s ease'
+                                }}
+                              >
+                                {ex.label || ex.projectName}
+                              </button>
                             ))}
                           </div>
-                        )}
+                        </div>
+                      )}
+
+                      <button 
+                        className="btn-cobalt" 
+                        style={{ width: '100%', justifyContent: 'center', padding: '0.85rem' }}
+                        onClick={() => handleAnalyzeRepo()}
+                        disabled={loading || !repoPath.trim()}
+                      >
+                        {loading ? (loadingMessage || 'Scanning Repository Graph...') : 'Analyze Repository Structure'}
+                      </button>
+                    </div>
+
+                    {loading && (
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
+                        <div className="spinner-clean"></div>
+                        <span style={{ fontSize: '0.88rem', color: '#64748b' }}>
+                          {loadingMessage || 'Parsing AST nodes, constructor bindings, and relationships...'}
+                        </span>
                       </div>
                     )}
                   </div>
-                ))}
-
-                {/* Dedicated Regression Tests Section */}
-                {contextAwareReport.filter(r => r.category === 'Regression Tests').length > 0 && (
-                  <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                      <h4 style={{ fontSize: '0.85rem', color: '#c084fc', margin: 0 }}>
-                        🧪 Recommended Regression Tests
-                      </h4>
-                      <span className="badge badge-test" style={{ fontSize: '0.7rem' }}>
-                        {contextAwareReport.filter(r => r.category === 'Regression Tests').length} Tests
-                      </span>
-                    </div>
-                    <div className="impact-list">
-                      {contextAwareReport.filter(r => r.category === 'Regression Tests').map(t => (
-                        <div key={t.component} className="impact-card" style={{ borderLeft: '4px solid #a855f7', padding: '0.75rem' }}>
-                          <div className="impact-card-title-row">
-                            <div className="impact-card-title" style={{ fontSize: '0.9rem' }}>
-                              <span style={{ color: '#c084fc' }}>🧪 {t.component}</span>
-                            </div>
-                            <span className="badge badge-test">Recommended Test</span>
-                          </div>
-                          <div className="impact-path" style={{ fontSize: '0.75rem', marginTop: '0.3rem' }}>
-                            {t.primaryReasoningPath}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              /* VIEW 3: SIDE-BY-SIDE COMPARISON VIEW */
-              <div className="impact-list">
-                <div style={{ background: 'rgba(6, 182, 212, 0.08)', border: '1px solid rgba(6, 182, 212, 0.25)', borderRadius: '8px', padding: '0.6rem 0.8rem', marginBottom: '0.75rem', fontSize: '0.76rem', color: '#a5f3fc', lineHeight: 1.4 }}>
-                  <strong>Side-by-Side Model Comparison (Experimental):</strong> Evaluates the baseline (purely structural reachability) against the experimental proposed model (multi-factor influence score) on the exact same changed component(s). Note: The baseline does not compute a continuous score; it assigns discrete categories based on structural dependency types.
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  {comparisonData.map(row => (
-                    <div key={row.name} style={{ background: 'rgba(20, 26, 40, 0.55)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.4rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          <strong style={{ fontSize: '0.92rem', color: 'var(--text-main)' }}>{row.name}</strong>
-                          <span className={`badge badge-${row.type.toLowerCase().replace('/', '')}`} style={{ fontSize: '0.68rem', padding: '0.1rem 0.4rem' }}>
-                            {row.type}
+                ) : (
+                  /* Live Analysis Workspace */
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+                    
+                    {/* Top Action Bar */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', borderBottom: '1px solid #e2e8f0', paddingBottom: '1.25rem' }}>
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.2rem' }}>
+                          <span style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: '#64748b', letterSpacing: '0.04em' }}>
+                            Active Codebase
                           </span>
-                          {row.proposed?.category === 'Regression Tests' && (
-                            <span className="badge badge-test" style={{ fontSize: '0.68rem' }}>Regression Test</span>
-                          )}
+                          <span className="badge-clean badge-clean-primary" style={{ fontSize: '0.7rem' }}>
+                            Connected
+                          </span>
                         </div>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                          {row.baseline && row.proposed ? (
-                            <span style={{ color: '#10b981' }}>✓ Identified by Both Models</span>
-                          ) : row.baseline ? (
-                            <span style={{ color: '#f59e0b' }}>Baseline Only</span>
-                          ) : (
-                            <span style={{ color: '#6366f1' }}>Proposed Only</span>
-                          )}
-                        </div>
+                        <h2 style={{ fontSize: '1.35rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>
+                          {analyzedProjectName || repoPath.split(/[\\/]/).pop()}
+                        </h2>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: '#0f48f2' }}>
+                          {repoPath}
+                        </span>
                       </div>
 
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-                        {/* Baseline Column */}
-                        <div style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '6px', padding: '0.6rem', fontSize: '0.74rem' }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
-                            <strong style={{ color: 'var(--text-muted)' }}>Baseline Engine</strong>
-                            {row.baseline ? (
-                              <span className={`badge badge-impact-${row.baseline.severity.toLowerCase()}`}>
-                                {row.baseline.severity} Impact
-                              </span>
-                            ) : (
-                              <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>Not Detected</span>
+                      <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                        <button className="btn-secondary-clean" onClick={handleResetRepo} title="Switch to another repository or enter a new path">
+                          Switch Project
+                        </button>
+                        <button 
+                          className="btn-cobalt"
+                          onClick={() => handleAnalyzeImpact()}
+                          disabled={analyzingImpact || selectedChanged.length === 0}
+                        >
+                          {analyzingImpact ? 'Computing Paths...' : `Analyze Impact (${selectedChanged.length} selected)`}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* KPI Metric Cards */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '1rem' }}>
+                      <div className="kpi-card-modern">
+                        <span style={{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', textTransform: 'uppercase' }}>Controllers</span>
+                        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+                          <span style={{ fontSize: '1.6rem', fontWeight: '800', color: '#6366f1', fontFamily: 'var(--font-mono)' }}>{typeCounts['Controller'] || 0}</span>
+                          <span className="badge-clean badge-clean-primary">REST</span>
+                        </div>
+                      </div>
+                      <div className="kpi-card-modern">
+                        <span style={{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', textTransform: 'uppercase' }}>Services</span>
+                        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+                          <span style={{ fontSize: '1.6rem', fontWeight: '800', color: '#06b6d4', fontFamily: 'var(--font-mono)' }}>{typeCounts['Service'] || 0}</span>
+                          <span className="badge-clean badge-clean-primary">Domain</span>
+                        </div>
+                      </div>
+                      <div className="kpi-card-modern">
+                        <span style={{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', textTransform: 'uppercase' }}>Repositories</span>
+                        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+                          <span style={{ fontSize: '1.6rem', fontWeight: '800', color: '#f59e0b', fontFamily: 'var(--font-mono)' }}>{typeCounts['Repository'] || 0}</span>
+                          <span className="badge-clean badge-clean-warning">Data</span>
+                        </div>
+                      </div>
+                      <div className="kpi-card-modern">
+                        <span style={{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', textTransform: 'uppercase' }}>Entities</span>
+                        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+                          <span style={{ fontSize: '1.6rem', fontWeight: '800', color: '#10b981', fontFamily: 'var(--font-mono)' }}>{typeCounts['Entity/Model'] || 0}</span>
+                          <span className="badge-clean badge-clean-success">Models</span>
+                        </div>
+                      </div>
+                      <div className="kpi-card-modern">
+                        <span style={{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', textTransform: 'uppercase' }}>Relationships</span>
+                        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+                          <span style={{ fontSize: '1.6rem', fontWeight: '800', color: '#0f172a', fontFamily: 'var(--font-mono)' }}>{relationships.length}</span>
+                          <span className="badge-clean badge-clean-primary">Edges</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Two-Column Layout: Visualizer on Left, Selector & Impact Results on Right */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1.5rem', alignItems: 'start' }}>
+                      
+                      {/* Left: Canvas Graph Visualizer */}
+                      <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.85rem', boxShadow: 'var(--shadow-sm)' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+                          <div>
+                            <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#0f172a' }}>
+                              Architecture Dependency Graph
+                            </h3>
+                            <p style={{ fontSize: '0.78rem', color: '#64748b' }}>
+                              Drag nodes to reposition. Click nodes to focus connected paths.
+                            </p>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            {activeReport.length > 0 && (
+                              <button
+                                className={propagationOnly ? "btn-cobalt" : "btn-secondary-clean"}
+                                style={{ fontSize: '0.75rem', padding: '0.25rem 0.65rem' }}
+                                onClick={() => setPropagationOnly(prev => !prev)}
+                              >
+                                {propagationOnly ? "Show All Components" : "Isolate Propagation"}
+                              </button>
                             )}
+                            <label style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#0f48f2', cursor: 'pointer', fontWeight: '500' }}>
+                              <input 
+                                type="checkbox" 
+                                checked={focusSelectedNeighbor} 
+                                onChange={(e) => setFocusSelectedNeighbor(e.target.checked)}
+                              />
+                              Focus Neighborhood
+                            </label>
                           </div>
-                          <div style={{ color: 'var(--text-muted)', marginBottom: '0.2rem' }}>
-                            Rank: <strong>{row.baseline?.rank ? `#${row.baseline.rank}` : '—'}</strong> · Score: <em>N/A (Structural Only)</em>
+                        </div>
+
+                        {/* Node Type & Relation Filters */}
+                        <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '0.65rem 0.85rem', display: 'flex', flexWrap: 'wrap', gap: '0.75rem', fontSize: '0.78rem' }}>
+                          <span style={{ fontWeight: '700', color: '#475569', textTransform: 'uppercase' }}>Types:</span>
+                          {['Controller', 'Service', 'Repository', 'Test', 'Entity/Model'].map(t => (
+                            <label key={t} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', cursor: 'pointer' }}>
+                              <input 
+                                type="checkbox" 
+                                checked={filterTypes.includes(t)}
+                                onChange={() => toggleTypeFilter(t)}
+                              />
+                              {t}
+                            </label>
+                          ))}
+                        </div>
+
+                        {/* Interactive Canvas Container */}
+                        <div ref={canvasContainerRef} className="visualizer-canvas-clean">
+                          <div className="canvas-controls-clean">
+                            <button className="canvas-control-btn-clean" onClick={() => handleZoom('in')} title="Zoom In">+</button>
+                            <button className="canvas-control-btn-clean" onClick={() => handleZoom('out')} title="Zoom Out">-</button>
+                            <button className="canvas-control-btn-clean" onClick={autoFit} title="Fit Graph in View">Fit</button>
+                            <button className="canvas-control-btn-clean" onClick={handleResetLayout} title="Reset Layout">Reset</button>
                           </div>
-                          {row.baseline?.path && (
-                            <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: '#94a3b8', background: 'rgba(0,0,0,0.3)', padding: '0.25rem 0.4rem', borderRadius: '4px', marginTop: '0.3rem', wordBreak: 'break-all' }}>
-                              {row.baseline.path}
+                          <canvas 
+                            ref={canvasRef} 
+                            onMouseDown={handleMouseDown}
+                            onMouseMove={handleMouseMove}
+                            onMouseUp={handleMouseUp}
+                            onMouseLeave={handleMouseUp}
+                            onWheel={handleWheel}
+                            style={{ width: '100%', height: '100%', cursor: 'grab' }}
+                          />
+                        </div>
+
+                        {/* Visual Legend */}
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', justifyContent: 'space-between', padding: '0.6rem 0.85rem', background: '#0f172a', borderRadius: '8px', fontSize: '0.74rem', color: '#94a3b8' }}>
+                          <div style={{ display: 'flex', gap: '0.85rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                              <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ef4444', display: 'inline-block', boxShadow: '0 0 6px #ef4444' }}></span>
+                              <span style={{ color: '#fecdd3', fontWeight: '600' }}>Changed Seed</span>
+                            </span>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                              <span style={{ width: '10px', height: '10px', borderRadius: '50%', border: '2px dashed #fbbf24', display: 'inline-block' }}></span>
+                              <span style={{ color: '#fde68a', fontWeight: '600' }}>Path Conduit</span>
+                            </span>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                              <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#f43f5e', display: 'inline-block' }}></span>
+                              <span style={{ color: '#fca5a5' }}>High</span>
+                            </span>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                              <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#f59e0b', display: 'inline-block' }}></span>
+                              <span style={{ color: '#fef08a' }}>Medium</span>
+                            </span>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                              <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#0284c7', display: 'inline-block' }}></span>
+                              <span style={{ color: '#7dd3fc' }}>Low</span>
+                            </span>
+                          </div>
+                          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                            <span style={{ color: '#64748b' }}>Scroll to zoom · Drag to pan</span>
+                          </div>
+                        </div>
+
+                        {selectedGraphNode && (
+                          <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '8px', padding: '0.65rem 0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.82rem' }}>
+                            <span>Focused: <strong style={{ color: '#0f48f2' }}>{selectedGraphNode}</strong></span>
+                            <button 
+                              className="btn-secondary-clean" 
+                              style={{ padding: '0.2rem 0.5rem', fontSize: '0.75rem' }}
+                              onClick={() => toggleComponentSelected(selectedGraphNode)}
+                            >
+                              {selectedChanged.includes(selectedGraphNode) ? 'Remove Selection' : 'Mark as Changed'}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Right: Component Selection & Potential Impact Output */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                        
+                        {/* Git Auto-Detection */}
+                        <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '1.25rem', boxShadow: 'var(--shadow-sm)' }}>
+                          <h4 style={{ fontSize: '0.95rem', fontWeight: '700', color: '#0f172a', marginBottom: '0.65rem' }}>
+                            Git Change Detection
+                          </h4>
+                          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                            <button className="btn-secondary-clean" style={{ flex: 1, justifyContent: 'center' }} onClick={() => handleDetectGit('local')} disabled={isDetectingGit}>
+                              {isDetectingGit ? 'Scanning...' : 'Detect Uncommitted'}
+                            </button>
+                            <button className="btn-secondary-clean" style={{ flex: 1, justifyContent: 'center' }} onClick={() => handleDetectGit('commit')} disabled={isDetectingGit}>
+                              {isDetectingGit ? 'Scanning...' : 'Latest Commit'}
+                            </button>
+                          </div>
+
+                          {gitDetectedChanges && gitDetectedChanges.length > 0 && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', maxHeight: '160px', overflowY: 'auto' }}>
+                              {gitDetectedChanges.map((change, idx) => {
+                                const isChecked = change.matched && selectedChanged.includes(change.componentId);
+                                const fileInfo = getFileInfo(change.filePath, change.componentId);
+                                return (
+                                  <div 
+                                    key={idx}
+                                    onClick={() => change.matched && toggleComponentSelected(change.componentId)}
+                                    style={{
+                                      padding: '0.45rem 0.65rem',
+                                      borderRadius: '6px',
+                                      border: isChecked ? '1px solid #0f48f2' : '1px solid #e2e8f0',
+                                      background: isChecked ? '#eff6ff' : '#f8fafc',
+                                      cursor: change.matched ? 'pointer' : 'default',
+                                      fontSize: '0.78rem',
+                                      display: 'flex',
+                                      justifyContent: 'space-between',
+                                      alignItems: 'center'
+                                    }}
+                                  >
+                                    <div>
+                                      <strong style={{ color: '#0f172a' }}>{fileInfo.fileName}</strong>
+                                      <div style={{ fontSize: '0.68rem', color: '#64748b' }}>{fileInfo.relativePath}</div>
+                                    </div>
+                                    {change.matched && (
+                                      <input type="checkbox" checked={isChecked} readOnly style={{ accentColor: '#0f48f2' }} />
+                                    )}
+                                  </div>
+                                );
+                              })}
                             </div>
                           )}
                         </div>
 
-                        {/* Proposed Column */}
-                        <div style={{ background: 'rgba(99, 102, 241, 0.05)', border: '1px solid rgba(99, 102, 241, 0.15)', borderRadius: '6px', padding: '0.6rem', fontSize: '0.74rem' }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
-                            <strong style={{ color: '#a5b4fc' }}>Proposed Model</strong>
-                            {row.proposed ? (
-                              <div style={{ display: 'flex', gap: '0.3rem', alignItems: 'center' }}>
-                                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: '#38bdf8', fontSize: '0.75rem' }}>
-                                  Score: {row.proposed.score.toFixed(2)}
+                        {/* Model Selection Panel */}
+                        <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '1rem 1.25rem', boxShadow: 'var(--shadow-sm)' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                            <h4 style={{ fontSize: '0.92rem', fontWeight: '700', color: '#0f172a', margin: 0 }}>
+                              Analysis Model Engine
+                            </h4>
+                            <span className="badge-clean badge-clean-primary" style={{ fontSize: '0.68rem' }}>
+                              {selectedModel === 'canonical' ? 'Graph Reachability' : (selectedModel === 'egcp_v4' ? 'Entropy Diffusion' : 'Comparative Delta')}
+                            </span>
+                          </div>
+                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.45rem' }}>
+                            <button
+                              className={selectedModel === 'canonical' ? "btn-cobalt" : "btn-secondary-clean"}
+                              style={{ fontSize: '0.74rem', padding: '0.45rem 0.4rem', justifyContent: 'center' }}
+                              onClick={() => handleModelChange('canonical')}
+                            >
+                              Canonical Baseline
+                            </button>
+                            <button
+                              className={selectedModel === 'egcp_v4' ? "btn-cobalt" : "btn-secondary-clean"}
+                              style={{ fontSize: '0.74rem', padding: '0.45rem 0.4rem', justifyContent: 'center' }}
+                              onClick={() => handleModelChange('egcp_v4')}
+                            >
+                              EGCP v4 (Combined)
+                            </button>
+                            <button
+                              className={selectedModel === 'compare' ? "btn-cobalt" : "btn-secondary-clean"}
+                              style={{ fontSize: '0.74rem', padding: '0.45rem 0.4rem', justifyContent: 'center' }}
+                              onClick={() => handleModelChange('compare')}
+                            >
+                              Compare Models
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Changed Selection List */}
+                        <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '1.25rem', boxShadow: 'var(--shadow-sm)' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                            <div>
+                              <h4 style={{ fontSize: '0.95rem', fontWeight: '700', color: '#0f172a', margin: 0 }}>
+                                Changed Seeds ({selectedChanged.length})
+                              </h4>
+                            </div>
+                            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                              {selectedChanged.length > 0 && (
+                                <button className="btn-secondary-clean" style={{ padding: '0.35rem 0.65rem', fontSize: '0.75rem' }} onClick={clearSelection}>
+                                  Clear All
+                                </button>
+                              )}
+                              <button 
+                                className="btn-cobalt"
+                                style={{ padding: '0.35rem 0.8rem', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+                                onClick={() => handleAnalyzeImpact()}
+                                disabled={analyzingImpact || selectedChanged.length === 0}
+                              >
+                                <span>{analyzingImpact ? 'Analyzing...' : `Analyze Impact (${selectedChanged.length})`}</span>
+                                <span style={{ fontSize: '0.85rem' }}>&rarr;</span>
+                              </button>
+                            </div>
+                          </div>
+
+                          {selectedChanged.length > 0 && (
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginBottom: '0.75rem' }}>
+                              {selectedChanged.map(id => (
+                                <span key={id} className="badge-clean badge-clean-danger" style={{ cursor: 'pointer' }} onClick={() => toggleComponentSelected(id)}>
+                                  {id} [x]
                                 </span>
-                                <span className={`badge badge-impact-${row.proposed.severity.toLowerCase()}`}>
-                                  {row.proposed.severity}
+                              ))}
+                            </div>
+                          )}
+
+                          <input 
+                            type="text" 
+                            placeholder="Filter components to select..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{
+                              width: '100%',
+                              padding: '0.45rem 0.75rem',
+                              borderRadius: '8px',
+                              border: '1px solid #cbd5e1',
+                              fontSize: '0.82rem',
+                              marginBottom: '0.5rem'
+                            }}
+                          />
+
+                          <div style={{ maxHeight: '180px', overflowY: 'auto', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+                            {filteredComponents.slice(0, 40).map(c => {
+                              const isChecked = selectedChanged.includes(c.id);
+                              return (
+                                <div 
+                                  key={c.id}
+                                  onClick={() => toggleComponentSelected(c.id)}
+                                  style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    padding: '0.4rem 0.65rem',
+                                    borderBottom: '1px solid #f1f5f9',
+                                    cursor: 'pointer',
+                                    fontSize: '0.8rem',
+                                    background: isChecked ? '#eff6ff' : '#ffffff'
+                                  }}
+                                >
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                                    <input type="checkbox" checked={isChecked} readOnly style={{ accentColor: '#0f48f2' }} />
+                                    <span style={{ fontWeight: isChecked ? '600' : 'normal', color: '#0f172a' }}>{c.name}</span>
+                                  </div>
+                                  <span className="badge-clean badge-clean-primary" style={{ fontSize: '0.65rem' }}>{c.type}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        {/* Impact Propagation Output */}
+                        <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '1.25rem', boxShadow: 'var(--shadow-sm)' }}>
+                          
+                          {/* Target Repository Confirmation Pill */}
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            background: '#eff6ff',
+                            border: '1px solid #bfdbfe',
+                            borderRadius: '8px',
+                            padding: '0.4rem 0.75rem',
+                            marginBottom: '0.85rem',
+                            fontSize: '0.74rem'
+                          }}>
+                            <span style={{ color: '#1e3a8a' }}>
+                              Analyzed Codebase: <strong style={{ color: '#0f172a' }}>{analyzedProjectName || repoPath.split(/[\\/]/).pop()}</strong>
+                            </span>
+                            <span style={{ fontFamily: 'var(--font-mono)', color: '#0f48f2', fontSize: '0.7rem' }}>
+                              {repoPath}
+                            </span>
+                          </div>
+
+                          {/* 1. CANONICAL BASELINE VIEW */}
+                          {selectedModel === 'canonical' && (
+                            <>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
+                                <h4 style={{ fontSize: '0.95rem', fontWeight: '700', color: '#0f172a', margin: 0 }}>
+                                  Affected Components ({baselineReport.length})
+                                </h4>
+                                <span className="badge-clean badge-clean-primary" style={{ fontSize: '0.68rem' }}>
+                                  Canonical Baseline
                                 </span>
                               </div>
-                            ) : (
-                              <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>Not Detected</span>
-                            )}
-                          </div>
-                          <div style={{ color: 'var(--text-muted)', marginBottom: '0.2rem' }}>
-                            Rank: <strong>{row.proposed?.rank ? `#${row.proposed.rank}` : '—'}</strong> · Context: {row.proposed ? `${row.proposed.artifactContext || 'None'} (${row.proposed.historyEvidence} co-changes)` : '—'}
-                          </div>
-                          {row.proposed?.path && (
-                            <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: '#a5b4fc', background: 'rgba(0,0,0,0.3)', padding: '0.25rem 0.4rem', borderRadius: '4px', marginTop: '0.3rem', wordBreak: 'break-all' }}>
-                              {row.proposed.path}
-                            </div>
+                              <p style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '0.75rem' }}>
+                                Computed by Canonical Structural Baseline via deterministic 2-hop graph reachability.
+                              </p>
+
+                              {baselineReport.length === 0 ? (
+                                <div style={{ textAlign: 'center', padding: '2rem 1rem', color: '#94a3b8', fontSize: '0.85rem', border: '1px dashed #cbd5e1', borderRadius: '8px' }}>
+                                  Select one or more changed components and click "Analyze Impact".
+                                </div>
+                              ) : (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', maxHeight: '340px', overflowY: 'auto' }}>
+                                  {baselineReport.map((item, index) => {
+                                    const isFocused = selectedGraphNode === item.id || selectedGraphNode === item.name;
+                                    return (
+                                      <div 
+                                        key={index}
+                                        onClick={() => focusOnNode(item.id || item.name)}
+                                        style={{
+                                          background: isFocused ? '#eff6ff' : '#f8fafc',
+                                          border: isFocused ? '1px solid #0f48f2' : '1px solid #e2e8f0',
+                                          borderLeft: item.impactLevel === 'High' ? '4px solid #ef4444' : (item.impactLevel === 'Medium' ? '4px solid #f59e0b' : '4px solid #0284c7'),
+                                          borderRadius: '8px',
+                                          padding: '0.65rem 0.85rem',
+                                          cursor: 'pointer',
+                                          fontSize: '0.82rem'
+                                        }}
+                                      >
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                                          <strong style={{ color: '#0f172a' }}>#{index + 1} {item.name}</strong>
+                                          <span className={item.impactLevel === 'High' ? 'badge-clean badge-clean-danger' : (item.impactLevel === 'Medium' ? 'badge-clean badge-clean-warning' : 'badge-clean badge-clean-primary')}>
+                                            {item.impactLevel} Impact ({item.hopDistance || 1}H)
+                                          </span>
+                                        </div>
+                                        <div style={{ color: '#475569', fontSize: '0.78rem', marginBottom: '0.25rem' }}>
+                                          {item.reason}
+                                        </div>
+                                        {item.reasoningPath && (
+                                          <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: '#0f48f2', background: '#ffffff', padding: '0.2rem 0.4rem', borderRadius: '4px', border: '1px solid #e2e8f0' }}>
+                                            {item.reasoningPath}
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              )}
+                            </>
                           )}
+
+                          {/* 2. EGCP v4 VIEW */}
+                          {selectedModel === 'egcp_v4' && (
+                            <>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
+                                <h4 style={{ fontSize: '0.95rem', fontWeight: '700', color: '#0f172a', margin: 0 }}>
+                                  Affected Components ({egcpReport.length})
+                                </h4>
+                                <span className="badge-clean badge-clean-success" style={{ fontSize: '0.68rem' }}>
+                                  EGCP v4 Combined
+                                </span>
+                              </div>
+                              <p style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '0.75rem' }}>
+                                Ranked by Entropy-Adaptive Evolutionary Diffusion (Ablations A+B+C+Stereotype Dampening).
+                              </p>
+
+                              {evolutionaryStatus && (
+                                <div style={{
+                                  padding: '0.5rem 0.75rem',
+                                  borderRadius: '8px',
+                                  marginBottom: '0.75rem',
+                                  fontSize: '0.74rem',
+                                  background: evolutionaryStatus.available ? '#f0fdf4' : '#fffbeb',
+                                  border: evolutionaryStatus.available ? '1px solid #bbf7d0' : '1px solid #fde68a',
+                                  color: evolutionaryStatus.available ? '#166534' : '#b45309',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between',
+                                  flexWrap: 'wrap',
+                                  gap: '0.35rem'
+                                }}>
+                                  <span>
+                                    <strong>{evolutionaryStatus.available ? 'Live Git Co-Change Active' : 'Git Co-Change History Unavailable'}</strong>: {evolutionaryStatus.message}
+                                  </span>
+                                  <span className="badge-clean badge-clean-primary" style={{ fontSize: '0.65rem' }}>
+                                    Window: {evolutionaryStatus.commitCount || 0} commits
+                                  </span>
+                                </div>
+                              )}
+
+                              {egcpReport.length === 0 ? (
+                                <div style={{ textAlign: 'center', padding: '2rem 1rem', color: '#94a3b8', fontSize: '0.85rem', border: '1px dashed #cbd5e1', borderRadius: '8px' }}>
+                                  Select one or more changed components and click "Analyze Impact".
+                                </div>
+                              ) : (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', maxHeight: '340px', overflowY: 'auto' }}>
+                                  {egcpReport.map((item, index) => {
+                                    const isFocused = selectedGraphNode === item.id || selectedGraphNode === item.name;
+                                    const scoreVal = typeof item.score === 'number' ? item.score : (item.egcp_v4_score != null ? Number(item.egcp_v4_score) : 0);
+                                    return (
+                                      <div 
+                                        key={index}
+                                        onClick={() => focusOnNode(item.id || item.name)}
+                                        style={{
+                                          background: isFocused ? '#eff6ff' : '#f8fafc',
+                                          border: isFocused ? '1px solid #0f48f2' : '1px solid #e2e8f0',
+                                          borderLeft: item.impactLevel === 'High' ? '4px solid #ef4444' : (item.impactLevel === 'Medium' ? '4px solid #f59e0b' : '4px solid #0284c7'),
+                                          borderRadius: '8px',
+                                          padding: '0.65rem 0.85rem',
+                                          cursor: 'pointer',
+                                          fontSize: '0.82rem'
+                                        }}
+                                      >
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                                          <strong style={{ color: '#0f172a' }}>#{index + 1} {item.name}</strong>
+                                          <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
+                                            <span className="badge-clean badge-clean-success" style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)' }}>
+                                              Score: {scoreVal.toFixed(4)}
+                                            </span>
+                                            <span className={item.impactLevel === 'High' ? 'badge-clean badge-clean-danger' : (item.impactLevel === 'Medium' ? 'badge-clean badge-clean-warning' : 'badge-clean badge-clean-primary')}>
+                                              {item.impactLevel} ({item.hopDistance || 1}H)
+                                            </span>
+                                          </div>
+                                        </div>
+                                        <div style={{ display: 'flex', gap: '0.65rem', fontSize: '0.68rem', color: '#64748b', marginBottom: '0.3rem', fontFamily: 'var(--font-mono)' }}>
+                                          <span>Struct Lift: {Number(item.structuralLift || 0).toFixed(3)}</span>
+                                          <span>·</span>
+                                          <span>Evo Lift: {Number(item.evolutionaryLift || 0).toFixed(3)}</span>
+                                          <span>·</span>
+                                          <span>Co-Changes: {item.coChangeCount || 0}</span>
+                                        </div>
+                                        <div style={{ color: '#475569', fontSize: '0.78rem', marginBottom: '0.25rem' }}>
+                                          {item.reason}
+                                        </div>
+                                        {item.reasoningPath && (
+                                          <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: '#0f48f2', background: '#ffffff', padding: '0.2rem 0.4rem', borderRadius: '4px', border: '1px solid #e2e8f0' }}>
+                                            {item.reasoningPath}
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              )}
+                            </>
+                          )}
+
+                          {/* 3. COMPARATIVE VIEW */}
+                          {selectedModel === 'compare' && (() => {
+                            const comp = comparisonData?.comparison || comparisonData;
+                            const rankDeltas = comp?.rankDeltas || [];
+                            return (
+                              <>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
+                                  <h4 style={{ fontSize: '0.95rem', fontWeight: '700', color: '#0f172a', margin: 0 }}>
+                                    Model Comparison ({rankDeltas.length})
+                                  </h4>
+                                  <span className="badge-clean badge-clean-primary" style={{ fontSize: '0.68rem' }}>
+                                    Baseline vs EGCP v4
+                                  </span>
+                                </div>
+                                <p style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '0.65rem' }}>
+                                  Side-by-side rank shifts and evolutionary evidence deltas.
+                                </p>
+
+                                {/* Canvas Highlight Switcher */}
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.4rem 0.75rem', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', marginBottom: '0.65rem', fontSize: '0.75rem' }}>
+                                  <span style={{ fontWeight: '600', color: '#475569' }}>Highlight on Graph:</span>
+                                  <div style={{ display: 'flex', gap: '0.35rem' }}>
+                                    <button
+                                      className={activeHighlightModel === 'canonical' ? "btn-cobalt" : "btn-secondary-clean"}
+                                      style={{ padding: '0.2rem 0.55rem', fontSize: '0.72rem' }}
+                                      onClick={() => setActiveHighlightModel('canonical')}
+                                    >
+                                      Baseline
+                                    </button>
+                                    <button
+                                      className={activeHighlightModel === 'egcp_v4' ? "btn-cobalt" : "btn-secondary-clean"}
+                                      style={{ padding: '0.2rem 0.55rem', fontSize: '0.72rem' }}
+                                      onClick={() => setActiveHighlightModel('egcp_v4')}
+                                    >
+                                      EGCP v4
+                                    </button>
+                                  </div>
+                                </div>
+
+                                {/* Comparison KPI Summary */}
+                                {comp && rankDeltas.length > 0 && (
+                                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.4rem', marginBottom: '0.75rem' }}>
+                                    <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '0.35rem', textAlign: 'center' }}>
+                                      <div style={{ fontSize: '0.65rem', color: '#64748b' }}>Common</div>
+                                      <div style={{ fontSize: '0.88rem', fontWeight: '800', color: '#0f172a' }}>{comp.commonCount ?? 0}</div>
+                                    </div>
+                                    <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '6px', padding: '0.35rem', textAlign: 'center' }}>
+                                      <div style={{ fontSize: '0.65rem', color: '#166534' }}>Promoted</div>
+                                      <div style={{ fontSize: '0.88rem', fontWeight: '800', color: '#166534' }}>+{comp.promotedCount ?? 0} ↑</div>
+                                    </div>
+                                    <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '6px', padding: '0.35rem', textAlign: 'center' }}>
+                                      <div style={{ fontSize: '0.65rem', color: '#b45309' }}>Demoted</div>
+                                      <div style={{ fontSize: '0.88rem', fontWeight: '800', color: '#b45309' }}>-{comp.demotedCount ?? 0} ↓</div>
+                                    </div>
+                                    <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '0.35rem', textAlign: 'center' }}>
+                                      <div style={{ fontSize: '0.65rem', color: '#64748b' }}>Unchanged</div>
+                                      <div style={{ fontSize: '0.88rem', fontWeight: '800', color: '#64748b' }}>{comp.unchangedCount ?? 0} =</div>
+                                    </div>
+                                  </div>
+                                )}
+
+                                {(!comp || rankDeltas.length === 0) ? (
+                                  <div style={{ textAlign: 'center', padding: '2rem 1rem', color: '#94a3b8', fontSize: '0.85rem', border: '1px dashed #cbd5e1', borderRadius: '8px' }}>
+                                    Select one or more changed components and click "Analyze Impact".
+                                  </div>
+                                ) : (
+                                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', maxHeight: '340px', overflowY: 'auto' }}>
+                                    {rankDeltas.map((item, index) => {
+                                      const isFocused = selectedGraphNode === item.id || selectedGraphNode === item.name;
+                                      const shift = item.rankShift || 0;
+                                      const egcpItem = egcpReport.find(c => c.id === item.id) || {};
+                                      const baseItem = baselineReport.find(c => c.id === item.id) || {};
+                                      
+                                      const deltaBadge = shift > 0 ? (
+                                        <span className="badge-clean badge-clean-success" style={{ fontSize: '0.68rem', fontWeight: '700' }}>
+                                          +{shift} ↑ Promoted
+                                        </span>
+                                      ) : shift < 0 ? (
+                                        <span className="badge-clean badge-clean-warning" style={{ fontSize: '0.68rem', fontWeight: '700' }}>
+                                          {shift} ↓ Demoted
+                                        </span>
+                                      ) : (
+                                        <span className="badge-clean badge-clean-primary" style={{ fontSize: '0.68rem' }}>
+                                          = Unchanged
+                                        </span>
+                                      );
+
+                                      return (
+                                        <div 
+                                          key={index}
+                                          onClick={() => focusOnNode(item.id || item.name)}
+                                          style={{
+                                            background: isFocused ? '#eff6ff' : '#f8fafc',
+                                            border: isFocused ? '1px solid #0f48f2' : '1px solid #e2e8f0',
+                                            borderLeft: shift > 0 ? '4px solid #10b981' : (shift < 0 ? '4px solid #f59e0b' : '4px solid #94a3b8'),
+                                            borderRadius: '8px',
+                                            padding: '0.65rem 0.85rem',
+                                            cursor: 'pointer',
+                                            fontSize: '0.82rem'
+                                          }}
+                                        >
+                                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                                            <strong style={{ color: '#0f172a' }}>{item.name}</strong>
+                                            {deltaBadge}
+                                          </div>
+
+                                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.74rem', color: '#475569', marginBottom: '0.35rem', background: '#ffffff', padding: '0.35rem 0.55rem', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                                            <div>
+                                              <span style={{ color: '#64748b' }}>Baseline:</span> <strong>#{item.baselineRank ?? 'N/A'}</strong>
+                                            </div>
+                                            <div style={{ color: '#94a3b8' }}>➔</div>
+                                            <div>
+                                              <span style={{ color: '#0f48f2' }}>EGCP v4:</span> <strong>#{item.egcpRank ?? 'N/A'}</strong> {egcpItem.egcp_v4_score != null && <span style={{ color: '#64748b', fontSize: '0.7rem' }}>({Number(egcpItem.egcp_v4_score).toFixed(4)})</span>}
+                                            </div>
+                                          </div>
+
+                                          <div style={{ display: 'flex', gap: '0.65rem', fontSize: '0.68rem', color: '#64748b', marginBottom: '0.25rem', fontFamily: 'var(--font-mono)' }}>
+                                            <span>Co-Changes: {egcpItem.coChangeCount || 0}</span>
+                                            <span>·</span>
+                                            <span>Evo Lift: {Number(egcpItem.evolutionaryLift || 0).toFixed(3)}</span>
+                                            <span>·</span>
+                                            <span>Hop: {egcpItem.hopDistance || baseItem.hopDistance || 1}H</span>
+                                          </div>
+
+                                          <div style={{ color: '#475569', fontSize: '0.76rem' }}>
+                                            {egcpItem.reason || baseItem.reason || 'Component identified as potentially impacted.'}
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                              </>
+                            );
+                          })()}
+
                         </div>
+
                       </div>
+
                     </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
 
-          {/* Historical Context Report */}
-          <div className="glass-panel" style={{ flex: 1, minHeight: '340px', marginTop: '1rem' }}>
-            <div className="report-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3>Historical Context</h3>
-              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Commits:</span>
-                <input 
-                  type="number" 
-                  min="1" 
-                  max="1000" 
-                  value={commitLimit} 
-                  onChange={(e) => setCommitLimit(e.target.value)} 
-                  style={{ width: '60px', padding: '0.2rem', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-color)', color: 'white', borderRadius: '4px', fontSize: '0.75rem' }} 
-                />
-                <button className="btn btn-primary" style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem' }} onClick={handleAnalyzeHistory} disabled={historyLoading}>
-                  {historyLoading ? 'Analyzing...' : 'Analyze Git History'}
-                </button>
-              </div>
-            </div>
-
-            {historyData ? (
-              <div style={{ marginTop: '1rem' }}>
-                <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <div>Commits Analysed: <strong style={{ color: 'white' }}>{historyData.commitsAnalysed}</strong></div>
-                  <div>Components w/ History: <strong style={{ color: 'white' }}>{historyData.uniqueComponents}</strong></div>
-                  <div>Historical Relationships: <strong style={{ color: 'white' }}>{historyData.totalRelationships}</strong></div>
-                </div>
-                
-                {componentHistory && componentHistory.data.length > 0 ? (
-                  <div style={{ maxHeight: '200px', overflowY: 'auto', paddingRight: '0.5rem' }}>
-                    <h4 style={{ fontSize: '0.75rem', color: 'var(--color-secondary)', marginBottom: '0.5rem' }}>
-                      Historical Context for {componentHistory.componentId}
-                    </h4>
-                    <table style={{ width: '100%', fontSize: '0.75rem', textAlign: 'left', borderCollapse: 'collapse' }}>
-                      <thead>
-                        <tr style={{ color: 'var(--text-muted)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                          <th style={{ padding: '0.5rem', fontWeight: 600 }}>Historically Co-changed Component</th>
-                          <th style={{ padding: '0.5rem', fontWeight: 600, textAlign: 'center' }}>Co-change Count</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {componentHistory.data.map((pair, idx) => (
-                          <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.02)' }}>
-                            <td style={{ padding: '0.5rem', color: 'var(--color-secondary)' }}>{pair.target}</td>
-                            <td style={{ padding: '0.5rem', textAlign: 'center', color: '#fbbf24', fontWeight: 'bold' }}>{pair.count}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : historyData.topPairs && historyData.topPairs.length > 0 ? (
-                  <div style={{ maxHeight: '200px', overflowY: 'auto', paddingRight: '0.5rem' }}>
-                    <h4 style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Top Repository-Wide Pairs</h4>
-                    <table style={{ width: '100%', fontSize: '0.75rem', textAlign: 'left', borderCollapse: 'collapse' }}>
-                      <thead>
-                        <tr style={{ color: 'var(--text-muted)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                          <th style={{ padding: '0.5rem', fontWeight: 600 }}>Component A</th>
-                          <th style={{ padding: '0.5rem', fontWeight: 600 }}>Component B</th>
-                          <th style={{ padding: '0.5rem', fontWeight: 600, textAlign: 'center' }}>Co-change Count</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {historyData.topPairs.map((pair, idx) => (
-                          <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.02)' }}>
-                            <td style={{ padding: '0.5rem', color: 'var(--color-secondary)' }}>{pair.source}</td>
-                            <td style={{ padding: '0.5rem', color: 'var(--color-secondary)' }}>{pair.target}</td>
-                            <td style={{ padding: '0.5rem', textAlign: 'center', color: '#fbbf24', fontWeight: 'bold' }}>{pair.count}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontStyle: 'italic', padding: '1rem' }}>
-                    No significant co-change history found.
                   </div>
                 )}
               </div>
-            ) : (
-              <div className="no-impacts-placeholder">
-                <div>Run Git History analysis to discover historically co-changing components.</div>
-              </div>
             )}
+
+            {/* TAB 2: THREE-MODEL COMPARISON DASHBOARD */}
+            {activeTab === 'comparison' && (
+              <ThreeWayComparisonDashboard activeRepoPath={repoPath} />
+            )}
+
+            {/* TAB 3: RESEARCH & MODEL COMPARISON */}
+            {activeTab === 'research' && (
+              <BenchmarkDashboard />
+            )}
+
           </div>
 
-        </section>
+        </div>
 
-      </div>
+      </main>
+
+      {/* Footer */}
+      <footer style={{ background: '#ffffff', borderTop: '1px solid var(--border-light)', padding: '1.5rem 2rem', textAlign: 'center', color: '#64748b', fontSize: '0.82rem', marginTop: 'auto' }}>
+        Context-Aware Software Change Impact Analysis Framework · Evaluated with Spring PetClinic REST, Shopizer, and Commons Lang.
+      </footer>
+
     </div>
   );
 }

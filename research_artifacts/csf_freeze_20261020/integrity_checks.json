@@ -1,0 +1,45 @@
+{
+  "checkDate": "2026-10-20T20:31:00.000Z",
+  "verificationChecks": [
+    {
+      "checkId": "IC-1",
+      "name": "Candidate Universe Alignment",
+      "result": "PASSED",
+      "details": "0 violations across 170 evaluation cases. |C| strictly preserved."
+    },
+    {
+      "checkId": "IC-2",
+      "name": "Chronological Leak-Free Guarantee",
+      "result": "PASSED",
+      "details": "Pre-change graph reconstructed at c^1; history strictly sliced to j < c; target labels held out exclusively for scoring."
+    },
+    {
+      "checkId": "IC-3",
+      "name": "Zero Production Contamination",
+      "result": "PASSED",
+      "details": "impactEngine.js, POST /api/analyse-impact, and App.jsx unmodified and invoke only the canonical structural baseline."
+    },
+    {
+      "checkId": "IC-4",
+      "name": "Unit & Contract Test Status",
+      "result": "PASSED",
+      "details": "66 passed, 0 failed (45 occpImprovementTests, 16 occpTests, 5 apiBaselineContractTests)."
+    },
+    {
+      "checkId": "IC-5",
+      "name": "Client Build Integrity",
+      "result": "PASSED",
+      "details": "Vite production build completed in 546ms with zero errors."
+    },
+    {
+      "checkId": "IC-6",
+      "name": "Discrepancy Resolution (Commons Lang)",
+      "result": "PASSED",
+      "details": "Root cause proven to be manual hardcoded 4-commit filter in scratch/evaluate_commons_lang_candidates.js vs. automated 5-commit scan. Sensitivity analysis confirms identical scientific ranking."
+    }
+  ],
+  "caveatsAndKnownLimitations": [
+    "OCCP's typed-path signal exhibits extreme sparsity on loosely coupled libraries (Commons Lang) and multi-module architectures (Shopizer), falling back past typed paths in >78% of decisions.",
+    "CSF does not achieve statistically significant superiority over the V4 Historical Co-Change Reranker (p = 0.1691) across K = 25 commits, though it yields the highest numerical MAP, P@5, and F1@5."
+  ]
+}

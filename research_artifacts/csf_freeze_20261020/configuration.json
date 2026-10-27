@@ -1,0 +1,31 @@
+{
+  "modelName": "Continuous Score Fusion (CSF)",
+  "modelFamily": "Operation-Conditioned Change Propagation (OCCP) / Multi-Channel Hybrid",
+  "implementationFile": "backend/src/services/occp_experiments/occpFusionModel.js",
+  "entryPoint": "rankModelB_OCCP_ContinuousFusion",
+  "version": "1.0.0-frozen",
+  "parameters": {
+    "lambda": 0.5,
+    "weights": {
+      "w_cond": 0.35,
+      "w_gen": 0.15,
+      "w_hist": 0.35,
+      "w_struct": 0.15
+    }
+  },
+  "scoringFormula": "S(u) = 0.35 * S_cond(u) + 0.15 * S_gen(u) + 0.35 * S_hist(u) + 0.15 * S_struct(u)",
+  "channelDefinitions": {
+    "S_cond": "computeSmoothedProbability(pos, tot, lambda=0.5) if pos > 0 else 0",
+    "S_gen": "computeSmoothedProbability(pos, tot, lambda=0.5) if pos > 0 else 0",
+    "S_hist": "coChange(source, u) / max_{v in C}(coChange(source, v)) if max > 0 else 0",
+    "S_struct": "1.0 / structuralBaselineRank(u)"
+  },
+  "tieBreakingHierarchy": [
+    "1. Highest continuous fusion score (S_fusion)",
+    "2. Higher historical co-change score (S_hist)",
+    "3. Shorter minimum graph hop distance (minHop)",
+    "4. Better canonical structural baseline rank (structuralBaselineRank)",
+    "5. Alphabetical component ID (id.localeCompare)"
+  ],
+  "candidateUniverseConstraint": "Strict preservation of 2-hop structural candidate universe |C| (zero candidates dropped or added)"
+}
